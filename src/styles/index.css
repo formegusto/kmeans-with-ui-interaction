@@ -1,8 +1,82 @@
+/* palette */
+:root {
+  --ios-gray-dark-100: rgb(142, 142, 147);
+  --ios-gray-dark-200: rgb(99, 99, 102);
+  --ios-gray-dark-300: rgb(72, 72, 74);
+  --ios-gray-dark-400: rgb(58, 58, 60);
+  --ios-gray-dark-500: rgb(44, 44, 46);
+  --ios-gray-dark-600: rgb(28, 28, 30);
+
+  --ios-gray-light-100: rgb(142, 142, 147);
+  --ios-gray-light-200: rgb(174, 174, 178);
+  --ios-gray-light-300: rgb(199, 199, 204);
+  --ios-gray-light-400: rgb(209, 209, 214);
+  --ios-gray-light-500: rgb(229, 229, 234);
+  --ios-gray-light-600: rgb(242, 242, 247);
+}
+
 body {
   margin: 0;
 }
 
-/* #scatter-area {
-  width: 100vw;
-  height: 100vh;
-} */
+.kmeans-utils-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  width: 56px;
+  height: 56px;
+  margin: 1.5rem;
+
+  border: none;
+  cursor: pointer;
+  background-color: var(--ios-gray-dark-600);
+  border-radius: 100%;
+
+  transition: 0.35s;
+}
+
+.kmeans-utils-btn > .utils-burger {
+  width: 60%;
+  height: 60%;
+}
+
+.kmeans-utils-btn > .utils-burger > path {
+  stroke: var(--ios-gray-light-600);
+  stroke-width: 5;
+  stroke-linecap: round;
+
+  transition: 0.35s;
+  transition-delay: 0.1s;
+}
+
+.kmeans-utils-btn:hover > .utils-burger > path:nth-last-of-type(1) {
+  transform-origin: 100% 100%;
+}
+
+.kmeans-utils-btn:hover > .utils-burger > path:nth-last-of-type(4) {
+  transform-origin: 0% 0%;
+}
+
+.kmeans-utils-btn:hover {
+  transform: translate(-3px, -3px);
+}
+
+.kmeans-utils-btn:hover > .utils-burger > path:nth-last-of-type(1) {
+  transform: translate(-11px) rotate(90deg);
+}
+
+.kmeans-utils-btn:hover > .utils-burger > path:nth-last-of-type(2) {
+  transform: translate(0, -19px);
+}
+
+.kmeans-utils-btn:hover > .utils-burger > path:nth-last-of-type(3) {
+  transform: translate(0, 23px);
+}
+
+.kmeans-utils-btn:hover > .utils-burger > path:nth-last-of-type(4) {
+  transform: translate(9px) rotate(90deg);
+}

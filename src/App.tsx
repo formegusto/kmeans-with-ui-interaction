@@ -1,7 +1,12 @@
-import { ScatterArea } from "@components";
+import { ScatterArea, UtilsButton } from "@components";
 
 function App() {
-  return <ScatterArea />;
+  return (
+    <>
+      <ScatterArea />
+      <UtilsButton />
+    </>
+  );
 }
 
 export default App;

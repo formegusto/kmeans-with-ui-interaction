@@ -13,4 +13,12 @@ export const IOSDefault = [
   "rgb(162, 132, 94)",
 ];
 
-export const IOSGray = ["rgb(142, 142, 147)"];
+export const IOSGrayLight = ["rgb(142, 142, 147)"];
+export const IOSGrayDark = [
+  "rgb(142, 142, 147)",
+  "rgb(99, 99, 102)",
+  "rgb(72, 72, 74)",
+  "rgb(58, 58, 60)",
+  "rgb(44, 44, 46)",
+  "rgb(28, 28, 30)",
+];

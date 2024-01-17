@@ -1,4 +1,4 @@
-import { IOSDefault, IOSGray } from "@styles/palette";
+import { IOSDefault, IOSGrayLight } from "@styles/palette";
 import React from "react";
 
 export function ScatterArea() {
@@ -34,8 +34,6 @@ export function ScatterArea() {
     };
   }, []);
 
-  console.log(windowSize);
-
   return (
     <svg
       onClick={onClick}
@@ -43,14 +41,15 @@ export function ScatterArea() {
       xmlns="http://www.w3.org/2000/svg"
       width="100vw"
       height="100vh"
-      viewBox={`0 0 ${windowSize[0]} ${windowSize[1]}`}>
+      viewBox={`0 0 ${windowSize[0]} ${windowSize[1]}`}
+    >
       {datas.map(([x, y], i) => (
         <circle
           key={`point-${i}`}
           cx={`${x}%`}
           cy={`${y}%`}
           r={10}
-          fill={labels[i] === -1 ? IOSGray[0] : IOSDefault[labels[i]]}
+          fill={labels[i] === -1 ? IOSGrayLight[0] : IOSDefault[labels[i]]}
         />
       ))}
     </svg>
