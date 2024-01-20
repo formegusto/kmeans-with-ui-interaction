@@ -2,12 +2,24 @@ import { useUI } from "@hooks";
 import React from "react";
 
 export function UtilsItems() {
-  const { changeMode } = useUI();
+  const { mode, changeMode } = useUI();
 
   return (
     <div className="kmeans-utils-items">
-      <button className="kmeans-utils-item" onClick={() => changeMode("gen")}>
-        Gen
+      <button
+        className={`kmeans-utils-btn ${mode === "gen" ? mode : ""}`}
+        onClick={
+          mode === "gen" ? () => changeMode(null) : () => changeMode("gen")
+        }
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 48 48"
+          className="utils-gen"
+        >
+          <path d="M 23 3 L 23 45" />
+          <path d="M 3 24 L 45 24" />
+        </svg>
       </button>
       <button className="kmeans-utils-item">Ran</button>
       <button className="kmeans-utils-item">Run</button>
