@@ -6,3 +6,8 @@ export function useUI() {
 
   return { mode, changeMode };
 }
+
+export function useKMeans() {
+  const { dataset } = React.useContext<IKMeansContext>(KMeansContext);
+  return { dataset };
+}

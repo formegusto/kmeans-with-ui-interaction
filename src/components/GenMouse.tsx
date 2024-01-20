@@ -18,5 +18,18 @@ export function GenMouse() {
     }
   }, []);
 
-  return <div ref={refGenPoint} className="gen-point" />;
+  const onClick = React.useCallback((e: React.MouseEvent) => {
+    const x = e.clientX;
+    const y = e.clientY;
+
+    const { innerWidth: windowX, innerHeight: windowY } = window;
+
+    const pointX = (x / windowX) * 100;
+    const pointY = (y / windowY) * 100;
+    console.log(x, y, windowX, windowY, pointX, pointY);
+    // setDatas((prev) => [...prev, [pointX, pointY]]);
+    // setLabels((prev) => [...prev, Math.floor(Math.random() * 11)]);
+  }, []);
+
+  return <div ref={refGenPoint} className="gen-point" onClick={onClick} />;
 }
