@@ -1,8 +1,17 @@
 import React from "react";
 
-export function UtilsButton() {
-  const [isOpen, setIsOpen] = React.useState<boolean>(false);
+export function UtilsItems() {
+  return (
+    <div className="kmeans-utils-items">
+      <button className="kmeans-utils-item">b1</button>
+      <button className="kmeans-utils-item">b2</button>
+      <button className="kmeans-utils-item">b3</button>
+      <button className="kmeans-utils-item">b4</button>
+    </div>
+  );
+}
 
+export function UtilsButton() {
   return (
     <button className="kmeans-utils-btn">
       <svg
@@ -16,5 +25,16 @@ export function UtilsButton() {
         <path d="M 3 40 L 45 40" />
       </svg>
     </button>
+  );
+}
+
+export function UtilsArea() {
+  const [isOpen, setIsOpen] = React.useState<boolean>(false);
+
+  return (
+    <div className="kmeans-utils-area">
+      <UtilsItems />
+      <UtilsButton />
+    </div>
   );
 }

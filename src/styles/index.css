@@ -19,17 +19,59 @@ body {
   margin: 0;
 }
 
-.kmeans-utils-btn {
+.kmeans-utils-area {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+
+  width: 56px;
+  height: 56px;
+  margin: 1rem;
+}
+
+.kmeans-utils-items {
+  position: absolute;
+
+  left: 0;
+  /* burger zone + gap */
+  top: calc(-224px - 24px);
+  height: calc(224px + 16px);
+  gap: 8px;
+
+  display: flex;
+  flex-direction: column;
+
+  overflow: visible;
+}
+
+.kmeans-utils-item {
   display: flex;
   justify-content: center;
   align-items: center;
 
-  position: fixed;
-  right: 0;
-  bottom: 0;
   width: 56px;
   height: 56px;
-  margin: 1.5rem;
+
+  border: none;
+  cursor: pointer;
+  background-color: var(--ios-gray-dark-600);
+  color: var(--ios-gray-light-600);
+  border-radius: 100%;
+
+  transition: 0.35s;
+}
+
+.kmeans-utils-btn {
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: 56px;
+  height: 56px;
 
   border: none;
   cursor: pointer;

@@ -1,10 +1,10 @@
-import { ScatterArea, UtilsButton } from "@components";
+import { ScatterArea, UtilsArea, UtilsButton } from "@components";
 
 function App() {
   return (
     <>
       <ScatterArea />
-      <UtilsButton />
+      <UtilsArea />
     </>
   );
 }
