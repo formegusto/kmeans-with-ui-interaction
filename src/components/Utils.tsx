@@ -3,10 +3,10 @@ import React from "react";
 export function UtilsItems() {
   return (
     <div className="kmeans-utils-items">
-      <button className="kmeans-utils-item">b1</button>
-      <button className="kmeans-utils-item">b2</button>
-      <button className="kmeans-utils-item">b3</button>
-      <button className="kmeans-utils-item">b4</button>
+      <button className="kmeans-utils-item">Gen</button>
+      <button className="kmeans-utils-item">Ran</button>
+      <button className="kmeans-utils-item">Run</button>
+      <button className="kmeans-utils-item">Cls</button>
     </div>
   );
 }

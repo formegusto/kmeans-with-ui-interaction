@@ -29,38 +29,6 @@ body {
   margin: 1rem;
 }
 
-.kmeans-utils-items {
-  position: absolute;
-
-  left: 0;
-  /* burger zone + gap */
-  top: calc(-224px - 24px);
-  height: calc(224px + 16px);
-  gap: 8px;
-
-  display: flex;
-  flex-direction: column;
-
-  overflow: visible;
-}
-
-.kmeans-utils-item {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  width: 56px;
-  height: 56px;
-
-  border: none;
-  cursor: pointer;
-  background-color: var(--ios-gray-dark-600);
-  color: var(--ios-gray-light-600);
-  border-radius: 100%;
-
-  transition: 0.35s;
-}
-
 .kmeans-utils-btn {
   position: absolute;
   top: 0;
@@ -145,4 +113,36 @@ body {
 
 .kmeans-utils-btn.open > .utils-burger > path:nth-last-of-type(4) {
   opacity: 0;
+}
+
+.kmeans-utils-items {
+  position: absolute;
+
+  left: 0;
+  /* burger zone + gap */
+  top: calc(-224px - 24px);
+  height: calc(224px + 16px);
+  gap: 8px;
+
+  display: flex;
+  flex-direction: column;
+
+  overflow: visible;
+}
+
+.kmeans-utils-item {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: 56px;
+  height: 56px;
+
+  border: none;
+  cursor: pointer;
+  background-color: var(--ios-gray-dark-600);
+  color: var(--ios-gray-light-600);
+  border-radius: 100%;
+
+  transition: 0.35s;
 }
