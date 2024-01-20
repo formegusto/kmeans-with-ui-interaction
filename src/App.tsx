@@ -1,4 +1,4 @@
-import { GenMouse, ScatterArea, UtilsArea, UtilsButton } from "@components";
+import { GenMouseListener, ScatterArea, UtilsArea } from "@components";
 import { KMeansProvider } from "@context";
 
 function App() {
@@ -6,7 +6,7 @@ function App() {
     <KMeansProvider>
       <ScatterArea />
       <UtilsArea />
-      <GenMouse />
+      <GenMouseListener />
     </KMeansProvider>
   );
 }

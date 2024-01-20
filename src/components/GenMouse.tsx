@@ -3,7 +3,6 @@ import React from "react";
 
 export function GenMouse() {
   const refGenPoint = React.useRef<HTMLDivElement>(null);
-  const { mode } = useUI();
   const { appendData } = useKMeans();
 
   React.useEffect(() => {
@@ -14,8 +13,13 @@ export function GenMouse() {
           "transform",
           "translateX(" + (x - 9) + "px)" + " translateY(" + (y - 9) + "px)"
         );
+        refGenPoint.current!.style.setProperty("opacity", "1");
       };
       window.addEventListener("mousemove", movePoint);
+
+      return () => {
+        window.removeEventListener("mousemove", movePoint);
+      };
     }
   }, []);
 
@@ -38,4 +42,10 @@ export function GenMouse() {
   );
 
   return <div ref={refGenPoint} className="gen-point" onClick={onClick} />;
+}
+
+export function GenMouseListener() {
+  const { mode } = useUI();
+
+  return mode === "gen" ? <GenMouse /> : <></>;
 }
