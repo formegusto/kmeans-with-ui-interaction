@@ -6,4 +6,5 @@ declare interface IKMeansContext {
   mode: UIMode;
 
   changeMode: (m: UIMode) => void;
+  appendData: (p: IPoint) => void;
 }
