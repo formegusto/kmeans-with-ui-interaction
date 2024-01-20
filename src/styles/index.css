@@ -146,3 +146,15 @@ body {
 
   transition: 0.35s;
 }
+
+.gen-point {
+  position: fixed;
+  top: 0;
+  left: 0;
+
+  width: 18px;
+  height: 18px;
+
+  background-color: var(--ios-gray-dark-200);
+  border-radius: 100%;
+}

@@ -1,9 +1,14 @@
+import { useUI } from "@hooks";
 import React from "react";
 
 export function UtilsItems() {
+  const { changeMode } = useUI();
+
   return (
     <div className="kmeans-utils-items">
-      <button className="kmeans-utils-item">Gen</button>
+      <button className="kmeans-utils-item" onClick={() => changeMode("gen")}>
+        Gen
+      </button>
       <button className="kmeans-utils-item">Ran</button>
       <button className="kmeans-utils-item">Run</button>
       <button className="kmeans-utils-item">Cls</button>
