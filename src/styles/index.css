@@ -95,11 +95,15 @@ body {
   transition-delay: 0.1s;
 }
 
-.kmeans-utils-btn:hover > .utils-burger > path:nth-last-of-type(1) {
+.kmeans-utils-btn > .utils-burger > path:nth-last-of-type(1) {
   transform-origin: 100% 100%;
 }
 
-.kmeans-utils-btn:hover > .utils-burger > path:nth-last-of-type(4) {
+.kmeans-utils-btn > .utils-burger > path:nth-last-of-type(2) {
+  opacity: 0;
+}
+
+.kmeans-utils-btn > .utils-burger > path:nth-last-of-type(4) {
   transform-origin: 0% 0%;
 }
 
@@ -112,6 +116,7 @@ body {
 }
 
 .kmeans-utils-btn:hover > .utils-burger > path:nth-last-of-type(2) {
+  opacity: 1;
   transform: translate(0, -19px);
 }
 
@@ -121,4 +126,23 @@ body {
 
 .kmeans-utils-btn:hover > .utils-burger > path:nth-last-of-type(4) {
   transform: translate(9px) rotate(90deg);
+}
+
+.kmeans-utils-btn.open > .utils-burger > path:nth-last-of-type(1) {
+  opacity: 0;
+}
+
+.kmeans-utils-btn.open > .utils-burger > path:nth-last-of-type(2) {
+  opacity: 1;
+  transform-origin: 50% 50%;
+  transform: translate(-2px) rotateZ(45deg);
+}
+
+.kmeans-utils-btn.open > .utils-burger > path:nth-last-of-type(3) {
+  transform-origin: 50% 50%;
+  transform: rotateZ(-45deg);
+}
+
+.kmeans-utils-btn.open > .utils-burger > path:nth-last-of-type(4) {
+  opacity: 0;
 }

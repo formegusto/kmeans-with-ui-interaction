@@ -11,9 +11,12 @@ export function UtilsItems() {
   );
 }
 
-export function UtilsButton() {
+export function UtilsButton({ isOpen, onClick }: any) {
   return (
-    <button className="kmeans-utils-btn">
+    <button
+      className={`kmeans-utils-btn ${isOpen ? "open" : ""}`}
+      onClick={onClick}
+    >
       <svg
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 48 48"
@@ -34,7 +37,10 @@ export function UtilsArea() {
   return (
     <div className="kmeans-utils-area">
       <UtilsItems />
-      <UtilsButton />
+      <UtilsButton
+        isOpen={isOpen}
+        onClick={isOpen ? () => setIsOpen(false) : () => setIsOpen(true)}
+      />
     </div>
   );
 }
