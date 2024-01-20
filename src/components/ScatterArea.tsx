@@ -1,7 +1,10 @@
+import { KMeansContext } from "@context";
 import { IOSDefault, IOSGrayLight } from "@styles/palette";
 import React from "react";
 
 export function ScatterArea() {
+  const { dataset } = React.useContext(KMeansContext);
+  console.log(dataset);
   const [datas, setDatas] = React.useState<IPoint[]>([]);
   const [labels, setLabels] = React.useState<number[]>([]);
   const [windowSize, setWindowSize] = React.useState<IPoint>([0, 0]);
