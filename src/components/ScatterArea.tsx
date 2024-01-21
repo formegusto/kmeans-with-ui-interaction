@@ -39,13 +39,23 @@ export function ScatterArea() {
       ))}
       {centers &&
         centers.map(([x, y], i) => (
-          <circle
-            key={`point-${i}`}
-            cx={`${x}%`}
-            cy={`${y}%`}
-            r={10}
-            fill={IOSDefault[0]}
-          />
+          <>
+            <circle
+              key={`point-${i}`}
+              cx={`${x}%`}
+              cy={`${y}%`}
+              r={10}
+              fill={IOSDefault[0]}
+            />
+            <circle
+              key={`point-${i}`}
+              cx={`${x}%`}
+              cy={`${y}%`}
+              r={100}
+              fill="none"
+              stroke={IOSDefault[0]}
+            />
+          </>
         ))}
     </svg>
   );

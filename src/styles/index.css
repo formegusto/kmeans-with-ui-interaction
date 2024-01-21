@@ -304,4 +304,6 @@ body {
   background: transparent;
   border: none;
   color: var(--ios-gray-light-600);
+
+  cursor: pointer;
 }
