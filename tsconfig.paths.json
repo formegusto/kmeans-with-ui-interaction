@@ -5,7 +5,10 @@
       "@components": ["./components"],
       "@styles/*": ["./styles/*"],
       "@context": ["./context"],
-      "@hooks": ["./hooks"]
+      "@hooks": ["./hooks"],
+      "@models": ["./models"],
+      "@errors": ["./errors"],
+      "@utils": ["./utils"]
     }
   }
 }
