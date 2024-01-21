@@ -3,15 +3,18 @@ import React from "react";
 const initialValue: IKMeansContext = {
   dataset: [],
   mode: null,
+  K: null,
 
   changeMode: () => {},
   appendData: () => {},
+  setK: () => {},
 };
 
 export const KMeansContext = React.createContext<IKMeansContext>(initialValue);
 export function KMeansProvider({ children }: React.PropsWithChildren) {
   const [dataset, setDataset] = React.useState<IPoint[]>([]);
   const [mode, setMode] = React.useState<UIMode>(null);
+  const [K, setK] = React.useState<number | null>(null);
 
   const changeMode = React.useCallback((m: UIMode) => {
     setMode(m);
@@ -22,7 +25,9 @@ export function KMeansProvider({ children }: React.PropsWithChildren) {
   }, []);
 
   return (
-    <KMeansContext.Provider value={{ dataset, mode, changeMode, appendData }}>
+    <KMeansContext.Provider
+      value={{ dataset, mode, changeMode, appendData, K, setK }}
+    >
       {children}
     </KMeansContext.Provider>
   );
