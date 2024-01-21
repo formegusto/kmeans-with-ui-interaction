@@ -1,8 +1,9 @@
-import { useUI } from "@hooks";
+import { useKMeans, useUI } from "@hooks";
 import React from "react";
 
 export function UtilsItems() {
   const { mode, changeMode } = useUI();
+  const { setRandomDataset } = useKMeans();
 
   return (
     <div className="kmeans-utils-items">
@@ -21,7 +22,9 @@ export function UtilsItems() {
           <path d="M 3 24 L 45 24" />
         </svg>
       </button>
-      <button className="kmeans-utils-item">Ran</button>
+      <button className="kmeans-utils-item" onClick={() => setRandomDataset()}>
+        Ran
+      </button>
       <button
         className="kmeans-utils-item"
         onClick={

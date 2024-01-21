@@ -1,3 +1,4 @@
+import { generateRandomDataset } from "@utils";
 import React from "react";
 
 const initialValue: IKMeansContext = {
@@ -8,6 +9,7 @@ const initialValue: IKMeansContext = {
   changeMode: () => {},
   appendData: () => {},
   setK: () => {},
+  setRandomDataset: () => {},
 };
 
 export const KMeansContext = React.createContext<IKMeansContext>(initialValue);
@@ -24,9 +26,21 @@ export function KMeansProvider({ children }: React.PropsWithChildren) {
     setDataset((prev) => prev.concat([p]));
   }, []);
 
+  const setRandomDataset = React.useCallback(() => {
+    setDataset(generateRandomDataset({ shape: [100, 2] }));
+  }, []);
+
   return (
     <KMeansContext.Provider
-      value={{ dataset, mode, changeMode, appendData, K, setK }}
+      value={{
+        dataset,
+        mode,
+        changeMode,
+        appendData,
+        K,
+        setK,
+        setRandomDataset,
+      }}
     >
       {children}
     </KMeansContext.Provider>

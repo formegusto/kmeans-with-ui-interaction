@@ -9,6 +9,7 @@ declare interface IKMeansContext {
   changeMode: (m: UIMode) => void;
   appendData: (p: IPoint) => void;
   setK: (k: number) => void;
+  setRandomDataset: () => void;
 }
 
 declare interface IKMeansMethodParams {
