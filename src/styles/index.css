@@ -28,7 +28,7 @@ body {
   height: 56px;
   margin: 1rem;
 
-  z-index: 255;
+  z-index: 2;
 }
 
 .kmeans-utils-btn {
@@ -178,4 +178,27 @@ body {
 .kmeans-utils-btn.gen > .utils-gen > path:nth-last-of-type(2) {
   transform-origin: 50% 50%;
   transform: rotateZ(45deg);
+}
+
+.set-modal-container {
+  width: 100vw;
+  height: 100vh;
+
+  position: fixed;
+  top: 0;
+  left: 0;
+  opacity: 0;
+
+  background: var(--ios-gray-dark-500);
+  z-index: 3;
+  animation: modal-fadein 0.3s 0.01s linear forwards;
+}
+
+@keyframes modal-fadein {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }

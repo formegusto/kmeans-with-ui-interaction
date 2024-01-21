@@ -22,7 +22,14 @@ export function UtilsItems() {
         </svg>
       </button>
       <button className="kmeans-utils-item">Ran</button>
-      <button className="kmeans-utils-item">Run</button>
+      <button
+        className="kmeans-utils-item"
+        onClick={
+          mode === "set" ? () => changeMode(null) : () => changeMode("set")
+        }
+      >
+        Run
+      </button>
       <button className="kmeans-utils-item">Cls</button>
     </div>
   );
