@@ -8,7 +8,24 @@ export function useUI() {
 }
 
 export function useKMeans() {
-  const { K, dataset, appendData, setRandomDataset, start, centers } =
-    React.useContext<IKMeansContext>(KMeansContext);
-  return { K, dataset, appendData, setRandomDataset, start, centers };
+  const {
+    K,
+    dataset,
+    appendData,
+    setRandomDataset,
+    start,
+    centers,
+    next,
+    labels,
+  } = React.useContext<IKMeansContext>(KMeansContext);
+  return {
+    K,
+    dataset,
+    appendData,
+    setRandomDataset,
+    start,
+    centers,
+    next,
+    labels,
+  };
 }

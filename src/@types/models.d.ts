@@ -10,8 +10,10 @@ declare interface IKMeansContext {
   appendData: (p: IPoint) => void;
   setRandomDataset: () => void;
   start: (k: number) => void;
+  next: () => void;
 
   centers: IPoint[] | null;
+  labels: number[] | null;
 }
 
 declare interface IKMeansMethodParams {

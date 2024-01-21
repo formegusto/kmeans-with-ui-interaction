@@ -4,7 +4,7 @@ import { IOSDefault, IOSGrayLight } from "@styles/palette";
 import React from "react";
 
 export function ScatterArea() {
-  const { dataset, centers } = useKMeans();
+  const { dataset, centers, labels } = useKMeans();
   const [windowSize, setWindowSize] = React.useState<IPoint>([0, 0]);
 
   React.useEffect(() => {
@@ -33,8 +33,7 @@ export function ScatterArea() {
           cx={`${x}%`}
           cy={`${y}%`}
           r={10}
-          fill={IOSGrayLight[0]}
-          // fill={labels[i] === -1 ? IOSGrayLight[0] : IOSDefault[labels[i]]}
+          fill={labels ? IOSDefault[labels[i] + 1] : IOSGrayLight[0]}
         />
       ))}
       {centers &&

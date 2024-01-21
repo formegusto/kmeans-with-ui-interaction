@@ -11,14 +11,17 @@ const initialValue: IKMeansContext = {
   appendData: () => {},
   setRandomDataset: () => {},
   start: () => {},
+  next: () => {},
 
   centers: null,
+  labels: null,
 };
 
 export const KMeansContext = React.createContext<IKMeansContext>(initialValue);
 export function KMeansProvider({ children }: React.PropsWithChildren) {
   const [dataset, setDataset] = React.useState<IPoint[]>([]);
   const [centers, setCenters] = React.useState<IPoint[] | null>(null);
+  const [labels, setLabels] = React.useState<number[] | null>(null);
   const [mode, setMode] = React.useState<UIMode>(null);
   const [K, setK] = React.useState<number | null>(null);
   const [iter, setIter] = React.useState<IKMeansIterator | null>(null);
@@ -47,6 +50,17 @@ export function KMeansProvider({ children }: React.PropsWithChildren) {
     [dataset]
   );
 
+  const next = React.useCallback(() => {
+    if (iter) {
+      const iterResult = iter?.next();
+      if (!iterResult.done) {
+        const result = iterResult.value;
+        setLabels(result.labels!);
+        setCenters(result.centers!);
+      }
+    }
+  }, [iter]);
+
   return (
     <KMeansContext.Provider
       value={{
@@ -58,6 +72,8 @@ export function KMeansProvider({ children }: React.PropsWithChildren) {
         setRandomDataset,
         start,
         centers,
+        labels,
+        next,
       }}
     >
       {children}
