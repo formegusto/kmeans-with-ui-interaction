@@ -2,7 +2,7 @@ import Errors from "@errors";
 import { euclideanDistance, generateRandomDataset } from "@utils";
 
 export class KMeans implements IKMeans {
-  constructor(public K: number, public dataset?: number[][]) {}
+  constructor(public K: number, public dataset?: IPoint[]) {}
 
   [Symbol.iterator](): Iterator<IKMeansResult> {
     return new KMeansIterator(
@@ -27,13 +27,13 @@ export class KMeans implements IKMeans {
 }
 
 export class KMeansIterator implements IKMeansIterator {
-  centers?: number[][] | undefined;
+  centers?: IPoint[] | undefined;
 
-  constructor(public K: number, public dataset: number[][]) {
+  constructor(public K: number, public dataset: IPoint[]) {
     this.centers = this.initCenters({ dataset });
   }
 
-  initCenters({ dataset }: IKMeansMethodParams): number[][] {
+  initCenters({ dataset }: IKMeansMethodParams): IPoint[] {
     if (!dataset) throw Errors.EmptyRequiredParameters("dataset");
 
     // 1. 첫 번째 중심점을 무작위로 설정
@@ -52,7 +52,7 @@ export class KMeansIterator implements IKMeansIterator {
       centers.push(this.dataset[nextCenterIdx]);
     }
 
-    return centers;
+    return centers as IPoint[];
   }
 
   calcDistances({ dataset, centers }: IKMeansMethodParams): number[][] {
@@ -77,7 +77,7 @@ export class KMeansIterator implements IKMeansIterator {
     dataset,
     centers,
     labels,
-  }: IKMeansMethodParams): number[][] | null {
+  }: IKMeansMethodParams): IPoint[] | null {
     if (!dataset || !centers || !labels)
       throw Errors.EmptyRequiredParameters("dataset", "centers", "labels");
 
@@ -100,7 +100,7 @@ export class KMeansIterator implements IKMeansIterator {
     const prev = centers.flat();
     const next = nextCenters.flat();
     for (let i = 0; i < prev.length; i++) {
-      if (prev[i] !== next[i]) return nextCenters;
+      if (prev[i] !== next[i]) return nextCenters as IPoint[];
     }
     return null;
   }
@@ -145,7 +145,7 @@ export class KMeansIterator implements IKMeansIterator {
       result.value.dataset = this.dataset;
       return result;
     }
-    this.centers = nextCenters;
+    this.centers = nextCenters as IPoint[];
     return result;
   }
 

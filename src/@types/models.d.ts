@@ -8,13 +8,15 @@ declare interface IKMeansContext {
 
   changeMode: (m: UIMode) => void;
   appendData: (p: IPoint) => void;
-  setK: (k: number) => void;
   setRandomDataset: () => void;
+  start: (k: number) => void;
+
+  centers: IPoint[] | null;
 }
 
 declare interface IKMeansMethodParams {
-  dataset?: number[][];
-  centers?: number[][];
+  dataset?: IPoint[];
+  centers?: IPoint[];
   distances?: number[][];
   labels?: number[];
 }
@@ -27,8 +29,8 @@ declare type KMeansMethod<R = number[][]> = (params: IKMeansMethodParams) => R;
 
 declare interface IKMeansSetting {
   K: number;
-  dataset?: number[][];
-  centers?: number[][];
+  dataset?: IPoint[];
+  centers?: IPoint[];
 }
 declare interface IKMeans extends IKMeansSetting, Iterable<IKMeansResult> {
   fit: KMeansMethod<IKMeansResult | undefined>;
@@ -40,6 +42,6 @@ declare interface IKMeansIterator
   initCenters: KMeansMethod;
   calcDistances: KMeansMethod;
   setLabels: KMeansMethod<number[]>;
-  moveCenters: KMeansMethod<number[][] | null>;
+  moveCenters: KMeansMethod<IPoint[] | null>;
   calcInertia: KMeansMethod<number>;
 }

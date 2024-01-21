@@ -281,3 +281,27 @@ body {
   stroke-width: 2;
   stroke-linecap: round;
 }
+
+.kmeans-run-toolbar {
+  position: fixed;
+  top: 8px;
+  left: calc(50% - 175px);
+  width: 350px;
+
+  background: var(--ios-gray-dark-600);
+  color: var(--ios-gray-light-600);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 8px 0px;
+  border-radius: 1rem;
+  column-gap: 8px;
+}
+
+.kmeans-run-toolbar > button {
+  background: transparent;
+  border: none;
+  color: var(--ios-gray-light-600);
+}

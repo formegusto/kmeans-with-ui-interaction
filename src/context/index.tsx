@@ -1,3 +1,4 @@
+import { KMeans } from "@models";
 import { generateRandomDataset } from "@utils";
 import React from "react";
 
@@ -8,15 +9,19 @@ const initialValue: IKMeansContext = {
 
   changeMode: () => {},
   appendData: () => {},
-  setK: () => {},
   setRandomDataset: () => {},
+  start: () => {},
+
+  centers: null,
 };
 
 export const KMeansContext = React.createContext<IKMeansContext>(initialValue);
 export function KMeansProvider({ children }: React.PropsWithChildren) {
   const [dataset, setDataset] = React.useState<IPoint[]>([]);
+  const [centers, setCenters] = React.useState<IPoint[] | null>(null);
   const [mode, setMode] = React.useState<UIMode>(null);
   const [K, setK] = React.useState<number | null>(null);
+  const [iter, setIter] = React.useState<IKMeansIterator | null>(null);
 
   const changeMode = React.useCallback((m: UIMode) => {
     setMode(m);
@@ -27,8 +32,20 @@ export function KMeansProvider({ children }: React.PropsWithChildren) {
   }, []);
 
   const setRandomDataset = React.useCallback(() => {
-    setDataset(generateRandomDataset({ shape: [100, 2] }));
+    setDataset(generateRandomDataset({ shape: [200, 2] }));
   }, []);
+
+  const start = React.useCallback(
+    (k: number) => {
+      setK(k);
+      const kmeans = new KMeans(k, dataset);
+      const iter = kmeans[Symbol.iterator]() as IKMeansIterator;
+      setIter(iter);
+      setCenters(iter.centers!);
+      setMode("run");
+    },
+    [dataset]
+  );
 
   return (
     <KMeansContext.Provider
@@ -38,8 +55,9 @@ export function KMeansProvider({ children }: React.PropsWithChildren) {
         changeMode,
         appendData,
         K,
-        setK,
         setRandomDataset,
+        start,
+        centers,
       }}
     >
       {children}

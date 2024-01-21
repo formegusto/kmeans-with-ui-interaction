@@ -1,8 +1,14 @@
-import { useUI } from "@hooks";
+import { useKMeans, useUI } from "@hooks";
+import React from "react";
 
-export function SetButton() {
+export function SetButton(
+  props: React.DetailedHTMLProps<
+    React.ButtonHTMLAttributes<HTMLButtonElement>,
+    HTMLButtonElement
+  >
+) {
   return (
-    <button className="highlight-button">
+    <button className="highlight-button" {...props}>
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
         <path
           d="M -12 16
@@ -22,13 +28,37 @@ export function SetButton() {
 }
 
 export function SetModal() {
-  const { mode } = useUI();
+  const [value, setValue] = React.useState<string>("");
+  const { mode, changeMode } = useUI();
+  const { start } = useKMeans();
+
+  const onSubmit = React.useCallback(
+    (e: React.FormEvent) => {
+      e.preventDefault();
+      start(parseInt(value));
+    },
+    [value]
+  );
+
+  const onChange = React.useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      setValue(e.target.value);
+    },
+    []
+  );
+
   return mode === "set" ? (
-    <div className="set-modal-container">
+    <form onSubmit={onSubmit} className="set-modal-container">
       <div className="modal-question-group">
         <span>Your K is</span>
-        <input type="text" maxLength={2} />
-        <SetButton />
+        <input
+          type="text"
+          maxLength={2}
+          value={value}
+          onChange={onChange}
+          required
+        />
+        <SetButton type="submit" />
       </div>
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -44,7 +74,7 @@ export function SetModal() {
             L 129.53 1"
         />
       </svg>
-    </div>
+    </form>
   ) : (
     <></>
   );

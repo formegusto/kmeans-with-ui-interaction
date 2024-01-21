@@ -1,5 +1,6 @@
 import {
   GenMouseListener,
+  RunToolbar,
   ScatterArea,
   SetModal,
   UtilsArea,
@@ -13,6 +14,7 @@ function App() {
       <UtilsArea />
       <GenMouseListener />
       <SetModal />
+      <RunToolbar />
     </KMeansProvider>
   );
 }
