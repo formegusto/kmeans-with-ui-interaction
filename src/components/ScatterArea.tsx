@@ -19,47 +19,6 @@ export function ScatterArea() {
     };
   }, []);
 
-  // const moveCenters = React.useCallback(
-  //   (move: IPoint, now: IPoint, next: IPoint, label: number) => {
-  //     const [nox, noy] = now;
-  //     const [nex, ney] = next;
-  //     const [mox, moy] = move;
-
-  //     if (label === 0) console.log([nox, noy], [mox, moy], [nex, ney]);
-  //     if (
-  //       Math.round(mox) === Math.round(nex) &&
-  //       Math.round(moy) === Math.round(ney)
-  //     ) {
-  //       setAniStatus((prev) => {
-  //         prev![label] = true;
-  //         return prev;
-  //       });
-  //       return;
-  //     } else {
-  //       const [mx, my] = [(nex - nox) / moveUnit, (ney - noy) / moveUnit];
-  //       let [nx, ny] = [mox + mx, moy + my];
-  //       const dis = euclideanDistance([nx, ny], next);
-  //       console.log(dis);
-  //       if (dis <= 5) {
-  //         nx = nex;
-  //         ny = ney;
-  //       }
-
-  //       const el = document.querySelector(`.center-${label}`);
-  //       const roundEl = document.querySelector(`.center-round-${label}`);
-  //       if (el && roundEl) {
-  //         el.setAttribute("cx", nx + "%");
-  //         el.setAttribute("cy", ny + "%");
-  //         roundEl.setAttribute("cx", nx + "%");
-  //         roundEl.setAttribute("cy", ny + "%");
-
-  //         requestAnimationFrame(() => moveCenters([nx, ny], now, next, label));
-  //       }
-  //     }
-  //   },
-  //   []
-  // );
-
   const moveCenters = React.useCallback(
     (interpolation: IPoint[], label: number, i: number, moveTime: number) => {
       if (i === interpolation.length) return;
@@ -104,7 +63,8 @@ export function ScatterArea() {
       xmlns="http://www.w3.org/2000/svg"
       width="100vw"
       height="100vh"
-      viewBox={`0 0 ${windowSize[0]} ${windowSize[1]}`}>
+      viewBox={`0 0 ${windowSize[0]} ${windowSize[1]}`}
+    >
       {dataset.map(([x, y], i) => (
         <circle
           key={`point-${i}`}
