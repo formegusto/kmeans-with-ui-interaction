@@ -65,19 +65,26 @@ export function ScatterArea() {
   // );
 
   const moveCenters = React.useCallback(
-    (interpolation: IPoint[], label: number, i: number) => {
+    (interpolation: IPoint[], label: number, i: number, moveTime: number) => {
       if (i === interpolation.length) return;
+      if (Date.now() >= moveTime) {
+        const [nx, ny] = interpolation[i];
+        const el = document.querySelector(`.center-${label}`);
+        const roundEl = document.querySelector(`.center-round-${label}`);
+        if (el && roundEl) {
+          el.setAttribute("cx", nx + "%");
+          el.setAttribute("cy", ny + "%");
+          roundEl.setAttribute("cx", nx + "%");
+          roundEl.setAttribute("cy", ny + "%");
 
-      const [nx, ny] = interpolation[i];
-      const el = document.querySelector(`.center-${label}`);
-      const roundEl = document.querySelector(`.center-round-${label}`);
-      if (el && roundEl) {
-        el.setAttribute("cx", nx + "%");
-        el.setAttribute("cy", ny + "%");
-        roundEl.setAttribute("cx", nx + "%");
-        roundEl.setAttribute("cy", ny + "%");
-
-        requestAnimationFrame(() => moveCenters(interpolation, label, i + 1));
+          requestAnimationFrame(() =>
+            moveCenters(interpolation, label, i + 1, Date.now() + 20)
+          );
+        }
+      } else {
+        requestAnimationFrame(() =>
+          moveCenters(interpolation, label, i, moveTime)
+        );
       }
     },
     []
@@ -86,7 +93,7 @@ export function ScatterArea() {
   React.useEffect(() => {
     if (interpolations) {
       for (let label = 0; label < interpolations.length; label++) {
-        moveCenters(interpolations[label], label, 0);
+        moveCenters(interpolations[label], label, 0, Date.now());
       }
     } else {
       if (centers) {
