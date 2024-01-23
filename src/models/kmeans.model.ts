@@ -81,12 +81,17 @@ export class KMeansIterator implements IKMeansIterator {
     dataset,
     centers,
     labels,
+    // ui interpolation
+    distances,
   }: IKMeansMethodParams): IPoint[] | null {
-    if (!dataset || !centers || !labels)
+    if (!dataset || !centers || !labels || !distances)
       throw Errors.EmptyRequiredParameters("dataset", "centers", "labels");
 
     const colSize = dataset[0].length;
-    const labelCount = Array(this.K).fill(0);
+    // const labelCount = Array(this.K).fill(0);
+    // const labelCount = Array(this.K).fill([]); call-by-references
+    const labelCount = Array.from({ length: this.K }, () => new Array(0));
+    const labelDistances = Array.from({ length: this.K }, () => new Array(0));
     const labelTotal = Array.from({ length: this.K }, () =>
       Array(colSize).fill(0)
     );
@@ -94,17 +99,28 @@ export class KMeansIterator implements IKMeansIterator {
     for (let i = 0; i < dataset.length; i++) {
       const label = labels[i];
       const data = dataset[i];
-      labelCount[label]++;
+      const distance = distances[i];
+      labelCount[label].push(i);
+      labelDistances[label].push(distance[distance.getMinIdx()]);
       labelTotal[label] = labelTotal[label].map((v, vi) => v + data[vi]);
     }
+
+    console.log(labelDistances);
+
     const nextCenters = labelCount.map((count, label) =>
-      labelTotal[label].map((total) => total / count)
+      labelTotal[label].map((total) => total / count.length)
     );
 
     const prev = centers.flat();
     const next = nextCenters.flat();
     for (let i = 0; i < prev.length; i++) {
-      if (prev[i] !== next[i]) return nextCenters as IPoint[];
+      if (prev[i] !== next[i]) {
+        // label sorting
+        for (let j = 0; j < this.K; j++) {
+          // labelCount[j] = labelCount[j].sort((a, b) => )
+        }
+        return nextCenters as IPoint[];
+      }
     }
     return null;
   }
@@ -134,7 +150,7 @@ export class KMeansIterator implements IKMeansIterator {
     // *. 평가
     const inertia = this.calcInertia({ ...this, labels });
     // 4. 군집 별 평균값을 계산하여 중심점에 반영
-    const nextCenters = this.moveCenters({ ...this, labels });
+    const nextCenters = this.moveCenters({ ...this, labels, distances });
 
     const result: IteratorResult<IKMeansResult> = {
       value: {
@@ -164,7 +180,7 @@ export class KMeansIterator implements IKMeansIterator {
       }
       interpolations.push(_interpolations);
     }
-    console.log(interpolations);
+    // console.log(interpolations);
     this.centers = nextCenters as IPoint[];
     result.value.interpolations = interpolations;
     return result;
