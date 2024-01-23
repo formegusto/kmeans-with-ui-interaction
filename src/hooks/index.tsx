@@ -15,6 +15,7 @@ export function useKMeans() {
     setRandomDataset,
     start,
     centers,
+    interpolations,
     next,
     labels,
   } = React.useContext<IKMeansContext>(KMeansContext);
@@ -25,6 +26,7 @@ export function useKMeans() {
     setRandomDataset,
     start,
     centers,
+    interpolations,
     next,
     labels,
   };

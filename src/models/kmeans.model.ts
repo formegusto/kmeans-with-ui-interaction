@@ -1,5 +1,9 @@
 import Errors from "@errors";
-import { euclideanDistance, generateRandomDataset } from "@utils";
+import {
+  euclideanDistance,
+  generateRandomDataset,
+  linearInterpolation,
+} from "@utils";
 
 export class KMeans implements IKMeans {
   constructor(public K: number, public dataset?: IPoint[]) {}
@@ -131,6 +135,7 @@ export class KMeansIterator implements IKMeansIterator {
     const inertia = this.calcInertia({ ...this, labels });
     // 4. 군집 별 평균값을 계산하여 중심점에 반영
     const nextCenters = this.moveCenters({ ...this, labels });
+
     const result: IteratorResult<IKMeansResult> = {
       value: {
         centers: this.centers,
@@ -145,7 +150,23 @@ export class KMeansIterator implements IKMeansIterator {
       result.value.dataset = this.dataset;
       return result;
     }
+    // ui-sub. interpolation
+    const interpolations: IPoint[][] = [];
+    for (let i = 0; i < this.K; i++) {
+      const _interpolations: IPoint[] = [];
+      for (let t = 0.1; t <= 1; t += 0.1) {
+        const interpolation = linearInterpolation(
+          this.centers[i],
+          nextCenters![i],
+          t
+        );
+        _interpolations.push(interpolation);
+      }
+      interpolations.push(_interpolations);
+    }
+    console.log(interpolations);
     this.centers = nextCenters as IPoint[];
+    result.value.interpolations = interpolations;
     return result;
   }
 

@@ -7,10 +7,9 @@ import React from "react";
 const moveUnit = 10;
 
 export function ScatterArea() {
-  const { dataset, centers, labels } = useKMeans();
-  const [aniStatus, setAniStatus] = React.useState<boolean[] | null>(null);
+  const { dataset, labels, interpolations, centers } = useKMeans();
   const [windowSize, setWindowSize] = React.useState<IPoint>([0, 0]);
-  const [now, setNow] = React.useState<IPoint[] | null>(null);
+  const [localCenters, setLocalCenters] = React.useState<IPoint[] | null>(null);
 
   React.useEffect(() => {
     const setAspectRatio = () => {
@@ -24,76 +23,77 @@ export function ScatterArea() {
     };
   }, []);
 
+  // const moveCenters = React.useCallback(
+  //   (move: IPoint, now: IPoint, next: IPoint, label: number) => {
+  //     const [nox, noy] = now;
+  //     const [nex, ney] = next;
+  //     const [mox, moy] = move;
+
+  //     if (label === 0) console.log([nox, noy], [mox, moy], [nex, ney]);
+  //     if (
+  //       Math.round(mox) === Math.round(nex) &&
+  //       Math.round(moy) === Math.round(ney)
+  //     ) {
+  //       setAniStatus((prev) => {
+  //         prev![label] = true;
+  //         return prev;
+  //       });
+  //       return;
+  //     } else {
+  //       const [mx, my] = [(nex - nox) / moveUnit, (ney - noy) / moveUnit];
+  //       let [nx, ny] = [mox + mx, moy + my];
+  //       const dis = euclideanDistance([nx, ny], next);
+  //       console.log(dis);
+  //       if (dis <= 5) {
+  //         nx = nex;
+  //         ny = ney;
+  //       }
+
+  //       const el = document.querySelector(`.center-${label}`);
+  //       const roundEl = document.querySelector(`.center-round-${label}`);
+  //       if (el && roundEl) {
+  //         el.setAttribute("cx", nx + "%");
+  //         el.setAttribute("cy", ny + "%");
+  //         roundEl.setAttribute("cx", nx + "%");
+  //         roundEl.setAttribute("cy", ny + "%");
+
+  //         requestAnimationFrame(() => moveCenters([nx, ny], now, next, label));
+  //       }
+  //     }
+  //   },
+  //   []
+  // );
+
   const moveCenters = React.useCallback(
-    (move: IPoint, now: IPoint, next: IPoint, label: number) => {
-      const [nox, noy] = now;
-      const [nex, ney] = next;
-      const [mox, moy] = move;
+    (interpolation: IPoint[], label: number, i: number) => {
+      if (i === interpolation.length) return;
 
-      if (label === 0) console.log([nox, noy], [mox, moy], [nex, ney]);
-      if (
-        Math.round(mox) === Math.round(nex) &&
-        Math.round(moy) === Math.round(ney)
-      ) {
-        setAniStatus((prev) => {
-          prev![label] = true;
-          return prev;
-        });
-        return;
-      } else {
-        const [mx, my] = [(nex - nox) / moveUnit, (ney - noy) / moveUnit];
-        let [nx, ny] = [mox + mx, moy + my];
-        const dis = euclideanDistance([nx, ny], next);
-        console.log(dis);
-        if (dis <= 5) {
-          nx = nex;
-          ny = ney;
-        }
+      const [nx, ny] = interpolation[i];
+      const el = document.querySelector(`.center-${label}`);
+      const roundEl = document.querySelector(`.center-round-${label}`);
+      if (el && roundEl) {
+        el.setAttribute("cx", nx + "%");
+        el.setAttribute("cy", ny + "%");
+        roundEl.setAttribute("cx", nx + "%");
+        roundEl.setAttribute("cy", ny + "%");
 
-        const el = document.querySelector(`.center-${label}`);
-        const roundEl = document.querySelector(`.center-round-${label}`);
-        if (el && roundEl) {
-          el.setAttribute("cx", nx + "%");
-          el.setAttribute("cy", ny + "%");
-          roundEl.setAttribute("cx", nx + "%");
-          roundEl.setAttribute("cy", ny + "%");
-
-          requestAnimationFrame(() => moveCenters([nx, ny], now, next, label));
-        }
+        requestAnimationFrame(() => moveCenters(interpolation, label, i + 1));
       }
     },
     []
   );
 
-  const acceptCenters = React.useCallback(() => {
-    setNow(centers);
-  }, [centers]);
-
   React.useEffect(() => {
-    if (!aniStatus) {
-      if (centers!) {
-        if (now === null) {
-          setNow(centers);
-        } else {
-          for (let i = 0; i < centers.length; i++)
-            moveCenters([...now[i]], [...now[i]], centers[i], i);
-          setAniStatus(centers.map(() => false));
-        }
+    if (interpolations) {
+      for (let label = 0; label < interpolations.length; label++) {
+        moveCenters(interpolations[label], label, 0);
       }
     } else {
-      setAniStatus(null);
-    }
-  }, [now, centers]);
-
-  React.useEffect(() => {
-    if (aniStatus) {
-      console.log(aniStatus);
-      for (let i = 0; i < aniStatus.length; i++) {
-        if (!aniStatus[i]) return;
+      if (centers) {
+        setLocalCenters(centers);
       }
-      acceptCenters();
     }
-  }, [aniStatus, acceptCenters]);
+  }, [centers, interpolations, moveCenters]);
 
   return (
     <svg
@@ -101,8 +101,7 @@ export function ScatterArea() {
       xmlns="http://www.w3.org/2000/svg"
       width="100vw"
       height="100vh"
-      viewBox={`0 0 ${windowSize[0]} ${windowSize[1]}`}
-    >
+      viewBox={`0 0 ${windowSize[0]} ${windowSize[1]}`}>
       {dataset.map(([x, y], i) => (
         <circle
           key={`point-${i}`}
@@ -112,8 +111,8 @@ export function ScatterArea() {
           fill={labels ? IOSDefault[labels[i] + 1] : IOSGrayLight[0]}
         />
       ))}
-      {now &&
-        now.map(([x, y], i) => (
+      {localCenters &&
+        localCenters.map(([x, y], i) => (
           <React.Fragment key={`center-${i}`}>
             <circle
               className={`center-${i}`}

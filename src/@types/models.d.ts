@@ -13,6 +13,7 @@ declare interface IKMeansContext {
   next: () => void;
 
   centers: IPoint[] | null;
+  interpolations: IPoint[][] | null;
   labels: number[] | null;
 }
 
@@ -25,6 +26,7 @@ declare interface IKMeansMethodParams {
 
 declare interface IKMeansResult extends IKMeansMethodParams {
   inertia: number;
+  interpolations?: IPoint[][];
 }
 
 declare type KMeansMethod<R = number[][]> = (params: IKMeansMethodParams) => R;
