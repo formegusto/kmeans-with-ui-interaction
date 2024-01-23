@@ -3,7 +3,7 @@ import React from "react";
 
 export function UtilsItems() {
   const { mode, changeMode } = useUI();
-  const { setRandomDataset } = useKMeans();
+  const { setRandomDataset, clearCanvas } = useKMeans();
 
   return (
     <div className="kmeans-utils-items">
@@ -11,13 +11,11 @@ export function UtilsItems() {
         className={`kmeans-utils-btn ${mode === "gen" ? mode : ""}`}
         onClick={
           mode === "gen" ? () => changeMode(null) : () => changeMode("gen")
-        }
-      >
+        }>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 48 48"
-          className="utils-gen"
-        >
+          className="utils-gen">
           <path d="M 23 3 L 23 45" />
           <path d="M 3 24 L 45 24" />
         </svg>
@@ -29,11 +27,12 @@ export function UtilsItems() {
         className="kmeans-utils-item"
         onClick={
           mode === "set" ? () => changeMode(null) : () => changeMode("set")
-        }
-      >
+        }>
         Run
       </button>
-      <button className="kmeans-utils-item">Cls</button>
+      <button className="kmeans-utils-item" onClick={() => clearCanvas()}>
+        Cls
+      </button>
     </div>
   );
 }
@@ -42,13 +41,11 @@ export function UtilsButton({ isOpen, onClick }: any) {
   return (
     <button
       className={`kmeans-utils-btn ${isOpen ? "open" : ""}`}
-      onClick={onClick}
-    >
+      onClick={onClick}>
       <svg
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 48 48"
-        className="utils-burger"
-      >
+        className="utils-burger">
         <path d="M 3 6 L 45 6" />
         <path d="M 3 22 L 45 22" />
         <path d="M 3 22 L 45 22" />

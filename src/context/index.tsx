@@ -9,6 +9,7 @@ const initialValue: IKMeansContext = {
 
   changeMode: () => {},
   appendData: () => {},
+  clearCanvas: () => {},
   setRandomDataset: () => {},
   start: () => {},
   next: () => {},
@@ -42,6 +43,16 @@ export function KMeansProvider({ children }: React.PropsWithChildren) {
     setDataset(generateRandomDataset({ shape: [200, 2] }));
   }, []);
 
+  const clearCanvas = React.useCallback(() => {
+    setDataset([]);
+    setCenters(null);
+    setLabels(null);
+    setInterpolations(null);
+    setIter(null);
+    setK(null);
+    setMode(null);
+  }, []);
+
   const start = React.useCallback(
     (k: number) => {
       setK(k);
@@ -72,6 +83,7 @@ export function KMeansProvider({ children }: React.PropsWithChildren) {
         dataset,
         mode,
         changeMode,
+        clearCanvas,
         appendData,
         K,
         setRandomDataset,

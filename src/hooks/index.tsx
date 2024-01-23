@@ -18,12 +18,14 @@ export function useKMeans() {
     interpolations,
     next,
     labels,
+    clearCanvas,
   } = React.useContext<IKMeansContext>(KMeansContext);
   return {
     K,
     dataset,
     appendData,
     setRandomDataset,
+    clearCanvas,
     start,
     centers,
     interpolations,

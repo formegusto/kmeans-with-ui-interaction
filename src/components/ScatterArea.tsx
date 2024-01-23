@@ -1,10 +1,6 @@
-import { KMeansContext } from "@context";
 import { useKMeans } from "@hooks";
 import { IOSDefault, IOSGrayLight } from "@styles/palette";
-import { euclideanDistance } from "@utils";
 import React from "react";
-
-const moveUnit = 10;
 
 export function ScatterArea() {
   const { dataset, labels, interpolations, centers } = useKMeans();

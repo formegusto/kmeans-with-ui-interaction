@@ -8,6 +8,7 @@ declare interface IKMeansContext {
 
   changeMode: (m: UIMode) => void;
   appendData: (p: IPoint) => void;
+  clearCanvas: () => void;
   setRandomDataset: () => void;
   start: (k: number) => void;
   next: () => void;
