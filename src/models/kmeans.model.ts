@@ -5,6 +5,8 @@ import {
   linearInterpolation,
 } from "@utils";
 
+const INTERPOLATION_RATE = 10;
+
 export class KMeans implements IKMeans {
   constructor(public K: number, public dataset?: IPoint[]) {}
 
@@ -114,14 +116,37 @@ export class KMeansIterator implements IKMeansIterator {
     const next = nextCenters.flat();
     for (let i = 0; i < prev.length; i++) {
       if (prev[i] !== next[i]) {
+        const labelInterpolations = [];
         // label sorting
         for (let j = 0; j < this.K; j++) {
+          const labelInterpolation = [];
           labelCount[j].sort((a, b) => {
             const a_i = labelCount[j].indexOf(a);
             const b_i = labelCount[j].indexOf(b);
             return labelDistances[j][a_i] - labelDistances[j][b_i];
           });
+
+          const count = labelCount[j].length;
+          const stepCount = Math.floor(count / INTERPOLATION_RATE);
+          let startIdx = 0;
+          for (let c = 0; c < INTERPOLATION_RATE; c++) {
+            let _labelInterpolation;
+            if (c + 1 === INTERPOLATION_RATE) {
+              _labelInterpolation = labelCount[j].slice(startIdx);
+            } else {
+              _labelInterpolation = labelCount[j].slice(
+                startIdx,
+                startIdx + stepCount
+              );
+            }
+            labelInterpolation.push(_labelInterpolation);
+            startIdx += stepCount;
+          }
+
+          labelInterpolations.push(labelInterpolation);
         }
+
+        console.log(labelInterpolations);
 
         return nextCenters as IPoint[];
       }

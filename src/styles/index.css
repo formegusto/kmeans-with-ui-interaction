@@ -1,3 +1,7 @@
+* {
+  font-family: "Spoqa Han Sans Neo", "sans-serif";
+}
+
 /* palette */
 :root {
   --ios-gray-dark-100: rgb(142, 142, 147);
