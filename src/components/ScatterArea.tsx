@@ -3,7 +3,7 @@ import { IOSDefault, IOSGrayLight } from "@styles/palette";
 import React from "react";
 
 export function ScatterArea() {
-  const { dataset, labels, interpolations, centers } = useKMeans();
+  const { dataset, interpolations, labelInterpolations, centers } = useKMeans();
   const [windowSize, setWindowSize] = React.useState<IPoint>([0, 0]);
   const [localCenters, setLocalCenters] = React.useState<IPoint[] | null>(null);
 
@@ -20,7 +20,13 @@ export function ScatterArea() {
   }, []);
 
   const moveCenters = React.useCallback(
-    (interpolation: IPoint[], label: number, i: number, moveTime: number) => {
+    (
+      interpolation: IPoint[],
+      labelInterpolation: any,
+      label: number,
+      i: number,
+      moveTime: number
+    ) => {
       if (i === interpolation.length) return;
       if (Date.now() >= moveTime) {
         const [nx, ny] = interpolation[i];
@@ -32,13 +38,24 @@ export function ScatterArea() {
           roundEl.setAttribute("cx", nx + "%");
           roundEl.setAttribute("cy", ny + "%");
 
+          for (let pointIdx of labelInterpolation[i]) {
+            const elPoint = document.querySelector(`.point-${pointIdx}`);
+            if (elPoint) elPoint.setAttribute("fill", IOSDefault[label]);
+          }
+
           requestAnimationFrame(() =>
-            moveCenters(interpolation, label, i + 1, Date.now() + 20)
+            moveCenters(
+              interpolation,
+              labelInterpolation,
+              label,
+              i + 1,
+              Date.now() + 20
+            )
           );
         }
       } else {
         requestAnimationFrame(() =>
-          moveCenters(interpolation, label, i, moveTime)
+          moveCenters(interpolation, labelInterpolation, label, i, moveTime)
         );
       }
     },
@@ -46,9 +63,15 @@ export function ScatterArea() {
   );
 
   React.useEffect(() => {
-    if (interpolations) {
+    if (interpolations && labelInterpolations) {
       for (let label = 0; label < interpolations.length; label++) {
-        moveCenters(interpolations[label], label, 0, Date.now());
+        moveCenters(
+          interpolations[label],
+          labelInterpolations[label],
+          label,
+          0,
+          Date.now()
+        );
       }
     } else {
       if (centers) {
@@ -59,7 +82,7 @@ export function ScatterArea() {
     if (!centers) {
       setLocalCenters(null);
     }
-  }, [centers, interpolations, moveCenters]);
+  }, [centers, interpolations, labelInterpolations, moveCenters]);
 
   return (
     <svg
@@ -71,10 +94,12 @@ export function ScatterArea() {
       {dataset.map(([x, y], i) => (
         <circle
           key={`point-${i}`}
+          className={`point-${i}`}
           cx={`${x}%`}
           cy={`${y}%`}
           r={10}
-          fill={labels ? IOSDefault[labels[i] + 1] : IOSGrayLight[0]}
+          // fill={labels ? IOSDefault[labels[i] + 1] : IOSGrayLight[0]}
+          fill={IOSGrayLight[0]}
         />
       ))}
       {localCenters &&

@@ -16,6 +16,7 @@ const initialValue: IKMeansContext = {
 
   centers: null,
   interpolations: null,
+  labelInterpolations: null,
   labels: null,
 };
 
@@ -27,6 +28,9 @@ export function KMeansProvider({ children }: React.PropsWithChildren) {
   const [interpolations, setInterpolations] = React.useState<IPoint[][] | null>(
     null
   );
+  const [labelInterpolations, setLabelInterpolations] = React.useState<
+    any | null
+  >(null);
   const [mode, setMode] = React.useState<UIMode>(null);
   const [K, setK] = React.useState<number | null>(null);
   const [iter, setIter] = React.useState<IKMeansIterator | null>(null);
@@ -51,6 +55,7 @@ export function KMeansProvider({ children }: React.PropsWithChildren) {
     setCenters(null);
     setLabels(null);
     setInterpolations(null);
+    setLabelInterpolations(null);
     setIter(null);
     setK(null);
     setMode(null);
@@ -78,6 +83,8 @@ export function KMeansProvider({ children }: React.PropsWithChildren) {
         setLabels(result.labels!);
         setCenters(result.centers!);
         if (result.interpolations) setInterpolations(result.interpolations);
+        if (result.labelInterpolations)
+          setLabelInterpolations(result.labelInterpolations);
       }
     }
   }, [iter]);
@@ -97,6 +104,7 @@ export function KMeansProvider({ children }: React.PropsWithChildren) {
         labels,
         next,
         interpolations,
+        labelInterpolations,
       }}>
       {children}
     </KMeansContext.Provider>

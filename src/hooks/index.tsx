@@ -16,6 +16,7 @@ export function useKMeans() {
     start,
     centers,
     interpolations,
+    labelInterpolations,
     next,
     labels,
     clearCanvas,
@@ -29,6 +30,7 @@ export function useKMeans() {
     start,
     centers,
     interpolations,
+    labelInterpolations,
     next,
     labels,
   };

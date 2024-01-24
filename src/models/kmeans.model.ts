@@ -85,7 +85,10 @@ export class KMeansIterator implements IKMeansIterator {
     labels,
     // ui interpolation
     distances,
-  }: IKMeansMethodParams): IPoint[] | null {
+  }: IKMeansMethodParams): {
+    nextCenters: IPoint[];
+    labelInterpolations: any;
+  } | null {
     if (!dataset || !centers || !labels || !distances)
       throw Errors.EmptyRequiredParameters("dataset", "centers", "labels");
 
@@ -146,9 +149,7 @@ export class KMeansIterator implements IKMeansIterator {
           labelInterpolations.push(labelInterpolation);
         }
 
-        console.log(labelInterpolations);
-
-        return nextCenters as IPoint[];
+        return { nextCenters: nextCenters as IPoint[], labelInterpolations };
       }
     }
     return null;
@@ -179,7 +180,7 @@ export class KMeansIterator implements IKMeansIterator {
     // *. 평가
     const inertia = this.calcInertia({ ...this, labels });
     // 4. 군집 별 평균값을 계산하여 중심점에 반영
-    const nextCenters = this.moveCenters({ ...this, labels, distances });
+    const moveCentersResult = this.moveCenters({ ...this, labels, distances });
 
     const result: IteratorResult<IKMeansResult> = {
       value: {
@@ -190,7 +191,7 @@ export class KMeansIterator implements IKMeansIterator {
       done: false,
     };
     // 5. 2~4의 과정을 중심점에 변화가 없을 때까지 반복
-    if (!nextCenters) {
+    if (!moveCentersResult) {
       this.centers = undefined;
       result.value.dataset = this.dataset;
       return result;
@@ -202,7 +203,7 @@ export class KMeansIterator implements IKMeansIterator {
       for (let t = 0.1; t <= 1; t += 0.1) {
         const interpolation = linearInterpolation(
           this.centers[i],
-          nextCenters![i],
+          moveCentersResult.nextCenters![i],
           t
         );
         _interpolations.push(interpolation);
@@ -210,8 +211,11 @@ export class KMeansIterator implements IKMeansIterator {
       interpolations.push(_interpolations);
     }
     // console.log(interpolations);
-    this.centers = nextCenters as IPoint[];
+    this.centers = moveCentersResult.nextCenters as IPoint[];
+
     result.value.interpolations = interpolations;
+    result.value.labelInterpolations = moveCentersResult.labelInterpolations;
+
     return result;
   }
 

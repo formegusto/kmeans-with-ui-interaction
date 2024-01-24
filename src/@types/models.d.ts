@@ -15,6 +15,7 @@ declare interface IKMeansContext {
 
   centers: IPoint[] | null;
   interpolations: IPoint[][] | null;
+  labelInterpolations: any | null;
   labels: number[] | null;
 }
 
@@ -28,6 +29,7 @@ declare interface IKMeansMethodParams {
 declare interface IKMeansResult extends IKMeansMethodParams {
   inertia: number;
   interpolations?: IPoint[][];
+  labelInterpolations?: any;
 }
 
 declare type KMeansMethod<R = number[][]> = (params: IKMeansMethodParams) => R;
@@ -47,6 +49,9 @@ declare interface IKMeansIterator
   initCenters: KMeansMethod;
   calcDistances: KMeansMethod;
   setLabels: KMeansMethod<number[]>;
-  moveCenters: KMeansMethod<IPoint[] | null>;
+  moveCenters: KMeansMethod<{
+    nextCenters: IPoint[];
+    labelInterpolations: any;
+  } | null>;
   calcInertia: KMeansMethod<number>;
 }
