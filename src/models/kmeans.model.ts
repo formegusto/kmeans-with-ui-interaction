@@ -101,11 +101,10 @@ export class KMeansIterator implements IKMeansIterator {
       const data = dataset[i];
       const distance = distances[i];
       labelCount[label].push(i);
+      // console.log("in", labelCount[label], Date.now());
       labelDistances[label].push(distance[distance.getMinIdx()]);
       labelTotal[label] = labelTotal[label].map((v, vi) => v + data[vi]);
     }
-
-    console.log(labelDistances);
 
     const nextCenters = labelCount.map((count, label) =>
       labelTotal[label].map((total) => total / count.length)
@@ -117,8 +116,13 @@ export class KMeansIterator implements IKMeansIterator {
       if (prev[i] !== next[i]) {
         // label sorting
         for (let j = 0; j < this.K; j++) {
-          // labelCount[j] = labelCount[j].sort((a, b) => )
+          labelCount[j].sort((a, b) => {
+            const a_i = labelCount[j].indexOf(a);
+            const b_i = labelCount[j].indexOf(b);
+            return labelDistances[j][a_i] - labelDistances[j][b_i];
+          });
         }
+
         return nextCenters as IPoint[];
       }
     }
