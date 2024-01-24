@@ -55,6 +55,10 @@ export function ScatterArea() {
         setLocalCenters(centers);
       }
     }
+
+    if (!centers) {
+      setLocalCenters(null);
+    }
   }, [centers, interpolations, moveCenters]);
 
   return (
@@ -63,8 +67,7 @@ export function ScatterArea() {
       xmlns="http://www.w3.org/2000/svg"
       width="100vw"
       height="100vh"
-      viewBox={`0 0 ${windowSize[0]} ${windowSize[1]}`}
-    >
+      viewBox={`0 0 ${windowSize[0]} ${windowSize[1]}`}>
       {dataset.map(([x, y], i) => (
         <circle
           key={`point-${i}`}

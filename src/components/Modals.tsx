@@ -29,7 +29,7 @@ export function SetButton(
 
 export function SetModal() {
   const [value, setValue] = React.useState<string>("");
-  const { mode, changeMode } = useUI();
+  const { mode } = useUI();
   const { start } = useKMeans();
 
   const onSubmit = React.useCallback(
@@ -37,7 +37,7 @@ export function SetModal() {
       e.preventDefault();
       start(parseInt(value));
     },
-    [value]
+    [start, value]
   );
 
   const onChange = React.useCallback(
@@ -63,8 +63,7 @@ export function SetModal() {
       <svg
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 129.53 2"
-        className="highlight-line"
-      >
+        className="highlight-line">
         <path
           d="M 0 1 
             L 129.53 1 

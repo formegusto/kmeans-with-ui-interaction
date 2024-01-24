@@ -40,8 +40,11 @@ export function KMeansProvider({ children }: React.PropsWithChildren) {
   }, []);
 
   const setRandomDataset = React.useCallback(() => {
-    setDataset(generateRandomDataset({ shape: [200, 2] }));
-  }, []);
+    if (mode === null) {
+      const genDataset = generateRandomDataset({ shape: [200, 2] });
+      setDataset(genDataset);
+    }
+  }, [mode]);
 
   const clearCanvas = React.useCallback(() => {
     setDataset([]);
@@ -55,19 +58,21 @@ export function KMeansProvider({ children }: React.PropsWithChildren) {
 
   const start = React.useCallback(
     (k: number) => {
-      setK(k);
-      const kmeans = new KMeans(k, dataset);
-      const iter = kmeans[Symbol.iterator]() as IKMeansIterator;
-      setIter(iter);
-      setCenters(iter.centers!);
-      setMode("run");
+      if (mode === "set" && dataset.length > 0) {
+        setK(k);
+        const kmeans = new KMeans(k, dataset);
+        const iter = kmeans[Symbol.iterator]() as IKMeansIterator;
+        setIter(iter);
+        setCenters(iter.centers!);
+        setMode("run");
+      }
     },
-    [dataset]
+    [mode, dataset]
   );
 
   const next = React.useCallback(() => {
     if (iter) {
-      const iterResult = iter?.next();
+      const iterResult = iter.next();
       if (!iterResult.done) {
         const result = iterResult.value;
         setLabels(result.labels!);
