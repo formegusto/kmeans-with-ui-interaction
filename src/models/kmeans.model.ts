@@ -44,7 +44,7 @@ export class KMeansIterator implements IKMeansIterator {
     if (!dataset) throw Errors.EmptyRequiredParameters("dataset");
 
     // 1. 첫 번째 중심점을 무작위로 설정
-    const centers = _.sampleSize(dataset, this.K);
+    const centers = _.sampleSize(dataset, 1);
 
     // 4. 2~3의 과정을 설정된 K 변수 만큼의 중심점이 설정될 때 까지 반복
     while (centers.length < this.K) {
@@ -52,7 +52,9 @@ export class KMeansIterator implements IKMeansIterator {
       const distances = this.calcDistances({ dataset, centers });
 
       // 3. 거리의 총합이 최대인 데이터 포인트를 다음 중심으로 설정
-      const totalDistances = distances.map((distance) => _.sum(distance));
+      const totalDistances = _.chain(distances)
+        .map((d) => _.sum(d))
+        .value();
       const nextCenterIdx = totalDistances.getMaxIdx();
       centers.push(this.dataset[nextCenterIdx]);
     }
@@ -66,7 +68,9 @@ export class KMeansIterator implements IKMeansIterator {
 
     const distances = [];
     for (let data of dataset) {
-      const distance = centers.map((center) => euclideanDistance(center, data));
+      const distance = _.chain(centers)
+        .map((c) => euclideanDistance(c, data))
+        .value();
       distances.push(distance);
     }
 
@@ -95,7 +99,10 @@ export class KMeansIterator implements IKMeansIterator {
     // const labelCount = Array(this.K).fill(0);
     // _.countBy 로 변경하기
     // const labelCount = Array(this.K).fill([]); call-by-references
+    // 단축 평가 가능
+    // const testLabelCount = _.chain(labels).countBy().toArray().value();
     const labelCount = Array.from({ length: this.K }, () => new Array(0));
+    // console.log(testLabelCount);
     const labelDistances = Array.from({ length: this.K }, () => new Array(0));
     const labelTotal = Array.from({ length: this.K }, () =>
       Array(colSize).fill(0)
