@@ -101,6 +101,17 @@ export class KMeansIterator implements IKMeansIterator {
     // const labelCount = Array(this.K).fill([]); call-by-references
     // 단축 평가 가능
     // const testLabelCount = _.chain(labels).countBy().toArray().value();
+
+    /*
+    const zips = _.zip(dataset, labels);
+    const centerMembers = _.chain(zips).groupBy("1").toArray().value();
+    const nc = _.map(centerMembers, (test) =>
+      _.map(_.zip(...(_.unzip(test)[0] as any)), _.mean)
+    );
+    console.log(_.isEqual(centers, nc));
+    // 단축 표현
+    */
+
     const labelCount = Array.from({ length: this.K }, () => new Array(0));
     // console.log(testLabelCount);
     const labelDistances = Array.from({ length: this.K }, () => new Array(0));
@@ -124,6 +135,8 @@ export class KMeansIterator implements IKMeansIterator {
 
     const prev = centers.flat();
     const next = nextCenters.flat();
+
+    // console.log(_.eq(centers, nextCenters));
     for (let i = 0; i < prev.length; i++) {
       if (prev[i] !== next[i]) {
         const labelInterpolations = [];
