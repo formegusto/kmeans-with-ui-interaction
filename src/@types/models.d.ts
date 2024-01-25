@@ -1,24 +1,6 @@
 declare type IPoint = [number, number];
 declare type UIMode = null | "gen" | "set" | "run";
 
-declare interface IKMeansContext {
-  dataset: IPoint[];
-  mode: UIMode;
-  K: null | number;
-
-  changeMode: (m: UIMode) => void;
-  appendData: (p: IPoint) => void;
-  clearCanvas: () => void;
-  setRandomDataset: () => void;
-  start: (k: number) => void;
-  next: () => void;
-
-  centers: IPoint[] | null;
-  interpolations: IPoint[][] | null;
-  labelInterpolations: any | null;
-  labels: number[] | null;
-}
-
 declare interface IKMeansMethodParams {
   dataset?: IPoint[];
   centers?: IPoint[];
@@ -27,7 +9,7 @@ declare interface IKMeansMethodParams {
 }
 
 declare interface IKMeansResult extends IKMeansMethodParams {
-  inertia: number;
+  inertia?: number;
   interpolations?: IPoint[][];
   labelInterpolations?: any;
 }

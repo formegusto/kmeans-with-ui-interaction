@@ -29,15 +29,16 @@ export function SetButton(
 
 export function SetModal() {
   const [value, setValue] = React.useState<string>("");
-  const { mode } = useUI();
+  const { mode, changeMode } = useUI();
   const { start } = useKMeans();
 
   const onSubmit = React.useCallback(
     (e: React.FormEvent) => {
       e.preventDefault();
       start(parseInt(value));
+      changeMode("run");
     },
-    [start, value]
+    [start, value, changeMode]
   );
 
   const onChange = React.useCallback(

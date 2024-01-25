@@ -3,7 +3,7 @@ import { IOSDefault, IOSGrayLight } from "@styles/palette";
 import React from "react";
 
 export function ScatterArea() {
-  const { dataset, interpolations, labelInterpolations, centers } = useKMeans();
+  const { dataset, interpolations, labelInterpolations, result } = useKMeans();
   const [windowSize, setWindowSize] = React.useState<IPoint>([0, 0]);
   const [localCenters, setLocalCenters] = React.useState<IPoint[] | null>(null);
 
@@ -74,15 +74,15 @@ export function ScatterArea() {
         );
       }
     } else {
-      if (centers) {
-        setLocalCenters(centers);
+      if (result) {
+        setLocalCenters(result.centers!);
       }
     }
 
-    if (!centers) {
+    if (!result) {
       setLocalCenters(null);
     }
-  }, [centers, interpolations, labelInterpolations, moveCenters]);
+  }, [result, interpolations, labelInterpolations, moveCenters]);
 
   return (
     <svg

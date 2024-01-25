@@ -1,8 +1,8 @@
-import { KMeansContext } from "@context";
+import { KMeansContext, UIContext } from "@context";
 import React from "react";
 
 export function useUI() {
-  const { mode, changeMode } = React.useContext<IKMeansContext>(KMeansContext);
+  const { mode, changeMode } = React.useContext<IUIContext>(UIContext);
 
   return { mode, changeMode };
 }
@@ -14,11 +14,11 @@ export function useKMeans() {
     appendData,
     setRandomDataset,
     start,
-    centers,
+    result,
     interpolations,
     labelInterpolations,
     next,
-    labels,
+
     clearCanvas,
   } = React.useContext<IKMeansContext>(KMeansContext);
   return {
@@ -28,10 +28,9 @@ export function useKMeans() {
     setRandomDataset,
     clearCanvas,
     start,
-    centers,
+    result,
     interpolations,
     labelInterpolations,
     next,
-    labels,
   };
 }

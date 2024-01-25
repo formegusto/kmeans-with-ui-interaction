@@ -5,17 +5,17 @@ import {
   SetModal,
   UtilsArea,
 } from "@components";
-import { KMeansProvider } from "@context";
+import { AppContext } from "@context";
 
 function App() {
   return (
-    <KMeansProvider>
+    <AppContext>
       <ScatterArea />
       <UtilsArea />
       <GenMouseListener />
       <SetModal />
       <RunToolbar />
-    </KMeansProvider>
+    </AppContext>
   );
 }
 
