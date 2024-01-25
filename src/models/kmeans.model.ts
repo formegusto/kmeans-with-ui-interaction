@@ -4,6 +4,7 @@ import {
   generateRandomDataset,
   linearInterpolation,
 } from "@utils";
+import _ from "lodash";
 
 const INTERPOLATION_RATE = 10;
 
@@ -43,7 +44,7 @@ export class KMeansIterator implements IKMeansIterator {
     if (!dataset) throw Errors.EmptyRequiredParameters("dataset");
 
     // 1. 첫 번째 중심점을 무작위로 설정
-    const centers = [this.dataset[Math.floor(Math.random() * dataset.length)]];
+    const centers = _.sampleSize(dataset, this.K);
 
     // 4. 2~3의 과정을 설정된 K 변수 만큼의 중심점이 설정될 때 까지 반복
     while (centers.length < this.K) {
@@ -51,9 +52,7 @@ export class KMeansIterator implements IKMeansIterator {
       const distances = this.calcDistances({ dataset, centers });
 
       // 3. 거리의 총합이 최대인 데이터 포인트를 다음 중심으로 설정
-      const totalDistances = distances.map((distance) =>
-        distance.reduce((acc, cur) => acc + cur, 0)
-      );
+      const totalDistances = distances.map((distance) => _.sum(distance));
       const nextCenterIdx = totalDistances.getMaxIdx();
       centers.push(this.dataset[nextCenterIdx]);
     }
@@ -94,6 +93,7 @@ export class KMeansIterator implements IKMeansIterator {
 
     const colSize = dataset[0].length;
     // const labelCount = Array(this.K).fill(0);
+    // _.countBy 로 변경하기
     // const labelCount = Array(this.K).fill([]); call-by-references
     const labelCount = Array.from({ length: this.K }, () => new Array(0));
     const labelDistances = Array.from({ length: this.K }, () => new Array(0));
