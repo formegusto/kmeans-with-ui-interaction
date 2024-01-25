@@ -1,9 +1,9 @@
-import { useKMeans, useUI } from "@hooks";
+import { useUI } from "@hooks";
 import React from "react";
 
 export function GenMouse() {
   const refGenPoint = React.useRef<HTMLDivElement>(null);
-  const { appendData } = useKMeans();
+  const { appendPoint } = useUI();
 
   React.useEffect(() => {
     if (refGenPoint.current) {
@@ -11,7 +11,7 @@ export function GenMouse() {
         const { clientX: x, clientY: y } = e;
         refGenPoint.current!.style.setProperty(
           "transform",
-          "translateX(" + (x - 9) + "px)" + " translateY(" + (y - 9) + "px)"
+          `translateX(${x - 9}px) translateY(${y - 9}px)`
         );
         refGenPoint.current!.style.setProperty("opacity", "1");
       };
@@ -34,11 +34,11 @@ export function GenMouse() {
       const pointY = (y / windowY) * 100;
       console.log(x, y, windowX, windowY, pointX, pointY);
 
-      appendData([pointX, pointY]);
+      appendPoint([pointX, pointY]);
       // setDatas((prev) => [...prev, [pointX, pointY]]);
       // setLabels((prev) => [...prev, Math.floor(Math.random() * 11)]);
     },
-    [appendData]
+    [appendPoint]
   );
 
   return <div ref={refGenPoint} className="gen-point" onClick={onClick} />;

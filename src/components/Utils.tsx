@@ -2,8 +2,8 @@ import { useKMeans, useUI } from "@hooks";
 import React from "react";
 
 export function UtilsItems() {
-  const { mode, changeMode } = useUI();
-  const { setRandomDataset, clearCanvas } = useKMeans();
+  const { mode, changeMode, randomPoints, clear: clearUI } = useUI();
+  const { clear: clearKMeans } = useKMeans();
 
   return (
     <div className="kmeans-utils-items">
@@ -20,7 +20,7 @@ export function UtilsItems() {
           <path d="M 3 24 L 45 24" />
         </svg>
       </button>
-      <button className="kmeans-utils-item" onClick={() => setRandomDataset()}>
+      <button className="kmeans-utils-item" onClick={() => randomPoints()}>
         Ran
       </button>
       <button
@@ -30,7 +30,12 @@ export function UtilsItems() {
         }>
         Run
       </button>
-      <button className="kmeans-utils-item" onClick={() => clearCanvas()}>
+      <button
+        className="kmeans-utils-item"
+        onClick={() => {
+          clearUI();
+          clearKMeans();
+        }}>
         Cls
       </button>
     </div>

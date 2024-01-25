@@ -1,24 +1,27 @@
+declare interface ICommonContextActions {
+  clear: () => void;
+}
+
 declare interface IUIContextValues {
   mode: UIMode;
+  points: IPoint[] | null;
 }
-declare interface IUIContextActions {
+declare interface IUIContextActions extends ICommonContextActions {
   changeMode: (m: UIMode) => void;
+  appendPoint: (p: IPoint) => void;
+  randomPoints: (l?: number) => void;
 }
 declare interface IUIContext extends IUIContextValues, IUIContextActions {}
 
 declare interface IKMeansContextValues {
-  dataset: IPoint[];
   K: number | null;
-
   result: IKMeansResult | null;
+
   interpolations: IPoint[][] | null;
   labelInterpolations: any | null;
 }
-declare interface IKMeansContextActions {
-  appendData: (p: IPoint) => void;
-  clearCanvas: () => void;
-  setRandomDataset: () => void;
-  start: (k: number) => void;
+declare interface IKMeansContextActions extends ICommonContextActions {
+  start: (k: number, ds: IPoint[]) => void;
   next: () => void;
 }
 declare interface IKMeansContext

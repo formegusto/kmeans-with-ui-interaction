@@ -28,17 +28,21 @@ export function SetButton(
 }
 
 export function SetModal() {
+  const { points } = useUI();
   const [value, setValue] = React.useState<string>("");
   const { mode, changeMode } = useUI();
   const { start } = useKMeans();
 
   const onSubmit = React.useCallback(
     (e: React.FormEvent) => {
-      e.preventDefault();
-      start(parseInt(value));
-      changeMode("run");
+      if (points) {
+        e.preventDefault();
+        start(parseInt(value), points);
+        setValue("");
+        changeMode("run");
+      }
     },
-    [start, value, changeMode]
+    [start, value, changeMode, points]
   );
 
   const onChange = React.useCallback(

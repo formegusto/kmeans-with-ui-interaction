@@ -1,9 +1,10 @@
-import { useKMeans } from "@hooks";
+import { useKMeans, useUI } from "@hooks";
 import { IOSDefault, IOSGrayLight } from "@styles/palette";
 import React from "react";
 
 export function ScatterArea() {
-  const { dataset, interpolations, labelInterpolations, result } = useKMeans();
+  const { points } = useUI();
+  const { interpolations, labelInterpolations, result } = useKMeans();
   const [windowSize, setWindowSize] = React.useState<IPoint>([0, 0]);
   const [localCenters, setLocalCenters] = React.useState<IPoint[] | null>(null);
 
@@ -91,17 +92,18 @@ export function ScatterArea() {
       width="100vw"
       height="100vh"
       viewBox={`0 0 ${windowSize[0]} ${windowSize[1]}`}>
-      {dataset.map(([x, y], i) => (
-        <circle
-          key={`point-${i}`}
-          className={`point-${i}`}
-          cx={`${x}%`}
-          cy={`${y}%`}
-          r={10}
-          // fill={labels ? IOSDefault[labels[i] + 1] : IOSGrayLight[0]}
-          fill={IOSGrayLight[0]}
-        />
-      ))}
+      {points &&
+        points.map(([x, y], i) => (
+          <circle
+            key={`point-${i}`}
+            className={`point-${i}`}
+            cx={`${x}%`}
+            cy={`${y}%`}
+            r={10}
+            // fill={labels ? IOSDefault[labels[i] + 1] : IOSGrayLight[0]}
+            fill={IOSGrayLight[0]}
+          />
+        ))}
       {localCenters &&
         localCenters.map(([x, y], i) => (
           <React.Fragment key={`center-${i}`}>
