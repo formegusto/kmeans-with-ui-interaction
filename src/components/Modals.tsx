@@ -85,21 +85,18 @@ export function SetKModal() {
 }
 
 export function SetLengthModal() {
-  const { points } = useUI();
   const [value, setValue] = React.useState<string>("");
-  const { mode, changeMode } = useUI();
-  const { start } = useKMeans();
+  const { mode, changeMode, randomPoints, clear } = useUI();
 
   const onSubmit = React.useCallback(
     (e: React.FormEvent) => {
-      if (points) {
-        e.preventDefault();
-        start(parseInt(value), points);
-        setValue("");
-        changeMode("run");
-      }
+      e.preventDefault();
+      clear();
+      setValue("");
+      randomPoints(parseInt(value));
+      changeMode(null);
     },
-    [start, value, changeMode, points]
+    [value, randomPoints, changeMode, clear]
   );
 
   const onChange = React.useCallback(
@@ -115,7 +112,7 @@ export function SetLengthModal() {
         <span>Your point length is</span>
         <input
           type="text"
-          maxLength={2}
+          maxLength={3}
           value={value}
           onChange={onChange}
           required
@@ -127,12 +124,12 @@ export function SetLengthModal() {
         viewBox="0 0 129.53 2"
         className="highlight-line">
         <path
-          d="M 0 1 
-            L 129.53 1 
-            L 129.53 -30
-            L 98.53 -30
-            L 98.53 1
-            L 129.53 1"
+          d="M -100 1 
+            L 200 1 
+            L 200 -30
+            L 160 -30
+            L 160 1
+            L 180 1"
         />
       </svg>
     </form>
