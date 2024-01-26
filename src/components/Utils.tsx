@@ -54,12 +54,15 @@ export function UtilsItems() {
         </svg>
       </button>
       <button
-        className="kmeans-utils-item"
+        className="kmeans-utils-btn utils-clear"
         onClick={() => {
           clearUI();
           clearKMeans();
         }}>
-        Cls
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
+          <path d="M 3 9 L 43 9 L 23 9 L 23 1" className="garbage-hat" />
+          <path d="M 6 18 C -10 55 56 55 40 18" />
+        </svg>
       </button>
     </div>
   );

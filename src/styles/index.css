@@ -232,6 +232,20 @@ body {
   opacity: 0;
 }
 
+.kmeans-utils-btn.utils-clear > svg {
+  overflow: visible;
+}
+
+.kmeans-utils-btn.utils-clear > svg > path.garbage-hat {
+  transform-origin: 50% 50%;
+  transition: 0.35s;
+}
+
+.kmeans-utils-btn.utils-clear:hover > svg > path.garbage-hat {
+  /* transform: translateX(10px) translateY(-30px) rotateZ(45deg); */
+  transform: translateY(-10px) rotateZ(20deg);
+}
+
 @keyframes modal-fadein {
   from {
     opacity: 0;
