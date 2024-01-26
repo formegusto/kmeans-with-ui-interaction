@@ -1,4 +1,4 @@
-import { generateRandomDataset, linearInterpolation } from "@utils";
+import { generateRandomDataset, itemSplit, linearInterpolation } from "@utils";
 import React from "react";
 
 const initialValues: IUIContextValues = {
@@ -36,7 +36,7 @@ export function UIProvider({ children }: React.PropsWithChildren) {
   const calcInterpolation = React.useCallback(
     (result: IKMeansResult, frameCount: number) => {
       if (!result) return;
-      // center interpolation
+      // 1. center interpolation
       if (!result.centers || !result.nextCenters) return;
       const { centers, nextCenters } = result;
       const centersInterpolation: IPoint[][] = [];
@@ -48,10 +48,52 @@ export function UIProvider({ children }: React.PropsWithChildren) {
         }
         centersInterpolation.push(_inters);
       }
-      // console.log(centersInterpolation);
-      setInterpolation({ centers: centersInterpolation, labels: [] });
-      // label interpolation
+
+      // 2. label interpolation
       if (!result.distances || !result.labels) return;
+      const { distances, labels } = result;
+
+      // 2.1. min distances group
+      const minDistances: number[] = [];
+      for (let i = 0; i < distances.length; i++) {
+        const _distances = distances[i];
+        minDistances.push(_distances[_distances.getMinIdx()]);
+      }
+
+      // 2.2. label, distances group 생성
+      const idxes: number[] = Array.from(
+        { length: labels.length },
+        (_, i) => i
+      );
+      const labelGroup: number[][] = Array.from(
+        { length: centers.length },
+        () => []
+      );
+      const minDistancesGroup: number[][] = Array.from(
+        { length: centers.length },
+        () => []
+      );
+      for (let i = 0; i < labels.length; i++) {
+        labelGroup[labels[i]].push(idxes[i]);
+        minDistancesGroup[labels[i]].push(minDistances[i]);
+      }
+
+      for (let g = 0; g < labelGroup.length; g++) {
+        const _labelGroup = labelGroup[g];
+        const _minDistancesGroup = minDistancesGroup[g];
+        _labelGroup.sort((a, b) => {
+          const a_i = _labelGroup.indexOf(a);
+          const b_i = _labelGroup.indexOf(b);
+
+          return _minDistancesGroup[a_i] - _minDistancesGroup[b_i];
+        });
+      }
+
+      // console.log(centersInterpolation);
+      setInterpolation({
+        centers: centersInterpolation,
+        labels: labelGroup.map((g) => itemSplit(g, frameCount)),
+      });
     },
     []
   );

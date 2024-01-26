@@ -67,13 +67,29 @@ export function ScatterArea() {
     []
   );
 
+  const paintPoints = React.useCallback(
+    (interpolation: number[][], label: number, count: number) => {
+      if (count === interpolation.length) return;
+      const targetPoints = interpolation[count];
+      for (let targetPoint of targetPoints) {
+        const el = document.querySelector(`.point-${targetPoint}`);
+        if (el) el.setAttribute("fill", IOSDefault[label]);
+      }
+      requestAnimationFrame(() => paintPoints(interpolation, label, count + 1));
+    },
+    []
+  );
+
   React.useEffect(() => {
     if (interpolation) {
-      const { centers } = interpolation;
-      for (let label = 0; label < centers.length; label++)
+      const { centers, labels } = interpolation;
+      console.log(labels);
+      for (let label = 0; label < centers.length; label++) {
         moveCenters(centers[label], label, 0);
+        paintPoints(labels[label], label, 0);
+      }
     }
-  }, [interpolation, moveCenters]);
+  }, [interpolation, moveCenters, paintPoints]);
 
   // const moveCenters = React.useCallback(
   //   (

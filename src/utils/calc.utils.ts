@@ -8,6 +8,14 @@ export function linearInterpolation(p1: IPoint, p2: IPoint, t: number): IPoint {
   return [xDot, yDot];
 }
 
-export function itemInterpoltation(item: number[]): number[][] {
-  return [];
+export function itemSplit(item: any[], count: number): number[][] {
+  const splits = [];
+
+  const rate = Math.round(item.length / count);
+  for (let i = 0; i < item.length; i += rate) {
+    if (i + rate < item.length) splits.push(item.slice(i, i + rate));
+    else splits.push(item.slice(i));
+  }
+
+  return splits;
 }
