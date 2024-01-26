@@ -1,5 +1,3 @@
-import _ from "lodash";
-
 export function generateRandomDataset({
   shape,
   max,
@@ -15,7 +13,7 @@ export function generateRandomDataset({
         {
           length: c,
         },
-        () => _.random(max!)
+        () => Math.round(Math.random() * max!)
       )
   ) as IPoint[];
   return dataset;
