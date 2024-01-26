@@ -1,12 +1,10 @@
 import { useKMeans, useUI } from "@hooks";
-import { linearInterpolation } from "@utils";
 import React from "react";
 
 export function UtilsItems() {
   const { mode, changeMode, clear: clearUI } = useUI();
   const { clear: clearKMeans } = useKMeans();
 
-  console.log(linearInterpolation([8, 10], [38, 38], 0.5));
   return (
     <div className="kmeans-utils-items">
       <button

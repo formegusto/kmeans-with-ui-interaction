@@ -11,7 +11,8 @@ export function linearInterpolation(p1: IPoint, p2: IPoint, t: number): IPoint {
 export function itemSplit(item: any[], count: number): number[][] {
   const splits = [];
 
-  const rate = Math.round(item.length / count);
+  let rate = Math.round(item.length / count);
+  if (rate === 0) rate = 1;
   for (let i = 0; i < item.length; i += rate) {
     if (i + rate < item.length) splits.push(item.slice(i, i + rate));
     else splits.push(item.slice(i));

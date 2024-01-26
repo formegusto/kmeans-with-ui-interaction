@@ -181,7 +181,7 @@ body {
   transform: rotateZ(45deg);
 }
 
-.kmeans-utils-btn.gen > .utils-gen > path:nth-last-of-type(2) {
+.kmeans-utils-btn.gen > .utils-gen > path:nth-of-type(2) {
   transform-origin: 50% 50%;
   transform: rotateZ(45deg);
 }
