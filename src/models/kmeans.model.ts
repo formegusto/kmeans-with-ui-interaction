@@ -51,9 +51,7 @@ export class KMeansIterator implements IKMeansIterator {
       const distances = this.calcDistances({ dataset, centers });
 
       // 3. 거리의 총합이 최대인 데이터 포인트를 다음 중심으로 설정
-      const totalDistances = distances.map((distance) =>
-        distance.reduce((acc, cur) => acc + cur, 0)
-      );
+      const totalDistances = distances.map((distance) => distance.sum());
       const nextCenterIdx = totalDistances.getMaxIdx();
       centers.push(this.dataset[nextCenterIdx]);
     }
@@ -93,24 +91,7 @@ export class KMeansIterator implements IKMeansIterator {
       throw Errors.EmptyRequiredParameters("dataset", "centers", "labels");
 
     const colSize = dataset[0].length;
-    // const labelCount = Array(this.K).fill(0);
-    // _.countBy 로 변경하기
-    // const labelCount = Array(this.K).fill([]); call-by-references
-    // 단축 평가 가능
-    // const testLabelCount = _.chain(labels).countBy().toArray().value();
-
-    /*
-    const zips = _.zip(dataset, labels);
-    const centerMembers = _.chain(zips).groupBy("1").toArray().value();
-    const nc = _.map(centerMembers, (test) =>
-      _.map(_.zip(...(_.unzip(test)[0] as any)), _.mean)
-    );
-    console.log(_.isEqual(centers, nc));
-    // 단축 표현
-    */
-
     const labelCount = Array.from({ length: this.K }, () => new Array(0));
-    // console.log(testLabelCount);
     const labelDistances = Array.from({ length: this.K }, () => new Array(0));
     const labelTotal = Array.from({ length: this.K }, () =>
       Array(colSize).fill(0)
@@ -121,7 +102,6 @@ export class KMeansIterator implements IKMeansIterator {
       const data = dataset[i];
       const distance = distances[i];
       labelCount[label].push(i);
-      // console.log("in", labelCount[label], Date.now());
       labelDistances[label].push(distance[distance.getMinIdx()]);
       labelTotal[label] = labelTotal[label].map((v, vi) => v + data[vi]);
     }
@@ -132,8 +112,6 @@ export class KMeansIterator implements IKMeansIterator {
 
     const prev = centers.flat();
     const next = nextCenters.flat();
-
-    // console.log(_.eq(centers, nextCenters));
     for (let i = 0; i < prev.length; i++) {
       if (prev[i] !== next[i]) {
         const labelInterpolations = [];
