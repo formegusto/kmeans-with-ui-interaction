@@ -1,5 +1,9 @@
 declare type IPoint = [number, number];
 declare type UIMode = null | "gen" | "set" | "run";
+declare type UIInterpolation = {
+  centers: IPoint[][];
+  labels: number[][][];
+};
 
 declare interface IKMeansMethodParams {
   dataset?: IPoint[];
@@ -10,8 +14,7 @@ declare interface IKMeansMethodParams {
 
 declare interface IKMeansResult extends IKMeansMethodParams {
   inertia?: number;
-  interpolations?: IPoint[][];
-  labelInterpolations?: any;
+  nextCenters?: IPoint[];
 }
 
 declare type KMeansMethod<R = number[][]> = (params: IKMeansMethodParams) => R;
@@ -31,9 +34,6 @@ declare interface IKMeansIterator
   initCenters: KMeansMethod;
   calcDistances: KMeansMethod;
   setLabels: KMeansMethod<number[]>;
-  moveCenters: KMeansMethod<{
-    nextCenters: IPoint[];
-    labelInterpolations: any;
-  } | null>;
+  moveCenters: KMeansMethod<IPoint[] | null>;
   calcInertia: KMeansMethod<number>;
 }

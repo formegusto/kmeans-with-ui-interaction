@@ -3,10 +3,10 @@ import { IOSDefault, IOSGrayLight } from "@styles/palette";
 import React from "react";
 
 export function ScatterArea() {
-  const { points } = useUI();
-  const { interpolations, labelInterpolations, result } = useKMeans();
+  const { points, interpolation, calcInterpolation } = useUI();
+  const { result } = useKMeans();
   const [windowSize, setWindowSize] = React.useState<IPoint>([0, 0]);
-  const [localCenters, setLocalCenters] = React.useState<IPoint[] | null>(null);
+  const [initCenters, setInitCenters] = React.useState<IPoint[] | null>(null);
 
   React.useEffect(() => {
     const setAspectRatio = () => {
@@ -19,6 +19,15 @@ export function ScatterArea() {
       window.removeEventListener("resize", setAspectRatio);
     };
   }, []);
+
+  React.useEffect(() => {
+    if (result) {
+      if (!interpolation) setInitCenters(result.centers!);
+      calcInterpolation(result);
+    } else {
+      setInitCenters(null);
+    }
+  }, [result, interpolation, calcInterpolation]);
 
   const moveCenters = React.useCallback(
     (
@@ -63,28 +72,6 @@ export function ScatterArea() {
     []
   );
 
-  React.useEffect(() => {
-    if (interpolations && labelInterpolations) {
-      for (let label = 0; label < interpolations.length; label++) {
-        moveCenters(
-          interpolations[label],
-          labelInterpolations[label],
-          label,
-          0,
-          Date.now()
-        );
-      }
-    } else {
-      if (result) {
-        setLocalCenters(result.centers!);
-      }
-    }
-
-    if (!result) {
-      setLocalCenters(null);
-    }
-  }, [result, interpolations, labelInterpolations, moveCenters]);
-
   return (
     <svg
       id="scatter-area"
@@ -100,12 +87,11 @@ export function ScatterArea() {
             cx={`${x}%`}
             cy={`${y}%`}
             r={10}
-            // fill={labels ? IOSDefault[labels[i] + 1] : IOSGrayLight[0]}
             fill={IOSGrayLight[0]}
           />
         ))}
-      {localCenters &&
-        localCenters.map(([x, y], i) => (
+      {initCenters &&
+        initCenters.map(([x, y], i) => (
           <React.Fragment key={`center-${i}`}>
             <circle
               className={`center-${i}`}

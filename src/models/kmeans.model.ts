@@ -1,11 +1,5 @@
 import Errors from "@errors";
-import {
-  euclideanDistance,
-  generateRandomDataset,
-  linearInterpolation,
-} from "@utils";
-
-const INTERPOLATION_RATE = 10;
+import { euclideanDistance, generateRandomDataset } from "@utils";
 
 export class KMeans implements IKMeans {
   constructor(public K: number, public dataset?: IPoint[]) {}
@@ -81,18 +75,12 @@ export class KMeansIterator implements IKMeansIterator {
     dataset,
     centers,
     labels,
-    // ui interpolation
-    distances,
-  }: IKMeansMethodParams): {
-    nextCenters: IPoint[];
-    labelInterpolations: any;
-  } | null {
-    if (!dataset || !centers || !labels || !distances)
+  }: IKMeansMethodParams): IPoint[] | null {
+    if (!dataset || !centers || !labels)
       throw Errors.EmptyRequiredParameters("dataset", "centers", "labels");
 
     const colSize = dataset[0].length;
-    const labelCount = Array.from({ length: this.K }, () => new Array(0));
-    const labelDistances = Array.from({ length: this.K }, () => new Array(0));
+    const labelCount = new Array(this.K).fill(0);
     const labelTotal = Array.from({ length: this.K }, () =>
       Array(colSize).fill(0)
     );
@@ -100,52 +88,18 @@ export class KMeansIterator implements IKMeansIterator {
     for (let i = 0; i < dataset.length; i++) {
       const label = labels[i];
       const data = dataset[i];
-      const distance = distances[i];
       labelCount[label].push(i);
-      labelDistances[label].push(distance[distance.getMinIdx()]);
       labelTotal[label] = labelTotal[label].map((v, vi) => v + data[vi]);
     }
 
     const nextCenters = labelCount.map((count, label) =>
       labelTotal[label].map((total) => total / count.length)
-    );
+    ) as IPoint[];
 
     const prev = centers.flat();
     const next = nextCenters.flat();
     for (let i = 0; i < prev.length; i++) {
-      if (prev[i] !== next[i]) {
-        const labelInterpolations = [];
-        // label sorting
-        for (let j = 0; j < this.K; j++) {
-          const labelInterpolation = [];
-          labelCount[j].sort((a, b) => {
-            const a_i = labelCount[j].indexOf(a);
-            const b_i = labelCount[j].indexOf(b);
-            return labelDistances[j][a_i] - labelDistances[j][b_i];
-          });
-
-          const count = labelCount[j].length;
-          const stepCount = Math.floor(count / INTERPOLATION_RATE);
-          let startIdx = 0;
-          for (let c = 0; c < INTERPOLATION_RATE; c++) {
-            let _labelInterpolation;
-            if (c + 1 === INTERPOLATION_RATE) {
-              _labelInterpolation = labelCount[j].slice(startIdx);
-            } else {
-              _labelInterpolation = labelCount[j].slice(
-                startIdx,
-                startIdx + stepCount
-              );
-            }
-            labelInterpolation.push(_labelInterpolation);
-            startIdx += stepCount;
-          }
-
-          labelInterpolations.push(labelInterpolation);
-        }
-
-        return { nextCenters: nextCenters as IPoint[], labelInterpolations };
-      }
+      if (prev[i] !== next[i]) return nextCenters;
     }
     return null;
   }
@@ -175,41 +129,26 @@ export class KMeansIterator implements IKMeansIterator {
     // *. 평가
     const inertia = this.calcInertia({ ...this, labels });
     // 4. 군집 별 평균값을 계산하여 중심점에 반영
-    const moveCentersResult = this.moveCenters({ ...this, labels, distances });
+    const nextCenters = this.moveCenters({ ...this, labels, distances });
 
     const result: IteratorResult<IKMeansResult> = {
       value: {
         centers: this.centers,
         labels,
+        distances,
         inertia,
       },
       done: false,
     };
     // 5. 2~4의 과정을 중심점에 변화가 없을 때까지 반복
-    if (!moveCentersResult) {
+    if (!nextCenters) {
       this.centers = undefined;
       result.value.dataset = this.dataset;
       return result;
     }
-    // ui-sub. interpolation
-    const interpolations: IPoint[][] = [];
-    for (let i = 0; i < this.K; i++) {
-      const _interpolations: IPoint[] = [];
-      for (let t = 0.1; t <= 1; t += 0.1) {
-        const interpolation = linearInterpolation(
-          this.centers[i],
-          moveCentersResult.nextCenters![i],
-          t
-        );
-        _interpolations.push(interpolation);
-      }
-      interpolations.push(_interpolations);
-    }
-    // console.log(interpolations);
-    this.centers = moveCentersResult.nextCenters as IPoint[];
 
-    result.value.interpolations = interpolations;
-    result.value.labelInterpolations = moveCentersResult.labelInterpolations;
+    this.centers = nextCenters as IPoint[];
+    result.value.nextCenters = nextCenters;
 
     return result;
   }

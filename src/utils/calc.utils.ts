@@ -8,4 +8,6 @@ export function linearInterpolation(p1: IPoint, p2: IPoint, t: number): IPoint {
   return [xDot, yDot];
 }
 
-export function itemInterpoltation() {}
+export function itemInterpoltation(item: number[]): number[][] {
+  return [];
+}
