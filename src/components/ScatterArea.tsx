@@ -2,6 +2,25 @@ import { useKMeans, useUI } from "@hooks";
 import { IOSDefault, IOSGrayLight } from "@styles/palette";
 import React from "react";
 
+// const moveCenters = React.useCallback((nextCenters: IPoint[]) => {
+//   for (let i = 0; i < nextCenters.length; i++) {
+//     const el = document.querySelector(`.center-${i}`);
+//     if (el) {
+//       el.setAttribute("cx", nextCenters[i][0] + "%");
+//       el.setAttribute("cy", nextCenters[i][1] + "%");
+//     }
+//   }
+// }, []);
+
+// React.useEffect(() => {
+//   if (result) {
+//     if (!initCenters) setInitCenters(result.centers!);
+//     moveCenters(result.centers!);
+//   } else {
+//     setInitCenters(null);
+//   }
+// }, [result, initCenters, moveCenters]);
+
 export function ScatterArea() {
   const { points, interpolation, calcInterpolation } = useUI();
   const { result } = useKMeans();
@@ -23,54 +42,81 @@ export function ScatterArea() {
   React.useEffect(() => {
     if (result) {
       if (!interpolation) setInitCenters(result.centers!);
-      calcInterpolation(result);
     } else {
       setInitCenters(null);
     }
   }, [result, interpolation, calcInterpolation]);
 
   const moveCenters = React.useCallback(
-    (
-      interpolation: IPoint[],
-      labelInterpolation: any,
-      label: number,
-      i: number,
-      moveTime: number
-    ) => {
-      if (i === interpolation.length) return;
-      if (Date.now() >= moveTime) {
-        const [nx, ny] = interpolation[i];
-        const el = document.querySelector(`.center-${label}`);
-        const roundEl = document.querySelector(`.center-round-${label}`);
-        if (el && roundEl) {
-          el.setAttribute("cx", nx + "%");
-          el.setAttribute("cy", ny + "%");
-          roundEl.setAttribute("cx", nx + "%");
-          roundEl.setAttribute("cy", ny + "%");
+    (interpolation: IPoint[], label: number, count: number) => {
+      if (count === interpolation.length) return;
+      const [nx, ny] = interpolation[count];
+      const el = document.querySelector(`.center-${label}`);
+      const roundEl = document.querySelector(`.center-round-${label}`);
+      if (el && roundEl) {
+        el.setAttribute("cx", nx + "%");
+        el.setAttribute("cy", ny + "%");
+        roundEl.setAttribute("cx", nx + "%");
+        roundEl.setAttribute("cy", ny + "%");
 
-          for (let pointIdx of labelInterpolation[i]) {
-            const elPoint = document.querySelector(`.point-${pointIdx}`);
-            if (elPoint) elPoint.setAttribute("fill", IOSDefault[label]);
-          }
-
-          requestAnimationFrame(() =>
-            moveCenters(
-              interpolation,
-              labelInterpolation,
-              label,
-              i + 1,
-              Date.now() + 20
-            )
-          );
-        }
-      } else {
         requestAnimationFrame(() =>
-          moveCenters(interpolation, labelInterpolation, label, i, moveTime)
+          moveCenters(interpolation, label, count + 1)
         );
       }
     },
     []
   );
+
+  React.useEffect(() => {
+    if (interpolation) {
+      const { centers } = interpolation;
+      for (let label = 0; label < centers.length; label++)
+        moveCenters(centers[label], label, 0);
+    }
+  }, [interpolation, moveCenters]);
+
+  // const moveCenters = React.useCallback(
+  //   (
+  //     interpolation: IPoint[],
+  //     labelInterpolation: any,
+  //     label: number,
+  //     i: number,
+  //     moveTime: number
+  //   ) => {
+  //     if (i === interpolation.length) return;
+  //     if (Date.now() >= moveTime) {
+  //       const [nx, ny] = interpolation[i];
+  //       const el = document.querySelector(`.center-${label}`);
+  //       const roundEl = document.querySelector(`.center-round-${label}`);
+  //       if (el && roundEl) {
+  //         el.setAttribute("cx", nx + "%");
+  //         el.setAttribute("cy", ny + "%");
+  //         roundEl.setAttribute("cx", nx + "%");
+  //         roundEl.setAttribute("cy", ny + "%");
+
+  //         for (let pointIdx of labelInterpolation[i]) {
+  //           const elPoint = document.querySelector(`.point-${pointIdx}`);
+  //           if (elPoint) elPoint.setAttribute("fill", IOSDefault[label]);
+  //         }
+
+  //         requestAnimationFrame(() =>
+  //           moveCenters(
+  //             interpolation,
+  //             labelInterpolation,
+  //             label,
+  //             i + 1,
+  //             Date.now() + 20
+  //           )
+  //         );
+  //       }
+  //     } else {
+  //       requestAnimationFrame(() =>
+  //         moveCenters(interpolation, labelInterpolation, label, i, moveTime)
+  //       );
+  //     }
+  //   },
+  //   []
+  // );
 
   return (
     <svg
@@ -98,15 +144,16 @@ export function ScatterArea() {
               cx={`${x}%`}
               cy={`${y}%`}
               r={10}
-              fill={IOSDefault[0]}
+              fill={IOSDefault[i]}
             />
             <circle
               className={`center-round-${i}`}
               cx={`${x}%`}
               cy={`${y}%`}
               r={100}
+              strokeWidth={4}
               fill="none"
-              stroke={IOSDefault[0]}
+              stroke={IOSDefault[i]}
             />
           </React.Fragment>
         ))}

@@ -88,12 +88,12 @@ export class KMeansIterator implements IKMeansIterator {
     for (let i = 0; i < dataset.length; i++) {
       const label = labels[i];
       const data = dataset[i];
-      labelCount[label].push(i);
+      labelCount[label]++;
       labelTotal[label] = labelTotal[label].map((v, vi) => v + data[vi]);
     }
 
     const nextCenters = labelCount.map((count, label) =>
-      labelTotal[label].map((total) => total / count.length)
+      labelTotal[label].map((total) => total / count)
     ) as IPoint[];
 
     const prev = centers.flat();

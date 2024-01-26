@@ -10,7 +10,7 @@ declare interface IUIContextActions extends ICommonContextActions {
   changeMode: (m: UIMode) => void;
   appendPoint: (p: IPoint) => void;
   randomPoints: (l?: number) => void;
-  calcInterpolation: (result: IKMeansResult) => void;
+  calcInterpolation: (result: IKMeansResult, frameCount: number) => void;
 }
 declare interface IUIContext extends IUIContextValues, IUIContextActions {}
 

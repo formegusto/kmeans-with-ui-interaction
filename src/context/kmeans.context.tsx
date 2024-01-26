@@ -1,5 +1,8 @@
+import { useUI } from "@hooks";
 import { KMeans } from "@models";
 import React from "react";
+
+const FRAME_COUNT = 20;
 
 const initialValues: IKMeansContextValues = {
   K: null,
@@ -15,6 +18,7 @@ export const KMeansContext = React.createContext<IKMeansContext>({
   ...initialActions,
 });
 export function KMeansProvider({ children }: React.PropsWithChildren) {
+  const { calcInterpolation } = useUI();
   const [result, setResult] = React.useState<IKMeansResult | null>(null);
   const [iterator, setIterator] = React.useState<IKMeansIterator | null>(null);
   const [K, setK] = React.useState<number | null>(null);
@@ -35,9 +39,10 @@ export function KMeansProvider({ children }: React.PropsWithChildren) {
       if (!iterResult.done) {
         const result = iterResult.value;
         setResult(result);
+        calcInterpolation(result, FRAME_COUNT);
       }
     }
-  }, [iterator]);
+  }, [iterator, calcInterpolation]);
   const clear = React.useCallback(() => {
     setResult(null);
     setIterator(null);
