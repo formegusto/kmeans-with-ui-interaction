@@ -363,7 +363,18 @@ body {
 
   padding: 8px 0px;
   border-radius: 1rem;
-  column-gap: 12px;
+  column-gap: 16px;
+
+  animation: run-mode 0.3s linear forwards;
+}
+
+@keyframes run-mode {
+  from {
+    transform: translateY(-120px);
+  }
+  to {
+    transform: translateY(0);
+  }
 }
 
 .kmeans-run-toolbar > button {
