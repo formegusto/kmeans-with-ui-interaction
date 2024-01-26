@@ -2,7 +2,8 @@ import {
   GenMouseListener,
   RunToolbar,
   ScatterArea,
-  SetModal,
+  SetKModal,
+  SetLengthModal,
   UtilsArea,
 } from "@components";
 import { AppContext } from "@context";
@@ -13,7 +14,8 @@ function App() {
       <ScatterArea />
       <UtilsArea />
       <GenMouseListener />
-      <SetModal />
+      <SetKModal />
+      <SetLengthModal />
       <RunToolbar />
     </AppContext>
   );

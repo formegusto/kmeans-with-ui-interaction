@@ -91,49 +91,6 @@ export function ScatterArea() {
     }
   }, [interpolation, moveCenters, paintPoints]);
 
-  // const moveCenters = React.useCallback(
-  //   (
-  //     interpolation: IPoint[],
-  //     labelInterpolation: any,
-  //     label: number,
-  //     i: number,
-  //     moveTime: number
-  //   ) => {
-  //     if (i === interpolation.length) return;
-  //     if (Date.now() >= moveTime) {
-  //       const [nx, ny] = interpolation[i];
-  //       const el = document.querySelector(`.center-${label}`);
-  //       const roundEl = document.querySelector(`.center-round-${label}`);
-  //       if (el && roundEl) {
-  //         el.setAttribute("cx", nx + "%");
-  //         el.setAttribute("cy", ny + "%");
-  //         roundEl.setAttribute("cx", nx + "%");
-  //         roundEl.setAttribute("cy", ny + "%");
-
-  //         for (let pointIdx of labelInterpolation[i]) {
-  //           const elPoint = document.querySelector(`.point-${pointIdx}`);
-  //           if (elPoint) elPoint.setAttribute("fill", IOSDefault[label]);
-  //         }
-
-  //         requestAnimationFrame(() =>
-  //           moveCenters(
-  //             interpolation,
-  //             labelInterpolation,
-  //             label,
-  //             i + 1,
-  //             Date.now() + 20
-  //           )
-  //         );
-  //       }
-  //     } else {
-  //       requestAnimationFrame(() =>
-  //         moveCenters(interpolation, labelInterpolation, label, i, moveTime)
-  //       );
-  //     }
-  //   },
-  //   []
-  // );
-
   return (
     <svg
       id="scatter-area"

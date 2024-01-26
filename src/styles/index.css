@@ -32,7 +32,22 @@ body {
   height: 56px;
   margin: 1rem;
 
-  z-index: 2;
+  z-index: 3;
+}
+
+.kmeans-utils-items {
+  position: absolute;
+
+  left: 0;
+  /* burger zone + gap */
+  top: calc(-224px - 24px);
+  height: calc(224px + 16px);
+  gap: 8px;
+
+  display: flex;
+  flex-direction: column;
+
+  overflow: visible;
 }
 
 .kmeans-utils-btn {
@@ -117,21 +132,6 @@ body {
   opacity: 0;
 }
 
-.kmeans-utils-items {
-  position: absolute;
-
-  left: 0;
-  /* burger zone + gap */
-  top: calc(-224px - 24px);
-  height: calc(224px + 16px);
-  gap: 8px;
-
-  display: flex;
-  flex-direction: column;
-
-  overflow: visible;
-}
-
 .kmeans-utils-item {
   display: flex;
   justify-content: center;
@@ -184,6 +184,30 @@ body {
   transform: rotateZ(45deg);
 }
 
+.kmeans-utils-btn > .utils-set-length {
+  transform: rotateZ(780deg);
+  transition: 0.35s;
+}
+
+.kmeans-utils-btn > .utils-set-length > path {
+  stroke: var(--ios-gray-light-600);
+  stroke-width: 5;
+  stroke-linecap: round;
+
+  stroke-dasharray: 21;
+  stroke-dashoffset: 20;
+
+  transition: 0.35s;
+}
+
+.kmeans-utils-btn.set-length > .utils-set-length {
+  transform: rotateZ(0);
+}
+
+.kmeans-utils-btn.set-length > .utils-set-length > path {
+  stroke-dashoffset: 0;
+}
+
 @keyframes modal-fadein {
   from {
     opacity: 0;
@@ -209,7 +233,7 @@ body {
   color: var(--ios-gray-light-600);
 
   background: var(--ios-gray-dark-500);
-  z-index: 3;
+  z-index: 2;
   animation: modal-fadein 0.3s 0.01s linear forwards;
 }
 

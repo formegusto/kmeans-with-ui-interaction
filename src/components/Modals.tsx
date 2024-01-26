@@ -27,7 +27,7 @@ export function SetButton(
   );
 }
 
-export function SetModal() {
+export function SetKModal() {
   const { points } = useUI();
   const [value, setValue] = React.useState<string>("");
   const { mode, changeMode } = useUI();
@@ -52,10 +52,67 @@ export function SetModal() {
     []
   );
 
-  return mode === "set" ? (
+  return mode === "set-K" ? (
     <form onSubmit={onSubmit} className="set-modal-container">
       <div className="modal-question-group">
         <span>Your K is</span>
+        <input
+          type="text"
+          maxLength={2}
+          value={value}
+          onChange={onChange}
+          required
+        />
+        <SetButton type="submit" />
+      </div>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 129.53 2"
+        className="highlight-line">
+        <path
+          d="M 0 1 
+            L 129.53 1 
+            L 129.53 -30
+            L 98.53 -30
+            L 98.53 1
+            L 129.53 1"
+        />
+      </svg>
+    </form>
+  ) : (
+    <></>
+  );
+}
+
+export function SetLengthModal() {
+  const { points } = useUI();
+  const [value, setValue] = React.useState<string>("");
+  const { mode, changeMode } = useUI();
+  const { start } = useKMeans();
+
+  const onSubmit = React.useCallback(
+    (e: React.FormEvent) => {
+      if (points) {
+        e.preventDefault();
+        start(parseInt(value), points);
+        setValue("");
+        changeMode("run");
+      }
+    },
+    [start, value, changeMode, points]
+  );
+
+  const onChange = React.useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      setValue(e.target.value);
+    },
+    []
+  );
+
+  return mode === "set-length" ? (
+    <form onSubmit={onSubmit} className="set-modal-container">
+      <div className="modal-question-group">
+        <span>Your point length is</span>
         <input
           type="text"
           maxLength={2}

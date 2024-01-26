@@ -1,10 +1,12 @@
 import { useKMeans, useUI } from "@hooks";
+import { linearInterpolation } from "@utils";
 import React from "react";
 
 export function UtilsItems() {
-  const { mode, changeMode, randomPoints, clear: clearUI } = useUI();
+  const { mode, changeMode, clear: clearUI } = useUI();
   const { clear: clearKMeans } = useKMeans();
 
+  console.log(linearInterpolation([8, 10], [38, 38], 0.5));
   return (
     <div className="kmeans-utils-items">
       <button
@@ -20,13 +22,29 @@ export function UtilsItems() {
           <path d="M 3 24 L 45 24" />
         </svg>
       </button>
-      <button className="kmeans-utils-item" onClick={() => randomPoints()}>
-        Ran
+      <button
+        className={`kmeans-utils-btn ${mode === "set-length" ? mode : ""}`}
+        onClick={
+          mode === "set-length"
+            ? () => changeMode(null)
+            : () => changeMode("set-length")
+        }>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 48 48"
+          className="utils-set-length">
+          {/* <path d="M 8 10 L 38 38" />
+          <path d="M 38 10 L 8 38" /> */}
+          <path d="M 8 10 L 23 24" />
+          <path d="M 38 38 L 23 24" />
+          <path d="M 38 10 L 23 24" />
+          <path d="M 8 38 L 23 24" />
+        </svg>
       </button>
       <button
         className="kmeans-utils-item"
         onClick={
-          mode === "set" ? () => changeMode(null) : () => changeMode("set")
+          mode === "set-K" ? () => changeMode(null) : () => changeMode("set-K")
         }>
         Run
       </button>
