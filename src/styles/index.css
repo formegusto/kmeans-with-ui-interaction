@@ -165,17 +165,19 @@ body {
   opacity: 0;
 }
 
-.kmeans-utils-btn > .utils-gen > path {
+.kmeans-utils-btn path {
   stroke: var(--ios-gray-light-600);
   stroke-width: 5;
   stroke-linecap: round;
+}
 
+.kmeans-utils-btn > .utils-gen > path {
   transition: 0.35s;
   transition-delay: 0.1s;
   transform-origin: 50% 50%;
 }
 
-.kmeans-utils-btn.gen > .utils-gen > path:nth-last-of-type(1) {
+.kmeans-utils-btn.gen > .utils-gen > path:nth-of-type(1) {
   transform: rotateZ(45deg);
 }
 
@@ -190,13 +192,8 @@ body {
 }
 
 .kmeans-utils-btn > .utils-set-length > path {
-  stroke: var(--ios-gray-light-600);
-  stroke-width: 5;
-  stroke-linecap: round;
-
   stroke-dasharray: 21;
   stroke-dashoffset: 20;
-
   transition: 0.35s;
 }
 
@@ -206,6 +203,33 @@ body {
 
 .kmeans-utils-btn.set-length > .utils-set-length > path {
   stroke-dashoffset: 0;
+}
+
+.kmeans-utils-btn > .utils-set-K > path {
+  transform-origin: 50% 50%;
+  transition: 0.35s;
+}
+
+.kmeans-utils-btn > .utils-set-K > path.power-round {
+  fill: transparent;
+  stroke-dasharray: 81;
+}
+
+.kmeans-utils-btn > .utils-set-K > path:not(.power-round) {
+  transform: scaleY(0.4) translateY(-30px);
+}
+
+.kmeans-utils-btn.set-K > .utils-set-K > path:nth-of-type(1) {
+  transform: rotate(45deg);
+}
+
+.kmeans-utils-btn.set-K > .utils-set-K > path:nth-of-type(2) {
+  transform: rotate(-45deg);
+}
+
+.kmeans-utils-btn.set-K > .utils-set-K > path.power-round {
+  stroke-dashoffset: -81;
+  opacity: 0;
 }
 
 @keyframes modal-fadein {

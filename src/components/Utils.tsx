@@ -42,11 +42,18 @@ export function UtilsItems() {
         </svg>
       </button>
       <button
-        className="kmeans-utils-item"
+        className={`kmeans-utils-btn ${mode === "set-K" ? mode : ""}`}
         onClick={
           mode === "set-K" ? () => changeMode(null) : () => changeMode("set-K")
         }>
-        Run
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 48 48"
+          className="utils-set-K">
+          <path d="M 23 3 L 23 45" />
+          <path d="M 23 3 L 23 45" />
+          <path d="M 10 11 C -10 50 56 50 36 11" className="power-round" />
+        </svg>
       </button>
       <button
         className="kmeans-utils-item"
