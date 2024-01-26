@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/kmeans-with-ui-interaction/static/css/main.7e2bfb35.css",
+    "main.js": "/kmeans-with-ui-interaction/static/js/main.25c142a3.js",
+    "static/js/787.90d05976.chunk.js": "/kmeans-with-ui-interaction/static/js/787.90d05976.chunk.js",
+    "index.html": "/kmeans-with-ui-interaction/index.html",
+    "main.7e2bfb35.css.map": "/kmeans-with-ui-interaction/static/css/main.7e2bfb35.css.map",
+    "main.25c142a3.js.map": "/kmeans-with-ui-interaction/static/js/main.25c142a3.js.map",
+    "787.90d05976.chunk.js.map": "/kmeans-with-ui-interaction/static/js/787.90d05976.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.7e2bfb35.css",
+    "static/js/main.25c142a3.js"
+  ]
+}
