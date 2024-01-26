@@ -351,8 +351,8 @@ body {
 .kmeans-run-toolbar {
   position: fixed;
   top: 8px;
-  left: calc(50% - 175px);
-  width: 350px;
+  left: calc(50% - 170px);
+  width: 340px;
 
   background: var(--ios-gray-dark-600);
   color: var(--ios-gray-light-600);
@@ -363,13 +363,40 @@ body {
 
   padding: 8px 0px;
   border-radius: 1rem;
-  column-gap: 8px;
+  column-gap: 12px;
 }
 
 .kmeans-run-toolbar > button {
   background: transparent;
   border: none;
   color: var(--ios-gray-light-600);
+  padding: 0 2px;
 
   cursor: pointer;
+}
+
+.kmeans-run-toolbar > span {
+  font-style: italic;
+}
+
+.kmeans-run-toolbar path {
+  stroke: var(--ios-gray-light-600);
+  fill: var(--ios-gray-light-600);
+  /* fill: transparent; */
+}
+
+.kmeans-run-toolbar svg {
+  width: 24px;
+  height: 24px;
+}
+
+.kmeans-run-toolbar .iter-refresh > svg {
+  transform-origin: 50% 50%;
+  transform: rotateZ(45deg);
+}
+
+.kmeans-run-toolbar .iter-refresh > svg > path {
+  fill: transparent;
+  stroke-width: 3;
+  stroke-linecap: round;
 }
