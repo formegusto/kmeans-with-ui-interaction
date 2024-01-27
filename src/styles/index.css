@@ -50,6 +50,45 @@ body {
   overflow: visible;
 }
 
+.kmeans-utils-items > button {
+  opacity: 0;
+}
+
+.kmeans-utils-items > button:nth-of-type(1) {
+  transform: translateY(249px);
+
+  animation: open-utils 0.5s linear forwards;
+}
+
+.kmeans-utils-items > button:nth-of-type(2) {
+  transform: translateY(187px);
+
+  animation: open-utils 0.4s linear forwards;
+}
+
+.kmeans-utils-items > button:nth-of-type(3) {
+  transform: translateY(125px);
+
+  animation: open-utils 0.3s linear forwards;
+}
+
+.kmeans-utils-items > button:nth-of-type(4) {
+  transform: translateY(63px);
+  animation: open-utils 0.2s linear forwards;
+}
+
+@keyframes open-utils {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.kmeans-utils-btn.menus {
+  position: relative;
+  z-index: 4;
+}
+
 .kmeans-utils-btn {
   display: flex;
   justify-content: center;
