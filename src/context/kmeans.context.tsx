@@ -7,6 +7,7 @@ const FRAME_COUNT = 20;
 const initialValues: IKMeansContextValues = {
   K: null,
   result: null,
+  round: null,
 };
 const initialActions: IKMeansContextActions = {
   start: () => {},
@@ -22,6 +23,7 @@ export function KMeansProvider({ children }: React.PropsWithChildren) {
   const [result, setResult] = React.useState<IKMeansResult | null>(null);
   const [iterator, setIterator] = React.useState<IKMeansIterator | null>(null);
   const [K, setK] = React.useState<number | null>(null);
+  const [round, setRound] = React.useState<number | null>(null);
   const start = React.useCallback((k: number, dataset: IPoint[]) => {
     if (dataset.length > 0) {
       setK(k);
@@ -31,6 +33,7 @@ export function KMeansProvider({ children }: React.PropsWithChildren) {
       setResult({
         centers: iterator.centers!,
       });
+      setRound(0);
     }
   }, []);
   const next = React.useCallback(() => {
@@ -40,6 +43,7 @@ export function KMeansProvider({ children }: React.PropsWithChildren) {
         const result = iterResult.value;
         setResult(result);
         calcInterpolation(result, FRAME_COUNT);
+        setRound((prev) => prev! + 1);
       }
     }
   }, [iterator, calcInterpolation]);
@@ -47,6 +51,7 @@ export function KMeansProvider({ children }: React.PropsWithChildren) {
     setResult(null);
     setIterator(null);
     setK(null);
+    setRound(null);
   }, []);
 
   return (
@@ -54,10 +59,12 @@ export function KMeansProvider({ children }: React.PropsWithChildren) {
       value={{
         K,
         result,
+        round,
         clear,
         start,
         next,
-      }}>
+      }}
+    >
       {children}
     </KMeansContext.Provider>
   );
