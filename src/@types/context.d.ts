@@ -22,6 +22,7 @@ declare interface IKMeansContextValues {
 declare interface IKMeansContextActions extends ICommonContextActions {
   start: (k: number, ds: IPoint[]) => void;
   next: () => void;
+  refresh: (ds: IPoint[]) => void;
 }
 declare interface IKMeansContext
   extends IKMeansContextValues,

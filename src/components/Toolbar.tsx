@@ -1,8 +1,8 @@
 import { useKMeans, useUI } from "@hooks";
 
 export function RunToolbar() {
-  const { mode } = useUI();
-  const { K, next, round } = useKMeans();
+  const { mode, points } = useUI();
+  const { K, next, round, refresh } = useKMeans();
 
   return mode === "run" ? (
     <div className="kmeans-run-toolbar">
@@ -43,7 +43,7 @@ export function RunToolbar() {
         </svg>
       </button>
       <span>round={round}</span>
-      <button className="iter-refresh">
+      <button className="iter-refresh" onClick={() => refresh(points!)}>
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36">
           <path
             d="M 28 20

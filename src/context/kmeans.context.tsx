@@ -13,6 +13,7 @@ const initialActions: IKMeansContextActions = {
   start: () => {},
   next: () => {},
   clear: () => {},
+  refresh: () => {},
 };
 export const KMeansContext = React.createContext<IKMeansContext>({
   ...initialValues,
@@ -47,6 +48,12 @@ export function KMeansProvider({ children }: React.PropsWithChildren) {
       }
     }
   }, [iterator, calcInterpolation]);
+  const refresh = React.useCallback(
+    (dataset: IPoint[]) => {
+      start(K!, dataset);
+    },
+    [K]
+  );
   const clear = React.useCallback(() => {
     setResult(null);
     setIterator(null);
@@ -63,6 +70,7 @@ export function KMeansProvider({ children }: React.PropsWithChildren) {
         clear,
         start,
         next,
+        refresh,
       }}
     >
       {children}
