@@ -52,7 +52,7 @@ export function KMeansProvider({ children }: React.PropsWithChildren) {
     (dataset: IPoint[]) => {
       start(K!, dataset);
     },
-    [K]
+    [start, K]
   );
   const clear = React.useCallback(() => {
     setResult(null);
