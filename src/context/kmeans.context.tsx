@@ -14,6 +14,7 @@ const initialActions: IKMeansContextActions = {
   next: () => {},
   clear: () => {},
   refresh: () => {},
+  autoNext: () => {},
 };
 export const KMeansContext = React.createContext<IKMeansContext>({
   ...initialValues,
@@ -65,6 +66,19 @@ export function KMeansProvider({ children }: React.PropsWithChildren) {
     },
     [start, K, clear, uiRefresh]
   );
+  const autoNext = React.useCallback(() => {
+    if (iterator && result) {
+      let centers = result.centers;
+      let _round = round!;
+      let _result = {} as IKMeansResult;
+      for (_result of iterator) _round++;
+      _result.nextCenters = _result.centers;
+      _result.centers = centers;
+      setResult(_result);
+      calcInterpolation(_result, FRAME_COUNT);
+      setRound(_round);
+    }
+  }, [round, iterator, calcInterpolation, result]);
 
   return (
     <KMeansContext.Provider
@@ -76,6 +90,7 @@ export function KMeansProvider({ children }: React.PropsWithChildren) {
         start,
         next,
         refresh,
+        autoNext,
       }}>
       {children}
     </KMeansContext.Provider>

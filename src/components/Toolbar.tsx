@@ -2,7 +2,7 @@ import { useKMeans, useUI } from "@hooks";
 
 export function RunToolbar() {
   const { mode, points } = useUI();
-  const { K, next, round, refresh } = useKMeans();
+  const { K, next, round, refresh, autoNext } = useKMeans();
 
   return mode === "run" ? (
     <div className="kmeans-run-toolbar">
@@ -20,7 +20,7 @@ export function RunToolbar() {
           />
         </svg>
       </button>
-      <button className="auto-run">
+      <button className="auto-run" onClick={autoNext}>
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36">
           <path
             d="M 4 6
