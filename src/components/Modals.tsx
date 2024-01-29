@@ -62,6 +62,7 @@ export function SetKModal() {
           value={value}
           onChange={onChange}
           required
+          autoFocus
         />
         <SetButton type="submit" />
       </div>
@@ -116,6 +117,7 @@ export function SetLengthModal() {
           value={value}
           onChange={onChange}
           required
+          autoFocus
         />
         <SetButton type="submit" />
       </div>

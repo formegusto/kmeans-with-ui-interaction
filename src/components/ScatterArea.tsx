@@ -29,10 +29,16 @@ export function ScatterArea() {
 
   React.useEffect(() => {
     const setAspectRatio = () => {
-      setWindowSize([window.innerWidth, window.innerHeight]);
+      let vh = window.innerHeight * 0.01;
+      //그런 다음 --vh 사용자 정의 속성의 값을 문서의 루트로 설정합니다.
+      document.documentElement.style.setProperty("--vh", `${vh}px`);
+      setWindowSize([window.innerWidth, vh * 100]);
     };
     window.addEventListener("resize", setAspectRatio);
-    setWindowSize([window.innerWidth, window.innerHeight]);
+    let vh = window.innerHeight * 0.01;
+    //그런 다음 --vh 사용자 정의 속성의 값을 문서의 루트로 설정합니다.
+    document.documentElement.style.setProperty("--vh", `${vh}px`);
+    setWindowSize([window.innerWidth, vh * 100]);
 
     return () => {
       window.removeEventListener("resize", setAspectRatio);
@@ -104,8 +110,8 @@ export function ScatterArea() {
     <svg
       id="scatter-area"
       xmlns="http://www.w3.org/2000/svg"
-      width="100vw"
-      height="100vh"
+      width="100%"
+      height="100%"
       viewBox={`0 0 ${windowSize[0]} ${windowSize[1]}`}>
       {points &&
         points.map(([x, y], i) => (
