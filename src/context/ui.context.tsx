@@ -11,6 +11,7 @@ const initialActions: IUIContextActions = {
   appendPoint: () => {},
   randomPoints: () => {},
   calcInterpolation: () => {},
+  refresh: () => {},
   clear: () => {},
 };
 export const UIContext = React.createContext<IUIContext>({
@@ -104,6 +105,10 @@ export function UIProvider({ children }: React.PropsWithChildren) {
     setInterpolation(null);
   }, []);
 
+  const refresh = React.useCallback(() => {
+    setInterpolation(null);
+  }, []);
+
   return (
     <UIContext.Provider
       value={{
@@ -115,6 +120,7 @@ export function UIProvider({ children }: React.PropsWithChildren) {
         randomPoints,
         calcInterpolation,
         clear,
+        refresh,
       }}>
       {children}
     </UIContext.Provider>

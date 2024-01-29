@@ -47,6 +47,13 @@ export function ScatterArea() {
     }
   }, [result, interpolation, calcInterpolation]);
 
+  const clearColors = React.useCallback(() => {
+    const points = document.querySelectorAll("#scatter-area > .point");
+    points.forEach((p) => {
+      p.setAttribute("fill", IOSGrayLight[0]);
+    });
+  }, []);
+
   const moveCenters = React.useCallback(
     (interpolation: IPoint[], label: number, count: number) => {
       if (count === interpolation.length) return;
@@ -88,8 +95,10 @@ export function ScatterArea() {
         moveCenters(centers[label], label, 0);
         paintPoints(labels[label], label, 0);
       }
+    } else {
+      clearColors();
     }
-  }, [interpolation, moveCenters, paintPoints]);
+  }, [interpolation, moveCenters, paintPoints, clearColors]);
 
   return (
     <svg
@@ -102,7 +111,7 @@ export function ScatterArea() {
         points.map(([x, y], i) => (
           <circle
             key={`point-${i}`}
-            className={`point-${i}`}
+            className={`point point-${i}`}
             cx={`${x}%`}
             cy={`${y}%`}
             r={10}
