@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/kmeans-with-ui-interaction/static/css/main.e051095e.css",
-    "main.js": "/kmeans-with-ui-interaction/static/js/main.966ac416.js",
+    "main.css": "/kmeans-with-ui-interaction/static/css/main.c34eded7.css",
+    "main.js": "/kmeans-with-ui-interaction/static/js/main.bae9a0b5.js",
     "static/js/787.90d05976.chunk.js": "/kmeans-with-ui-interaction/static/js/787.90d05976.chunk.js",
     "index.html": "/kmeans-with-ui-interaction/index.html",
-    "main.e051095e.css.map": "/kmeans-with-ui-interaction/static/css/main.e051095e.css.map",
-    "main.966ac416.js.map": "/kmeans-with-ui-interaction/static/js/main.966ac416.js.map",
+    "main.c34eded7.css.map": "/kmeans-with-ui-interaction/static/css/main.c34eded7.css.map",
+    "main.bae9a0b5.js.map": "/kmeans-with-ui-interaction/static/js/main.bae9a0b5.js.map",
     "787.90d05976.chunk.js.map": "/kmeans-with-ui-interaction/static/js/787.90d05976.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.e051095e.css",
-    "static/js/main.966ac416.js"
+    "static/css/main.c34eded7.css",
+    "static/js/main.bae9a0b5.js"
   ]
 }
