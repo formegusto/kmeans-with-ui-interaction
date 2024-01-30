@@ -331,7 +331,7 @@ body {
 
 .set-modal-container > .highlight-line {
   overflow: visible;
-  position: relative;
+  position: absolute;
   z-index: 2;
 }
 
@@ -364,7 +364,7 @@ body {
 
   color: var(--ios-gray-light-600);
   font-size: 24px;
-  padding: 0 0 2.3px;
+  padding: 0 10px 3px;
   width: 32px;
 
   outline: none;

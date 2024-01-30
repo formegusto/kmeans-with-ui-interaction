@@ -34,6 +34,7 @@ export function SetKModal() {
   const { start } = useKMeans();
   const refGroup = React.useRef<HTMLDivElement>(null);
   const refInput = React.useRef<HTMLInputElement>(null);
+  const refHighlight = React.useRef<SVGSVGElement>(null);
   const [highlightSize, setHighlightSize] = React.useState<any | null>(null);
 
   const onSubmit = React.useCallback(
@@ -60,21 +61,26 @@ export function SetKModal() {
     if (mode === "set-K" && refGroup.current && refInput.current) {
       const { width: groupWidth } = refGroup.current.getBoundingClientRect();
 
-      const {
-        width: inputWidth,
-        height: inputHeight,
-        x: inputX,
-      } = refInput.current.getBoundingClientRect();
-
-      console.log(inputX);
+      const { width: inputWidth, height: inputHeight } =
+        refInput.current.getBoundingClientRect();
 
       setHighlightSize({
         groupWidth: groupWidth,
-        inputWidth: inputWidth,
-        inputHeight: inputHeight + 6,
+        inputWidth: inputWidth - 6,
+        inputHeight: inputHeight + 12,
       });
     }
   }, [mode]);
+
+  React.useEffect(() => {
+    if (highlightSize) {
+      setTimeout(() => {
+        if (refHighlight.current) {
+          refHighlight.current.style.strokeDashoffset = "0";
+        }
+      }, 300);
+    }
+  }, [highlightSize]);
 
   return mode === "set-K" ? (
     <form onSubmit={onSubmit} className="set-modal-container">
@@ -93,19 +99,26 @@ export function SetKModal() {
       </div>
       {highlightSize && (
         <svg
+          ref={refHighlight}
           xmlns="http://www.w3.org/2000/svg"
           viewBox={`0 0 ${highlightSize.groupWidth} ${highlightSize.inputHeight}`}
           width={highlightSize.groupWidth}
           height={highlightSize.inputHeight}
-          className="highlight-line">
+          className="highlight-line"
+          style={{
+            transition: ".5s",
+            strokeDasharray: highlightSize.groupWidth * 2.75,
+            strokeDashoffset: highlightSize.groupWidth * 2.75,
+          }}
+        >
           <path
-            d={`M ${-30} 1 L ${highlightSize.groupWidth + 5} 1 L ${
-              highlightSize.groupWidth + 5
-            } ${highlightSize.inputHeight * -1} L ${
+            d={`M ${-30} ${highlightSize.inputHeight} L ${
+              highlightSize.groupWidth
+            } ${highlightSize.inputHeight} L ${highlightSize.groupWidth} -1 L ${
               highlightSize.groupWidth - highlightSize.inputWidth - 5
-            } ${highlightSize.inputHeight * -1} L ${
-              highlightSize.groupWidth - highlightSize.inputWidth - 5
-            } 1 L ${highlightSize.groupWidth + 30} 1`}
+            } -1 L ${highlightSize.groupWidth - highlightSize.inputWidth - 5} ${
+              highlightSize.inputHeight
+            } L ${highlightSize.groupWidth + 30} ${highlightSize.inputHeight}`}
           />
         </svg>
       )}
@@ -154,7 +167,8 @@ export function SetLengthModal() {
       <svg
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 129.53 2"
-        className="highlight-line">
+        className="highlight-line"
+      >
         <path
           d="M -100 1 
             L 200 1 
