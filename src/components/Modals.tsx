@@ -32,6 +32,9 @@ export function SetKModal() {
   const [value, setValue] = React.useState<string>("");
   const { mode, changeMode } = useUI();
   const { start } = useKMeans();
+  const refGroup = React.useRef<HTMLDivElement>(null);
+  const refInput = React.useRef<HTMLInputElement>(null);
+  const [highlightSize, setHighlightSize] = React.useState<any | null>(null);
 
   const onSubmit = React.useCallback(
     (e: React.FormEvent) => {
@@ -53,11 +56,32 @@ export function SetKModal() {
     []
   );
 
+  React.useEffect(() => {
+    if (mode === "set-K" && refGroup.current && refInput.current) {
+      const { width: groupWidth } = refGroup.current.getBoundingClientRect();
+
+      const {
+        width: inputWidth,
+        height: inputHeight,
+        x: inputX,
+      } = refInput.current.getBoundingClientRect();
+
+      console.log(inputX);
+
+      setHighlightSize({
+        groupWidth: groupWidth,
+        inputWidth: inputWidth,
+        inputHeight: inputHeight + 6,
+      });
+    }
+  }, [mode]);
+
   return mode === "set-K" ? (
     <form onSubmit={onSubmit} className="set-modal-container">
-      <div className="modal-question-group">
+      <div ref={refGroup} className="modal-question-group">
         <span>Your K is</span>
         <input
+          ref={refInput}
           type="text"
           maxLength={2}
           value={value}
@@ -65,21 +89,26 @@ export function SetKModal() {
           required
           autoFocus
         />
-        <SetButton type="submit" />
+        {/* <SetButton type="submit" /> */}
       </div>
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 129.53 2"
-        className="highlight-line">
-        <path
-          d="M 0 1 
-            L 129.53 1 
-            L 129.53 -30
-            L 98.53 -30
-            L 98.53 1
-            L 129.53 1"
-        />
-      </svg>
+      {highlightSize && (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox={`0 0 ${highlightSize.groupWidth} ${highlightSize.inputHeight}`}
+          width={highlightSize.groupWidth}
+          height={highlightSize.inputHeight}
+          className="highlight-line">
+          <path
+            d={`M ${-30} 1 L ${highlightSize.groupWidth + 5} 1 L ${
+              highlightSize.groupWidth + 5
+            } ${highlightSize.inputHeight * -1} L ${
+              highlightSize.groupWidth - highlightSize.inputWidth - 5
+            } ${highlightSize.inputHeight * -1} L ${
+              highlightSize.groupWidth - highlightSize.inputWidth - 5
+            } 1 L ${highlightSize.groupWidth + 30} 1`}
+          />
+        </svg>
+      )}
     </form>
   ) : (
     <></>

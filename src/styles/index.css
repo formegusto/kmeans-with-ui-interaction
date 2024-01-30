@@ -314,21 +314,22 @@ body {
   position: fixed;
   top: 0;
   left: 0;
-  opacity: 0;
-
   display: flex;
+
   flex-direction: column;
   align-items: center;
   justify-content: center;
+
   color: var(--ios-gray-light-600);
 
   background: var(--ios-gray-dark-500);
   z-index: 2;
+
+  opacity: 0;
   animation: modal-fadein 0.3s 0.01s linear forwards;
 }
 
 .set-modal-container > .highlight-line {
-  width: 129.53px;
   overflow: visible;
   position: relative;
   z-index: 2;
