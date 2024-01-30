@@ -35,12 +35,13 @@ export function SetKModal() {
 
   const onSubmit = React.useCallback(
     (e: React.FormEvent) => {
-      if (points) {
-        e.preventDefault();
-        start(parseInt(value), points);
-        setValue("");
-        changeMode("run");
+      e.preventDefault();
+      if (points) start(parseInt(value), points);
+      else {
+        alert("데이터 셋이 설정되지 않았습니다.");
+        changeMode(null);
       }
+      setValue("");
     },
     [start, value, changeMode, points]
   );

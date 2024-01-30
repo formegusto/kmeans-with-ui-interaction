@@ -105,6 +105,14 @@ body {
   transition: 0.35s;
 }
 
+.kmeans-utils-btn.inactive {
+  background-color: var(--ios-gray-dark-500);
+}
+
+.kmeans-utils-btn.inactive path {
+  stroke: var(--ios-gray-light-100);
+}
+
 .kmeans-utils-btn > svg {
   width: 60%;
   height: 60%;

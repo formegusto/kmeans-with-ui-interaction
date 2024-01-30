@@ -3,6 +3,7 @@ import { KMeans } from "@models";
 import React from "react";
 
 const FRAME_COUNT = 20;
+const DATASET_COUNT_THRESHOLD = 10;
 
 const initialValues: IKMeansContextValues = {
   K: null,
@@ -21,23 +22,36 @@ export const KMeansContext = React.createContext<IKMeansContext>({
   ...initialActions,
 });
 export function KMeansProvider({ children }: React.PropsWithChildren) {
-  const { calcInterpolation, refresh: uiRefresh } = useUI();
+  const { calcInterpolation, refresh: uiRefresh, changeMode } = useUI();
   const [result, setResult] = React.useState<IKMeansResult | null>(null);
   const [iterator, setIterator] = React.useState<IKMeansIterator | null>(null);
   const [K, setK] = React.useState<number | null>(null);
   const [round, setRound] = React.useState<number | null>(null);
-  const start = React.useCallback((k: number, dataset: IPoint[]) => {
-    if (dataset.length > 0) {
-      setK(k);
-      const kmeans = new KMeans(k, dataset);
-      const iterator = kmeans[Symbol.iterator]() as IKMeansIterator;
-      setIterator(iterator);
-      setResult({
-        centers: iterator.centers!,
-      });
-      setRound(0);
-    }
-  }, []);
+  const start = React.useCallback(
+    (k: number, dataset: IPoint[]) => {
+      if (dataset.length > DATASET_COUNT_THRESHOLD) {
+        if (k <= 1) {
+          alert("K 설정값이 너무 작습니다. 2 이상의 값을 입력해주세요.");
+          changeMode(null);
+        } else {
+          setK(k);
+          const kmeans = new KMeans(k, dataset);
+          const iterator = kmeans[Symbol.iterator]() as IKMeansIterator;
+          setIterator(iterator);
+          setResult({
+            centers: iterator.centers!,
+          });
+          setRound(0);
+          changeMode("run");
+        }
+      } else {
+        alert("데이터 셋의 길이가 너무 작습니다.");
+        changeMode(null);
+      }
+    },
+    [changeMode]
+  );
+
   const next = React.useCallback(() => {
     if (iterator) {
       const iterResult = iterator.next();
