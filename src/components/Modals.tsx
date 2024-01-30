@@ -1,26 +1,50 @@
 import { useKMeans, useUI } from "@hooks";
 import React from "react";
 
-export function SetButton(
-  props: React.DetailedHTMLProps<
+interface SetButtonProps
+  extends React.DetailedHTMLProps<
     React.ButtonHTMLAttributes<HTMLButtonElement>,
     HTMLButtonElement
-  >
-) {
+  > {
+  highlightSize: any;
+}
+
+export function SetButton({ highlightSize, ...htmlProps }: SetButtonProps) {
+  const refBtn = React.useRef<SVGSVGElement>(null);
+  React.useEffect(() => {
+    setTimeout(() => {
+      if (refBtn.current) {
+        refBtn.current.style.strokeDashoffset = "0";
+      }
+    }, 600);
+  }, []);
+
   return (
-    <button className="highlight-button" {...props}>
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+    <button
+      className="highlight-button"
+      {...htmlProps}
+      style={{
+        right: `${highlightSize.inputWidth * -1 - 30}px`,
+      }}
+    >
+      <svg
+        ref={refBtn}
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox={`0 0 60 ${highlightSize.inputHeight}`}
+        width={60}
+        height={highlightSize.inputHeight}
+        style={{
+          transition: "0.35s",
+          strokeDasharray: 60 * 1.9,
+          strokeDashoffset: 60 * 1.9,
+        }}
+      >
         <path
-          d="M -12 16
-            L 32 16"
-        />
-        <path
-          d="M 32 16
-            L 22 28"
-        />
-        <path
-          d="M 32 16
-            L 22 4"
+          d={`M 0 ${highlightSize.inputHeight - 7} L 32 ${
+            highlightSize.inputHeight - 7
+          } C 60 ${highlightSize.inputHeight - 7} 50 -20 10 ${
+            (highlightSize.inputHeight - 7) / 2
+          } }`}
         />
       </svg>
     </button>
@@ -95,7 +119,9 @@ export function SetKModal() {
           required
           autoFocus
         />
-        {/* <SetButton type="submit" /> */}
+        {highlightSize && (
+          <SetButton type="submit" highlightSize={highlightSize} />
+        )}
       </div>
       {highlightSize && (
         <svg
@@ -129,6 +155,10 @@ export function SetKModal() {
 }
 
 export function SetLengthModal() {
+  const refGroup = React.useRef<HTMLDivElement>(null);
+  const refInput = React.useRef<HTMLInputElement>(null);
+  const refHighlight = React.useRef<SVGSVGElement>(null);
+  const [highlightSize, setHighlightSize] = React.useState<any | null>(null);
   const [value, setValue] = React.useState<string>("");
   const { mode, changeMode, randomPoints, clear } = useUI();
 
@@ -150,34 +180,73 @@ export function SetLengthModal() {
     []
   );
 
+  React.useEffect(() => {
+    if (mode === "set-length" && refGroup.current && refInput.current) {
+      const { width: groupWidth } = refGroup.current.getBoundingClientRect();
+
+      const { width: inputWidth, height: inputHeight } =
+        refInput.current.getBoundingClientRect();
+
+      setHighlightSize({
+        groupWidth: groupWidth,
+        inputWidth: inputWidth - 6,
+        inputHeight: inputHeight + 12,
+      });
+    }
+  }, [mode]);
+
+  React.useEffect(() => {
+    if (highlightSize) {
+      setTimeout(() => {
+        if (refHighlight.current) {
+          refHighlight.current.style.strokeDashoffset = "0";
+        }
+      }, 300);
+    }
+  }, [highlightSize]);
+
   return mode === "set-length" ? (
     <form onSubmit={onSubmit} className="set-modal-container">
-      <div className="modal-question-group">
+      <div ref={refGroup} className="modal-question-group">
         <span>Your point length is</span>
         <input
+          ref={refInput}
           type="text"
-          maxLength={3}
+          maxLength={2}
           value={value}
           onChange={onChange}
           required
           autoFocus
         />
-        <SetButton type="submit" />
+        {highlightSize && (
+          <SetButton type="submit" highlightSize={highlightSize} />
+        )}
       </div>
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 129.53 2"
-        className="highlight-line"
-      >
-        <path
-          d="M -100 1 
-            L 200 1 
-            L 200 -30
-            L 160 -30
-            L 160 1
-            L 180 1"
-        />
-      </svg>
+      {highlightSize && (
+        <svg
+          ref={refHighlight}
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox={`0 0 ${highlightSize.groupWidth} ${highlightSize.inputHeight}`}
+          width={highlightSize.groupWidth}
+          height={highlightSize.inputHeight}
+          className="highlight-line"
+          style={{
+            transition: ".75s",
+            strokeDasharray: highlightSize.groupWidth * 2.75,
+            strokeDashoffset: highlightSize.groupWidth * 2.75,
+          }}
+        >
+          <path
+            d={`M ${-30} ${highlightSize.inputHeight} L ${
+              highlightSize.groupWidth
+            } ${highlightSize.inputHeight} L ${highlightSize.groupWidth} -1 L ${
+              highlightSize.groupWidth - highlightSize.inputWidth - 5
+            } -1 L ${highlightSize.groupWidth - highlightSize.inputWidth - 5} ${
+              highlightSize.inputHeight
+            } L ${highlightSize.groupWidth + 30} ${highlightSize.inputHeight}`}
+          />
+        </svg>
+      )}
     </form>
   ) : (
     <></>

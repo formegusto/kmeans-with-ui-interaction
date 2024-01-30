@@ -372,11 +372,7 @@ body {
 
 .set-modal-container > .modal-question-group > .highlight-button {
   position: absolute;
-  bottom: -16px;
-  right: -26px;
-
-  width: 32px;
-  height: 32px;
+  top: 0;
 
   background: transparent;
   border: none;
@@ -388,11 +384,9 @@ body {
 }
 
 .set-modal-container > .modal-question-group > .highlight-button > svg {
-  width: 32px;
-  height: 32px;
   overflow: visible;
-
   cursor: pointer;
+  fill: none;
 }
 
 .set-modal-container > .modal-question-group > .highlight-button > svg > path {
