@@ -308,8 +308,8 @@ body {
 }
 
 .set-modal-container {
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: 100%;
 
   position: fixed;
   top: 0;
@@ -327,18 +327,6 @@ body {
 
   opacity: 0;
   animation: modal-fadein 0.3s 0.01s linear forwards;
-}
-
-.set-modal-container > .highlight-line {
-  overflow: visible;
-  position: absolute;
-  z-index: 2;
-}
-
-.set-modal-container > .highlight-line > path {
-  stroke: var(--ios-gray-light-600);
-  stroke-width: 2;
-  fill: transparent;
 }
 
 .set-modal-container > .modal-question-group {
@@ -370,26 +358,43 @@ body {
   outline: none;
 }
 
-.set-modal-container > .modal-question-group > .highlight-button {
+.set-modal-container > .highlight-group {
   position: absolute;
-  top: 0;
+}
+
+.set-modal-container > .highlight-group > .highlight-line {
+  overflow: visible;
+  position: absolute;
+  z-index: 2;
+}
+
+.set-modal-container > .highlight-group > .highlight-line > path {
+  stroke: var(--ios-gray-light-600);
+  stroke-width: 2;
+  fill: transparent;
+}
+
+.set-modal-container > .highlight-group > .highlight-button {
+  position: absolute;
 
   background: transparent;
   border: none;
   transition: 0.3s;
+
+  padding: 0;
 }
 
-.set-modal-container > .modal-question-group:hover > .highlight-button {
+.set-modal-container > .highlight-group > .highlight-button:hover {
   transform: translateX(10px);
 }
 
-.set-modal-container > .modal-question-group > .highlight-button > svg {
+.set-modal-container > .highlight-group > .highlight-button > svg {
   overflow: visible;
   cursor: pointer;
   fill: none;
 }
 
-.set-modal-container > .modal-question-group > .highlight-button > svg > path {
+.set-modal-container > .highlight-group > .highlight-button > svg > path {
   stroke: var(--ios-gray-light-600);
   stroke-width: 2;
   stroke-linecap: round;

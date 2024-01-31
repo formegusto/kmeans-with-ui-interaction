@@ -13,6 +13,12 @@ export function SetButton({ highlightSize, ...htmlProps }: SetButtonProps) {
   const refBtn = React.useRef<SVGSVGElement>(null);
   React.useEffect(() => {
     setTimeout(() => {
+      const elHighlightLine = document.querySelector(".highlight-line");
+      if (elHighlightLine) {
+        const rects = elHighlightLine.getBoundingClientRect();
+        console.log(rects);
+      }
+
       if (refBtn.current) {
         refBtn.current.style.strokeDashoffset = "0";
       }
@@ -24,9 +30,10 @@ export function SetButton({ highlightSize, ...htmlProps }: SetButtonProps) {
       className="highlight-button"
       {...htmlProps}
       style={{
-        right: `${highlightSize.inputWidth * -1 - 30}px`,
-      }}
-    >
+        width: 60,
+        height: highlightSize.inputHeight,
+        right: -60,
+      }}>
       <svg
         ref={refBtn}
         xmlns="http://www.w3.org/2000/svg"
@@ -35,16 +42,15 @@ export function SetButton({ highlightSize, ...htmlProps }: SetButtonProps) {
         height={highlightSize.inputHeight}
         style={{
           transition: "0.35s",
-          strokeDasharray: 60 * 1.9,
-          strokeDashoffset: 60 * 1.9,
-        }}
-      >
+          strokeDasharray: 60 * 2.1,
+          strokeDashoffset: 60 * 2.1,
+        }}>
         <path
-          d={`M 0 ${highlightSize.inputHeight - 7} L 32 ${
-            highlightSize.inputHeight - 7
-          } C 60 ${highlightSize.inputHeight - 7} 50 -20 10 ${
-            (highlightSize.inputHeight - 7) / 2
-          } }`}
+          d={`M 0 ${highlightSize.inputHeight} L 40 ${
+            highlightSize.inputHeight
+          } C 80 ${highlightSize.inputHeight} 40 ${
+            highlightSize.inputHeight / 2 - 40
+          } 20 ${highlightSize.inputHeight / 2}`}
         />
       </svg>
     </button>
@@ -119,34 +125,42 @@ export function SetKModal() {
           required
           autoFocus
         />
-        {highlightSize && (
-          <SetButton type="submit" highlightSize={highlightSize} />
-        )}
       </div>
       {highlightSize && (
-        <svg
-          ref={refHighlight}
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox={`0 0 ${highlightSize.groupWidth} ${highlightSize.inputHeight}`}
-          width={highlightSize.groupWidth}
-          height={highlightSize.inputHeight}
-          className="highlight-line"
+        <div
+          className="highlight-group"
           style={{
-            transition: ".5s",
-            strokeDasharray: highlightSize.groupWidth * 2.75,
-            strokeDashoffset: highlightSize.groupWidth * 2.75,
-          }}
-        >
-          <path
-            d={`M ${-30} ${highlightSize.inputHeight} L ${
-              highlightSize.groupWidth
-            } ${highlightSize.inputHeight} L ${highlightSize.groupWidth} -1 L ${
-              highlightSize.groupWidth - highlightSize.inputWidth - 5
-            } -1 L ${highlightSize.groupWidth - highlightSize.inputWidth - 5} ${
-              highlightSize.inputHeight
-            } L ${highlightSize.groupWidth + 30} ${highlightSize.inputHeight}`}
-          />
-        </svg>
+            width: highlightSize.groupWidth,
+            height: highlightSize.inputHeight,
+          }}>
+          <svg
+            ref={refHighlight}
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox={`0 0 ${highlightSize.groupWidth} ${highlightSize.inputHeight}`}
+            width={highlightSize.groupWidth}
+            height={highlightSize.inputHeight}
+            className="highlight-line"
+            style={{
+              transition: ".5s",
+              strokeDasharray: highlightSize.groupWidth * 2.75,
+              strokeDashoffset: highlightSize.groupWidth * 2.75,
+            }}>
+            <path
+              d={`M ${-30} ${highlightSize.inputHeight} L ${
+                highlightSize.groupWidth
+              } ${highlightSize.inputHeight} L ${
+                highlightSize.groupWidth
+              } -1 L ${
+                highlightSize.groupWidth - highlightSize.inputWidth - 5
+              } -1 L ${
+                highlightSize.groupWidth - highlightSize.inputWidth - 5
+              } ${highlightSize.inputHeight} L ${
+                highlightSize.groupWidth + 30
+              } ${highlightSize.inputHeight}`}
+            />
+          </svg>
+          <SetButton type="submit" highlightSize={highlightSize} />
+        </div>
       )}
     </form>
   ) : (
@@ -218,34 +232,42 @@ export function SetLengthModal() {
           required
           autoFocus
         />
-        {highlightSize && (
-          <SetButton type="submit" highlightSize={highlightSize} />
-        )}
       </div>
       {highlightSize && (
-        <svg
-          ref={refHighlight}
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox={`0 0 ${highlightSize.groupWidth} ${highlightSize.inputHeight}`}
-          width={highlightSize.groupWidth}
-          height={highlightSize.inputHeight}
-          className="highlight-line"
+        <div
+          className="highlight-group"
           style={{
-            transition: ".75s",
-            strokeDasharray: highlightSize.groupWidth * 2.75,
-            strokeDashoffset: highlightSize.groupWidth * 2.75,
-          }}
-        >
-          <path
-            d={`M ${-30} ${highlightSize.inputHeight} L ${
-              highlightSize.groupWidth
-            } ${highlightSize.inputHeight} L ${highlightSize.groupWidth} -1 L ${
-              highlightSize.groupWidth - highlightSize.inputWidth - 5
-            } -1 L ${highlightSize.groupWidth - highlightSize.inputWidth - 5} ${
-              highlightSize.inputHeight
-            } L ${highlightSize.groupWidth + 30} ${highlightSize.inputHeight}`}
-          />
-        </svg>
+            width: highlightSize.groupWidth,
+            height: highlightSize.inputHeight,
+          }}>
+          <svg
+            ref={refHighlight}
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox={`0 0 ${highlightSize.groupWidth} ${highlightSize.inputHeight}`}
+            width={highlightSize.groupWidth}
+            height={highlightSize.inputHeight}
+            className="highlight-line"
+            style={{
+              transition: ".75s",
+              strokeDasharray: highlightSize.groupWidth * 2.75,
+              strokeDashoffset: highlightSize.groupWidth * 2.75,
+            }}>
+            <path
+              d={`M ${-30} ${highlightSize.inputHeight} L ${
+                highlightSize.groupWidth
+              } ${highlightSize.inputHeight} L ${
+                highlightSize.groupWidth
+              } -1 L ${
+                highlightSize.groupWidth - highlightSize.inputWidth - 5
+              } -1 L ${
+                highlightSize.groupWidth - highlightSize.inputWidth - 5
+              } ${highlightSize.inputHeight} L ${
+                highlightSize.groupWidth + 30
+              } ${highlightSize.inputHeight}`}
+            />
+          </svg>
+          <SetButton type="submit" highlightSize={highlightSize} />
+        </div>
       )}
     </form>
   ) : (
