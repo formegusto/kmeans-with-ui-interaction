@@ -136,17 +136,19 @@ export function SetKModal() {
           <svg
             ref={refHighlight}
             xmlns="http://www.w3.org/2000/svg"
-            viewBox={`0 0 ${highlightSize.groupWidth} ${highlightSize.inputHeight}`}
-            width={highlightSize.groupWidth}
+            viewBox={`0 0 ${highlightSize.groupWidth + 90} ${
+              highlightSize.inputHeight
+            }`}
+            width={highlightSize.groupWidth + 90}
             height={highlightSize.inputHeight}
             className="highlight-line"
             style={{
-              transition: ".5s",
+              transition: ".75s",
               strokeDasharray: highlightSize.groupWidth * 2.75,
               strokeDashoffset: highlightSize.groupWidth * 2.75,
             }}>
             <path
-              d={`M ${-30} ${highlightSize.inputHeight} L ${
+              d={`M -30 ${highlightSize.inputHeight} L ${
                 highlightSize.groupWidth
               } ${highlightSize.inputHeight} L ${
                 highlightSize.groupWidth
@@ -243,8 +245,10 @@ export function SetLengthModal() {
           <svg
             ref={refHighlight}
             xmlns="http://www.w3.org/2000/svg"
-            viewBox={`0 0 ${highlightSize.groupWidth} ${highlightSize.inputHeight}`}
-            width={highlightSize.groupWidth}
+            viewBox={`0 0 ${highlightSize.groupWidth + 90} ${
+              highlightSize.inputHeight
+            }`}
+            width={highlightSize.groupWidth + 90}
             height={highlightSize.inputHeight}
             className="highlight-line"
             style={{
@@ -253,7 +257,7 @@ export function SetLengthModal() {
               strokeDashoffset: highlightSize.groupWidth * 2.75,
             }}>
             <path
-              d={`M ${-30} ${highlightSize.inputHeight} L ${
+              d={`M -30 ${highlightSize.inputHeight} L ${
                 highlightSize.groupWidth
               } ${highlightSize.inputHeight} L ${
                 highlightSize.groupWidth

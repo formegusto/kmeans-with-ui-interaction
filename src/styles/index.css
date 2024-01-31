@@ -358,6 +358,27 @@ body {
   outline: none;
 }
 
+@media screen and (max-width: 768px) {
+  .set-modal-container {
+    padding-bottom: 20%;
+    box-sizing: border-box;
+  }
+
+  .set-modal-container > .modal-question-group > span {
+    font-size: 16px;
+
+    /* display: flex;
+    align-items: center; */
+    /* line-height: 100px; */
+  }
+
+  .set-modal-container > .modal-question-group > input {
+    font-size: 16px;
+    padding: 0 6px 0px;
+    width: 24px;
+  }
+}
+
 .set-modal-container > .highlight-group {
   position: absolute;
 }
@@ -365,7 +386,6 @@ body {
 .set-modal-container > .highlight-group > .highlight-line {
   overflow: visible;
   position: absolute;
-  z-index: 2;
 }
 
 .set-modal-container > .highlight-group > .highlight-line > path {
