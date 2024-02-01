@@ -33,6 +33,60 @@ export function ScatterArea() {
       //그런 다음 --vh 사용자 정의 속성의 값을 문서의 루트로 설정합니다.
       document.documentElement.style.setProperty("--vh", `${vh}px`);
       setWindowSize([window.innerWidth, vh * 100]);
+
+      if (window.innerWidth <= 600) {
+        const elHighlight = document.querySelector(
+          ".highlight-line"
+        ) as SVGSVGElement;
+        const elHighlightBtn = document.querySelector(".highlight-button");
+        const elHighlightBtnSVG = document.querySelector(
+          ".highlight-button > svg"
+        ) as SVGSVGElement;
+        if (elHighlight && elHighlightBtn) {
+          const elGroup = document.querySelector(".modal-question-group");
+          const { width: groupWidth } = elGroup!.getBoundingClientRect();
+          elHighlight.setAttribute("width", `${groupWidth + 90}`);
+
+          const elInput = document.querySelector(
+            ".modal-question-group > input"
+          );
+          const { height: inputHeight } = elInput!.getBoundingClientRect();
+          elHighlight.setAttribute("height", `${inputHeight + 12}`);
+
+          elHighlightBtn.setAttribute(
+            "style",
+            `width: ${40}px; height: ${inputHeight + 12}px; right: ${-5}px;`
+          );
+
+          elHighlightBtnSVG.setAttribute("height", `${inputHeight + 12}`);
+        }
+      } else {
+        const elHighlight = document.querySelector(
+          ".highlight-line"
+        ) as SVGSVGElement;
+        const elHighlightBtn = document.querySelector(".highlight-button");
+        const elHighlightBtnSVG = document.querySelector(
+          ".highlight-button > svg"
+        ) as SVGSVGElement;
+        if (elHighlight && elHighlightBtn) {
+          const elGroup = document.querySelector(".modal-question-group");
+          const { width: groupWidth } = elGroup!.getBoundingClientRect();
+          elHighlight.setAttribute("width", `${groupWidth + 90}`);
+
+          const elInput = document.querySelector(
+            ".modal-question-group > input"
+          );
+          const { height: inputHeight } = elInput!.getBoundingClientRect();
+          elHighlight.setAttribute("height", `${inputHeight + 12}`);
+
+          elHighlightBtn.setAttribute(
+            "style",
+            `width: ${60}px; height: ${inputHeight + 12}px; right: ${-60}px;`
+          );
+
+          elHighlightBtnSVG.setAttribute("height", `${inputHeight + 12}`);
+        }
+      }
     };
     window.addEventListener("resize", setAspectRatio);
     let vh = window.innerHeight * 0.01;
