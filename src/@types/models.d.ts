@@ -1,5 +1,5 @@
 declare type IPoint = [number, number];
-declare type UIMode = null | "gen" | "set-K" | "set-length" | "run";
+declare type UIMode = null | "gen" | "set-K" | "set-length" | "run" | "predict";
 declare type UIInterpolation = {
   centers: IPoint[][];
   labels: number[][][];

@@ -19,6 +19,7 @@ declare interface IKMeansContextValues {
   K: number | null;
   result: IKMeansResult | null;
   round: number | null;
+  isDone: boolean | null;
 }
 declare interface IKMeansContextActions extends ICommonContextActions {
   start: (k: number, ds: IPoint[]) => void;

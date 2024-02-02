@@ -33,7 +33,8 @@ export function SetButton({ highlightSize, ...htmlProps }: SetButtonProps) {
         width: 60,
         height: highlightSize.inputHeight,
         right: -60,
-      }}>
+      }}
+    >
       <svg
         ref={refBtn}
         xmlns="http://www.w3.org/2000/svg"
@@ -44,7 +45,8 @@ export function SetButton({ highlightSize, ...htmlProps }: SetButtonProps) {
           transition: "0.35s",
           strokeDasharray: 60 * 2.1,
           strokeDashoffset: 60 * 2.1,
-        }}>
+        }}
+      >
         <path
           d={`M 0 ${highlightSize.inputHeight} L 40 ${
             highlightSize.inputHeight
@@ -122,6 +124,9 @@ export function SetKModal() {
           maxLength={2}
           value={value}
           onChange={onChange}
+          style={{
+            width: 32,
+          }}
           required
           autoFocus
         />
@@ -132,7 +137,8 @@ export function SetKModal() {
           style={{
             width: highlightSize.groupWidth,
             height: highlightSize.inputHeight,
-          }}>
+          }}
+        >
           <svg
             ref={refHighlight}
             xmlns="http://www.w3.org/2000/svg"
@@ -146,7 +152,8 @@ export function SetKModal() {
               transition: ".75s",
               strokeDasharray: highlightSize.groupWidth * 2.75,
               strokeDashoffset: highlightSize.groupWidth * 2.75,
-            }}>
+            }}
+          >
             <path
               d={`M -30 ${highlightSize.inputHeight} L ${
                 highlightSize.groupWidth
@@ -228,9 +235,12 @@ export function SetLengthModal() {
         <input
           ref={refInput}
           type="text"
-          maxLength={2}
+          maxLength={3}
           value={value}
           onChange={onChange}
+          style={{
+            width: 48,
+          }}
           required
           autoFocus
         />
@@ -241,7 +251,8 @@ export function SetLengthModal() {
           style={{
             width: highlightSize.groupWidth,
             height: highlightSize.inputHeight,
-          }}>
+          }}
+        >
           <svg
             ref={refHighlight}
             xmlns="http://www.w3.org/2000/svg"
@@ -255,7 +266,8 @@ export function SetLengthModal() {
               transition: ".75s",
               strokeDasharray: highlightSize.groupWidth * 2.75,
               strokeDashoffset: highlightSize.groupWidth * 2.75,
-            }}>
+            }}
+          >
             <path
               d={`M -30 ${highlightSize.inputHeight} L ${
                 highlightSize.groupWidth

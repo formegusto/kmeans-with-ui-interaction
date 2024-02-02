@@ -9,6 +9,7 @@ const initialValues: IKMeansContextValues = {
   K: null,
   result: null,
   round: null,
+  isDone: null,
 };
 const initialActions: IKMeansContextActions = {
   start: () => {},
@@ -23,6 +24,7 @@ export const KMeansContext = React.createContext<IKMeansContext>({
 });
 export function KMeansProvider({ children }: React.PropsWithChildren) {
   const { calcInterpolation, refresh: uiRefresh, changeMode } = useUI();
+  const [isDone, setIsDone] = React.useState<boolean | null>(null);
   const [result, setResult] = React.useState<IKMeansResult | null>(null);
   const [iterator, setIterator] = React.useState<IKMeansIterator | null>(null);
   const [K, setK] = React.useState<number | null>(null);
@@ -60,15 +62,20 @@ export function KMeansProvider({ children }: React.PropsWithChildren) {
         setResult(result);
         calcInterpolation(result, FRAME_COUNT);
         setRound((prev) => prev! + 1);
+        setIsDone(false);
+      } else {
+        setIsDone(true);
+        changeMode("predict");
       }
     }
-  }, [iterator, calcInterpolation]);
+  }, [iterator, calcInterpolation, changeMode]);
 
   const clear = React.useCallback(() => {
     setResult(null);
     setIterator(null);
     setK(null);
     setRound(null);
+    setIsDone(null);
   }, []);
   const refresh = React.useCallback(
     (dataset: IPoint[]) => {
@@ -98,6 +105,7 @@ export function KMeansProvider({ children }: React.PropsWithChildren) {
     <KMeansContext.Provider
       value={{
         K,
+        isDone,
         result,
         round,
         clear,
@@ -105,7 +113,8 @@ export function KMeansProvider({ children }: React.PropsWithChildren) {
         next,
         refresh,
         autoNext,
-      }}>
+      }}
+    >
       {children}
     </KMeansContext.Provider>
   );

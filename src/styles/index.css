@@ -28,6 +28,10 @@ body {
   --ios-gray-light-600: rgb(242, 242, 247);
 }
 
+#scatter-area.predict > circle.point {
+  opacity: 0.3;
+}
+
 .kmeans-utils-area {
   position: absolute;
   right: 0;
@@ -353,7 +357,6 @@ body {
   color: var(--ios-gray-light-600);
   font-size: 24px;
   padding: 0 10px 3px;
-  width: 32px;
 
   outline: none;
 }

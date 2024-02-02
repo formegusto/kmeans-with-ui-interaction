@@ -22,7 +22,7 @@ import React from "react";
 // }, [result, initCenters, moveCenters]);
 
 export function ScatterArea() {
-  const { points, interpolation, calcInterpolation } = useUI();
+  const { points, interpolation, calcInterpolation, mode } = useUI();
   const { result } = useKMeans();
   const [windowSize, setWindowSize] = React.useState<IPoint>([0, 0]);
   const [initCenters, setInitCenters] = React.useState<IPoint[] | null>(null);
@@ -108,11 +108,15 @@ export function ScatterArea() {
 
   return (
     <svg
-      id="scatter-area"
+      id={`scatter-area`}
+      className={`${
+        mode === "run" ? "run" : mode === "predict" ? "predict" : ""
+      }`}
       xmlns="http://www.w3.org/2000/svg"
       width="100%"
       height="100%"
-      viewBox={`0 0 ${windowSize[0]} ${windowSize[1]}`}>
+      viewBox={`0 0 ${windowSize[0]} ${windowSize[1]}`}
+    >
       {points &&
         points.map(([x, y], i) => (
           <circle

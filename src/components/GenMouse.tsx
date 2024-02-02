@@ -3,7 +3,7 @@ import React from "react";
 
 export function GenMouse() {
   const refGenPoint = React.useRef<HTMLDivElement>(null);
-  const { appendPoint } = useUI();
+  const { appendPoint, mode } = useUI();
 
   React.useEffect(() => {
     if (refGenPoint.current) {
@@ -34,11 +34,13 @@ export function GenMouse() {
       const pointY = (y / windowY) * 100;
       console.log(x, y, windowX, windowY, pointX, pointY);
 
-      appendPoint([pointX, pointY]);
+      if (mode === "gen") appendPoint([pointX, pointY]);
+      else {
+      }
       // setDatas((prev) => [...prev, [pointX, pointY]]);
       // setLabels((prev) => [...prev, Math.floor(Math.random() * 11)]);
     },
-    [appendPoint]
+    [appendPoint, mode]
   );
 
   return <div ref={refGenPoint} className="gen-point" onClick={onClick} />;
@@ -47,5 +49,5 @@ export function GenMouse() {
 export function GenMouseListener() {
   const { mode } = useUI();
 
-  return mode === "gen" ? <GenMouse /> : <></>;
+  return mode === "gen" || mode === "predict" ? <GenMouse /> : <></>;
 }
