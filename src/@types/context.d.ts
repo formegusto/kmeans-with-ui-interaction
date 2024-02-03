@@ -12,6 +12,8 @@ declare interface IUIContextActions extends ICommonContextActions {
   randomPoints: (l?: number) => void;
   calcInterpolation: (result: IKMeansResult, frameCount: number) => void;
   refresh: () => void;
+
+  appendPrediction: (p: IPrediction) => void;
 }
 declare interface IUIContext extends IUIContextValues, IUIContextActions {}
 
@@ -26,6 +28,7 @@ declare interface IKMeansContextActions extends ICommonContextActions {
   next: () => void;
   autoNext: () => void;
   refresh: (ds: IPoint[]) => void;
+  predict: (points: IPoint[]) => void;
 }
 declare interface IKMeansContext
   extends IKMeansContextValues,

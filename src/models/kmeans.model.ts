@@ -153,6 +153,15 @@ export class KMeansIterator implements IKMeansIterator {
     return result;
   }
 
+  predict({ dataset }: IKMeansMethodParams): number[] {
+    if (!dataset) throw Errors.EmptyRequiredParameters("dataset");
+
+    const distances = this.calcDistances({ dataset, centers: this.centers });
+    const labels = this.setLabels({ distances });
+
+    return labels;
+  }
+
   [Symbol.iterator](): IterableIterator<IKMeansResult> {
     return this;
   }

@@ -17,6 +17,7 @@ const initialActions: IKMeansContextActions = {
   clear: () => {},
   refresh: () => {},
   autoNext: () => {},
+  predict: () => {},
 };
 export const KMeansContext = React.createContext<IKMeansContext>({
   ...initialValues,
@@ -98,8 +99,20 @@ export function KMeansProvider({ children }: React.PropsWithChildren) {
       setResult(_result);
       calcInterpolation(_result, FRAME_COUNT);
       setRound(_round);
+      setIsDone(true);
+      changeMode("predict");
     }
-  }, [round, iterator, calcInterpolation, result]);
+  }, [round, iterator, calcInterpolation, result, changeMode]);
+
+  const predict = React.useCallback(
+    (points: IPoint[]) => {
+      if (iterator) {
+        const labels = iterator.predict({ dataset: points });
+        console.log(labels);
+      }
+    },
+    [iterator]
+  );
 
   return (
     <KMeansContext.Provider
@@ -113,6 +126,7 @@ export function KMeansProvider({ children }: React.PropsWithChildren) {
         next,
         refresh,
         autoNext,
+        predict,
       }}
     >
       {children}

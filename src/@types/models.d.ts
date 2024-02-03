@@ -1,4 +1,8 @@
 declare type IPoint = [number, number];
+declare interface IPrediction {
+  point: IPoint;
+  label: number;
+}
 declare type UIMode = null | "gen" | "set-K" | "set-length" | "run" | "predict";
 declare type UIInterpolation = {
   centers: IPoint[][];
@@ -36,4 +40,6 @@ declare interface IKMeansIterator
   setLabels: KMeansMethod<number[]>;
   moveCenters: KMeansMethod<IPoint[] | null>;
   calcInertia: KMeansMethod<number>;
+
+  predict: KMeansMethod<number[]>;
 }

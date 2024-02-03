@@ -13,6 +13,7 @@ const initialActions: IUIContextActions = {
   calcInterpolation: () => {},
   refresh: () => {},
   clear: () => {},
+  appendPrediction: () => {},
 };
 export const UIContext = React.createContext<IUIContext>({
   ...initialValues,
@@ -31,6 +32,10 @@ export function UIProvider({ children }: React.PropsWithChildren) {
   const randomPoints = React.useCallback((l?: number) => {
     setPoints(generateRandomDataset({ shape: [l ?? 200, 2] }));
   }, []);
+
+  const [predictions, setPredictions] = React.useState<IPrediction[] | null>(
+    null
+  );
 
   const [interpolation, setInterpolation] =
     React.useState<UIInterpolation | null>(null);
@@ -109,6 +114,18 @@ export function UIProvider({ children }: React.PropsWithChildren) {
     setInterpolation(null);
   }, []);
 
+  const appendPrediction = React.useCallback(
+    (p: IPrediction) => {
+      if (predictions) setPredictions(predictions.concat(p));
+    },
+    [predictions]
+  );
+
+  React.useEffect(() => {
+    if (mode === "predict") setPredictions([]);
+    else setPredictions(null);
+  }, [mode]);
+
   return (
     <UIContext.Provider
       value={{
@@ -121,7 +138,9 @@ export function UIProvider({ children }: React.PropsWithChildren) {
         calcInterpolation,
         clear,
         refresh,
-      }}>
+        appendPrediction,
+      }}
+    >
       {children}
     </UIContext.Provider>
   );
