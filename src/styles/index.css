@@ -28,6 +28,16 @@ body {
   --ios-gray-light-600: rgb(242, 242, 247);
 }
 
+#root {
+  width: 100vw;
+  height: calc(var(--vh, 1vh) * 100);
+}
+
+#scatter-area {
+  width: 100%;
+  height: 100%;
+}
+
 #scatter-area.predict > circle.point {
   opacity: 0.3;
 }
@@ -485,8 +495,4 @@ body {
   fill: transparent;
   stroke-width: 3;
   stroke-linecap: round;
-}
-
-#root {
-  height: calc(var(--vh, 1vh) * 100);
 }

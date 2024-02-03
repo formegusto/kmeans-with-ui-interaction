@@ -2,43 +2,18 @@ import { useKMeans, useUI } from "@hooks";
 import { IOSDefault, IOSGrayLight } from "@styles/palette";
 import React from "react";
 
-// const moveCenters = React.useCallback((nextCenters: IPoint[]) => {
-//   for (let i = 0; i < nextCenters.length; i++) {
-//     const el = document.querySelector(`.center-${i}`);
-//     if (el) {
-//       el.setAttribute("cx", nextCenters[i][0] + "%");
-//       el.setAttribute("cy", nextCenters[i][1] + "%");
-//     }
-//   }
-// }, []);
-
-// React.useEffect(() => {
-//   if (result) {
-//     if (!initCenters) setInitCenters(result.centers!);
-//     moveCenters(result.centers!);
-//   } else {
-//     setInitCenters(null);
-//   }
-// }, [result, initCenters, moveCenters]);
-
 export function ScatterArea() {
   const { points, interpolation, calcInterpolation, mode } = useUI();
   const { result } = useKMeans();
-  const [windowSize, setWindowSize] = React.useState<IPoint>([0, 0]);
   const [initCenters, setInitCenters] = React.useState<IPoint[] | null>(null);
 
   React.useEffect(() => {
     const setAspectRatio = () => {
       let vh = window.innerHeight * 0.01;
-      //그런 다음 --vh 사용자 정의 속성의 값을 문서의 루트로 설정합니다.
       document.documentElement.style.setProperty("--vh", `${vh}px`);
-      setWindowSize([window.innerWidth, vh * 100]);
     };
     window.addEventListener("resize", setAspectRatio);
-    let vh = window.innerHeight * 0.01;
-    //그런 다음 --vh 사용자 정의 속성의 값을 문서의 루트로 설정합니다.
-    document.documentElement.style.setProperty("--vh", `${vh}px`);
-    setWindowSize([window.innerWidth, vh * 100]);
+    setAspectRatio();
 
     return () => {
       window.removeEventListener("resize", setAspectRatio);
@@ -113,9 +88,6 @@ export function ScatterArea() {
         mode === "run" ? "run" : mode === "predict" ? "predict" : ""
       }`}
       xmlns="http://www.w3.org/2000/svg"
-      width="100%"
-      height="100%"
-      viewBox={`0 0 ${windowSize[0]} ${windowSize[1]}`}
     >
       {points &&
         points.map(([x, y], i) => (
