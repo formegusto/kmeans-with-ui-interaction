@@ -5,6 +5,7 @@ const initialValues: IUIContextValues = {
   mode: null,
   points: null,
   interpolation: null,
+  predictions: null,
 };
 const initialActions: IUIContextActions = {
   changeMode: () => {},
@@ -139,6 +140,7 @@ export function UIProvider({ children }: React.PropsWithChildren) {
         clear,
         refresh,
         appendPrediction,
+        predictions,
       }}
     >
       {children}

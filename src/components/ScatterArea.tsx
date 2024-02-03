@@ -3,7 +3,8 @@ import { IOSDefault, IOSGrayLight } from "@styles/palette";
 import React from "react";
 
 export function ScatterArea() {
-  const { points, interpolation, calcInterpolation, mode } = useUI();
+  const { points, interpolation, calcInterpolation, mode, predictions } =
+    useUI();
   const { result } = useKMeans();
   const [initCenters, setInitCenters] = React.useState<IPoint[] | null>(null);
 
@@ -98,6 +99,17 @@ export function ScatterArea() {
             cy={`${y}%`}
             r={10}
             fill={IOSGrayLight[0]}
+          />
+        ))}
+      {predictions &&
+        predictions.map(({ point: [x, y], label }, i) => (
+          <circle
+            key={`prediction-point-${i}`}
+            className={`prediction prediction-${i}`}
+            cx={`${x}%`}
+            cy={`${y}%`}
+            r={10}
+            fill={IOSDefault[label]}
           />
         ))}
       {initCenters &&

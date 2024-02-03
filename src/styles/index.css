@@ -39,7 +39,7 @@ body {
 }
 
 #scatter-area.predict > circle.point {
-  opacity: 0.3;
+  opacity: 0.15;
 }
 
 .kmeans-utils-area {
@@ -449,6 +449,8 @@ body {
   padding: 8px 0px;
   border-radius: 1rem;
   column-gap: 16px;
+
+  z-index: 5;
 
   animation: run-mode 0.3s linear forwards;
 }

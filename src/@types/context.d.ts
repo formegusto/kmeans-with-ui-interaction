@@ -5,6 +5,8 @@ declare interface IUIContextValues {
   mode: UIMode;
   points: IPoint[] | null;
   interpolation: UIInterpolation | null;
+
+  predictions: IPrediction[] | null;
 }
 declare interface IUIContextActions extends ICommonContextActions {
   changeMode: (m: UIMode) => void;
@@ -28,7 +30,7 @@ declare interface IKMeansContextActions extends ICommonContextActions {
   next: () => void;
   autoNext: () => void;
   refresh: (ds: IPoint[]) => void;
-  predict: (points: IPoint[]) => void;
+  predict: (points: IPoint[]) => number[] | null;
 }
 declare interface IKMeansContext
   extends IKMeansContextValues,

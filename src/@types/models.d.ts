@@ -41,5 +41,5 @@ declare interface IKMeansIterator
   moveCenters: KMeansMethod<IPoint[] | null>;
   calcInertia: KMeansMethod<number>;
 
-  predict: KMeansMethod<number[]>;
+  predict?: KMeansMethod<number[]>;
 }

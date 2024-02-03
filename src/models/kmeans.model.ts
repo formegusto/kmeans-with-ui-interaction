@@ -28,6 +28,7 @@ export class KMeans implements IKMeans {
 
 export class KMeansIterator implements IKMeansIterator {
   centers?: IPoint[] | undefined;
+  predict?: KMeansMethod<number[]>;
 
   constructor(public K: number, public dataset: IPoint[]) {
     this.centers = this.initCenters({ dataset });
@@ -142,7 +143,20 @@ export class KMeansIterator implements IKMeansIterator {
     };
     // 5. 2~4의 과정을 중심점에 변화가 없을 때까지 반복
     if (!nextCenters) {
+      const _centers = this.centers;
+      this.predict = ({ dataset }: IKMeansMethodParams): number[] => {
+        if (!dataset) throw Errors.EmptyRequiredParameters("dataset");
+        console.log(dataset, _centers);
+        const distances = this.calcDistances({
+          dataset,
+          centers: _centers,
+        });
+        const labels = this.setLabels({ distances });
+
+        return labels;
+      };
       this.centers = undefined;
+
       result.value.dataset = this.dataset;
       return result;
     }
@@ -153,14 +167,15 @@ export class KMeansIterator implements IKMeansIterator {
     return result;
   }
 
-  predict({ dataset }: IKMeansMethodParams): number[] {
-    if (!dataset) throw Errors.EmptyRequiredParameters("dataset");
+  // predict({ dataset }: IKMeansMethodParams): number[] {
+  //   if (!dataset) throw Errors.EmptyRequiredParameters("dataset");
 
-    const distances = this.calcDistances({ dataset, centers: this.centers });
-    const labels = this.setLabels({ distances });
+  //   console.log(dataset, this.centers);
+  //   const distances = this.calcDistances({ dataset, centers: this.centers });
+  //   const labels = this.setLabels({ distances });
 
-    return labels;
-  }
+  //   return labels;
+  // }
 
   [Symbol.iterator](): IterableIterator<IKMeansResult> {
     return this;
