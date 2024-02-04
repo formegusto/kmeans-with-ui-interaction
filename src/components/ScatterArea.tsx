@@ -44,9 +44,9 @@ export function ScatterArea() {
   }, []);
 
   const moveCenters = React.useCallback(
-    (interpolation: IDot[], label: number, count: number) => {
-      if (count === interpolation.length) return;
-      const [nx, ny] = interpolation[count];
+    (frames: IDot[], label: number, count: number) => {
+      if (count === frames.length) return;
+      const [nx, ny] = frames[count];
       const el = document.querySelector(`.center-${label}`);
       const roundEl = document.querySelector(`.center-round-${label}`);
       // const elFrameCount = document.querySelector(`.frame-count`);
@@ -58,23 +58,21 @@ export function ScatterArea() {
 
         // elFrameCount!.textContent = `Frame : ${count}/1500`;
 
-        requestAnimationFrame(() =>
-          moveCenters(interpolation, label, count + 1)
-        );
+        requestAnimationFrame(() => moveCenters(frames, label, count + 1));
       }
     },
     [MAX_X, MAX_Y]
   );
 
   const paintDots = React.useCallback(
-    (interpolation: number[][], label: number, count: number) => {
-      if (count === interpolation.length) return;
-      const targetDots = interpolation[count];
+    (frames: number[][], label: number, count: number) => {
+      if (count === frames.length) return;
+      const targetDots = frames[count];
       for (let targetDot of targetDots) {
         const el = document.querySelector(`.dot-${targetDot}`);
         if (el) el.setAttribute("fill", IOSDefault[label]);
       }
-      requestAnimationFrame(() => paintDots(interpolation, label, count + 1));
+      requestAnimationFrame(() => paintDots(frames, label, count + 1));
     },
     []
   );

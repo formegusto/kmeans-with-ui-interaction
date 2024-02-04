@@ -67,46 +67,49 @@ export function UIProvider({ children }: React.PropsWithChildren) {
       if (!result.distances || !result.labels) return;
       const { distances, labels } = result;
 
-      // 2.1. min distances group
-      const minDistances: number[] = [];
-      for (let i = 0; i < distances.length; i++) {
-        const _distances = distances[i];
-        minDistances.push(_distances[_distances.getMinIdx()]);
-      }
+      // 2.1. generate min distances
+      // const minDistances: number[] = [];
+      // for (let i = 0; i < distances.length; i++) {
+      //   const _distances = distances[i];
+      //   minDistances.push(_distances[_distances.getMinIdx()]);
+      // }
 
-      // 2.2. label, distances group 생성
+      // 2.1. label, min distances group 생성
       const idxes: number[] = Array.from(
         { length: labels.length },
         (_, i) => i
       );
-      const labelGroup: number[][] = Array.from(
+      const dotsGroup: number[][] = Array.from(
         { length: centers.length },
         () => []
       );
-      const minDistancesGroup: number[][] = Array.from(
+      const distancesGroup: number[][] = Array.from(
         { length: centers.length },
         () => []
       );
       for (let i = 0; i < labels.length; i++) {
-        labelGroup[labels[i]].push(idxes[i]);
-        minDistancesGroup[labels[i]].push(minDistances[i]);
+        dotsGroup[labels[i]].push(idxes[i]);
+        distancesGroup[labels[i]].push(distances[i][labels[i]]);
       }
 
-      for (let g = 0; g < labelGroup.length; g++) {
-        const _labelGroup = labelGroup[g];
-        const _minDistancesGroup = minDistancesGroup[g];
-        _labelGroup.sort((a, b) => {
-          const a_i = _labelGroup.indexOf(a);
-          const b_i = _labelGroup.indexOf(b);
+      // 2.3 group sorting
+      for (let g = 0; g < dotsGroup.length; g++) {
+        const _dotsGroup = dotsGroup[g];
+        const _distancesGroup = distancesGroup[g];
+        _dotsGroup.sort((a, b) => {
+          const a_i = _dotsGroup.indexOf(a);
+          const b_i = _dotsGroup.indexOf(b);
 
-          return _minDistancesGroup[a_i] - _minDistancesGroup[b_i];
+          return _distancesGroup[a_i] - _distancesGroup[b_i];
         });
       }
 
+      // 2.4 labeling frames 생성
+      const labelingFrames = dotsGroup.map((g) => itemSplit(g, frameCount));
       // console.log(centersInterpolation);
       setInterpolation({
         centers: centersInterpolation,
-        labels: labelGroup.map((g) => itemSplit(g, frameCount)),
+        labels: labelingFrames,
       });
     },
     []

@@ -2,7 +2,7 @@ import { useUI } from "@hooks";
 import { KMeans } from "@models";
 import React from "react";
 
-const FRAME_COUNT = 5;
+const FRAME_COUNT = 50;
 const DATASET_COUNT_THRESHOLD = 10;
 
 const initialValues: IKMeansContextValues = {
@@ -96,6 +96,10 @@ export function KMeansProvider({ children }: React.PropsWithChildren) {
       for (_result of iterator) _round++;
       _result.nextCenters = _result.centers;
       _result.centers = centers;
+      _result.distances = iterator.calcDistances({
+        dataset: iterator.dataset,
+        centers,
+      });
       setResult(_result);
       calcInterpolation(_result, FRAME_COUNT);
       setRound(_round);
