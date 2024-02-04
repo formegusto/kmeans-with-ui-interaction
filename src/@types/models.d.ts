@@ -1,32 +1,32 @@
-declare type IPoint = [number, number];
+declare type IDot = [number, number];
 declare interface IPrediction {
-  point: IPoint;
+  dot: IDot;
   label: number;
 }
 declare type UIMode = null | "gen" | "set-K" | "set-length" | "run" | "predict";
 declare type UIInterpolation = {
-  centers: IPoint[][];
+  centers: IDot[][];
   labels: number[][][];
 };
 
 declare interface IKMeansMethodParams {
-  dataset?: IPoint[];
-  centers?: IPoint[];
+  dataset?: IDot[];
+  centers?: IDot[];
   distances?: number[][];
   labels?: number[];
 }
 
 declare interface IKMeansResult extends IKMeansMethodParams {
   inertia?: number;
-  nextCenters?: IPoint[];
+  nextCenters?: IDot[];
 }
 
 declare type KMeansMethod<R = number[][]> = (params: IKMeansMethodParams) => R;
 
 declare interface IKMeansSetting {
   K: number;
-  dataset?: IPoint[];
-  centers?: IPoint[];
+  dataset?: IDot[];
+  centers?: IDot[];
 }
 declare interface IKMeans extends IKMeansSetting, Iterable<IKMeansResult> {
   fit: KMeansMethod<IKMeansResult | undefined>;
@@ -38,7 +38,7 @@ declare interface IKMeansIterator
   initCenters: KMeansMethod;
   calcDistances: KMeansMethod;
   setLabels: KMeansMethod<number[]>;
-  moveCenters: KMeansMethod<IPoint[] | null>;
+  moveCenters: KMeansMethod<IDot[] | null>;
   calcInertia: KMeansMethod<number>;
 
   predict?: KMeansMethod<number[]>;

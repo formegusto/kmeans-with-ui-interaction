@@ -1,7 +1,7 @@
 import { useKMeans, useUI } from "@hooks";
 
 export function RunToolbar() {
-  const { mode, points } = useUI();
+  const { mode, dots } = useUI();
   const { K, next, round, refresh, autoNext, isDone } = useKMeans();
 
   return mode === "run" || mode === "predict" ? (
@@ -50,7 +50,7 @@ export function RunToolbar() {
       )}
 
       <span>round={isDone ? "End" : round}</span>
-      <button className="iter-refresh" onClick={() => refresh(points!)}>
+      <button className="iter-refresh" onClick={() => refresh(dots!)}>
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36">
           <path
             d="M 28 20

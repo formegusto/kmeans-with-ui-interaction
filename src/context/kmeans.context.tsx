@@ -2,7 +2,7 @@ import { useUI } from "@hooks";
 import { KMeans } from "@models";
 import React from "react";
 
-const FRAME_COUNT = 1500;
+const FRAME_COUNT = 5;
 const DATASET_COUNT_THRESHOLD = 10;
 
 const initialValues: IKMeansContextValues = {
@@ -31,7 +31,7 @@ export function KMeansProvider({ children }: React.PropsWithChildren) {
   const [K, setK] = React.useState<number | null>(null);
   const [round, setRound] = React.useState<number | null>(null);
   const start = React.useCallback(
-    (k: number, dataset: IPoint[]) => {
+    (k: number, dataset: IDot[]) => {
       if (dataset.length > DATASET_COUNT_THRESHOLD) {
         if (k <= 1) {
           alert("K 설정값이 너무 작습니다. 2 이상의 값을 입력해주세요.");
@@ -79,7 +79,7 @@ export function KMeansProvider({ children }: React.PropsWithChildren) {
     setIsDone(null);
   }, []);
   const refresh = React.useCallback(
-    (dataset: IPoint[]) => {
+    (dataset: IDot[]) => {
       clear();
       uiRefresh();
       setTimeout(() => {
@@ -105,9 +105,9 @@ export function KMeansProvider({ children }: React.PropsWithChildren) {
   }, [round, iterator, calcInterpolation, result, changeMode]);
 
   const predict = React.useCallback(
-    (points: IPoint[]) => {
+    (dots: IDot[]) => {
       if (iterator && iterator.predict) {
-        const labels = iterator.predict({ dataset: points });
+        const labels = iterator.predict({ dataset: dots });
         console.log(labels);
 
         return labels;

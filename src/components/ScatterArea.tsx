@@ -4,7 +4,7 @@ import React from "react";
 
 export function ScatterArea() {
   const {
-    points,
+    dots,
     interpolation,
     calcInterpolation,
     mode,
@@ -13,7 +13,7 @@ export function ScatterArea() {
     MAX_Y,
   } = useUI();
   const { result } = useKMeans();
-  const [initCenters, setInitCenters] = React.useState<IPoint[] | null>(null);
+  const [initCenters, setInitCenters] = React.useState<IDot[] | null>(null);
 
   React.useEffect(() => {
     const setAspectRatio = () => {
@@ -37,14 +37,14 @@ export function ScatterArea() {
   }, [result, interpolation, calcInterpolation]);
 
   const clearColors = React.useCallback(() => {
-    const points = document.querySelectorAll("#scatter-area > .point");
-    points.forEach((p) => {
-      p.setAttribute("fill", IOSGrayLight[0]);
+    const dots = document.querySelectorAll("#scatter-area > .dot");
+    dots.forEach((d) => {
+      d.setAttribute("fill", IOSGrayLight[0]);
     });
   }, []);
 
   const moveCenters = React.useCallback(
-    (interpolation: IPoint[], label: number, count: number) => {
+    (interpolation: IDot[], label: number, count: number) => {
       if (count === interpolation.length) return;
       const [nx, ny] = interpolation[count];
       const el = document.querySelector(`.center-${label}`);
@@ -66,15 +66,15 @@ export function ScatterArea() {
     [MAX_X, MAX_Y]
   );
 
-  const paintPoints = React.useCallback(
+  const paintDots = React.useCallback(
     (interpolation: number[][], label: number, count: number) => {
       if (count === interpolation.length) return;
-      const targetPoints = interpolation[count];
-      for (let targetPoint of targetPoints) {
-        const el = document.querySelector(`.point-${targetPoint}`);
+      const targetDots = interpolation[count];
+      for (let targetDot of targetDots) {
+        const el = document.querySelector(`.dot-${targetDot}`);
         if (el) el.setAttribute("fill", IOSDefault[label]);
       }
-      requestAnimationFrame(() => paintPoints(interpolation, label, count + 1));
+      requestAnimationFrame(() => paintDots(interpolation, label, count + 1));
     },
     []
   );
@@ -85,12 +85,12 @@ export function ScatterArea() {
       console.log(labels);
       for (let label = 0; label < centers.length; label++) {
         moveCenters(centers[label], label, 0);
-        paintPoints(labels[label], label, 0);
+        paintDots(labels[label], label, 0);
       }
     } else {
       clearColors();
     }
-  }, [interpolation, moveCenters, paintPoints, clearColors]);
+  }, [interpolation, moveCenters, paintDots, clearColors]);
 
   return (
     <>
@@ -101,11 +101,11 @@ export function ScatterArea() {
         }`}
         xmlns="http://www.w3.org/2000/svg"
       >
-        {points &&
-          points.map(([x, y], i) => (
+        {dots &&
+          dots.map(([x, y], i) => (
             <circle
-              key={`point-${i}`}
-              className={`point point-${i}`}
+              key={`dot-${i}`}
+              className={`dot dot-${i}`}
               cx={`${(x / MAX_X) * 100}%`}
               cy={`${(y / MAX_Y) * 100}%`}
               r={10}
@@ -113,9 +113,9 @@ export function ScatterArea() {
             />
           ))}
         {predictions &&
-          predictions.map(({ point: [x, y], label }, i) => (
+          predictions.map(({ dot: [x, y], label }, i) => (
             <circle
-              key={`prediction-point-${i}`}
+              key={`prediction-dot-${i}`}
               className={`prediction prediction-${i}`}
               cx={`${(x / MAX_X) * 100}%`}
               cy={`${(y / MAX_Y) * 100}%`}

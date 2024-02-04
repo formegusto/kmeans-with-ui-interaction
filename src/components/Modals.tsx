@@ -60,7 +60,7 @@ export function SetButton({ highlightSize, ...htmlProps }: SetButtonProps) {
 }
 
 export function SetKModal() {
-  const { points } = useUI();
+  const { dots } = useUI();
   const [value, setValue] = React.useState<string>("");
   const { mode, changeMode } = useUI();
   const { start } = useKMeans();
@@ -72,14 +72,14 @@ export function SetKModal() {
   const onSubmit = React.useCallback(
     (e: React.FormEvent) => {
       e.preventDefault();
-      if (points) start(parseInt(value), points);
+      if (dots) start(parseInt(value), dots);
       else {
         alert("데이터 셋이 설정되지 않았습니다.");
         changeMode(null);
       }
       setValue("");
     },
-    [start, value, changeMode, points]
+    [start, value, changeMode, dots]
   );
 
   const onChange = React.useCallback(
@@ -183,17 +183,17 @@ export function SetLengthModal() {
   const refHighlight = React.useRef<SVGSVGElement>(null);
   const [highlightSize, setHighlightSize] = React.useState<any | null>(null);
   const [value, setValue] = React.useState<string>("");
-  const { mode, changeMode, randomPoints, clear } = useUI();
+  const { mode, changeMode, randomDots, clear } = useUI();
 
   const onSubmit = React.useCallback(
     (e: React.FormEvent) => {
       e.preventDefault();
       clear();
       setValue("");
-      randomPoints(parseInt(value));
+      randomDots(parseInt(value));
       changeMode(null);
     },
-    [value, randomPoints, changeMode, clear]
+    [value, randomDots, changeMode, clear]
   );
 
   const onChange = React.useCallback(
@@ -231,7 +231,7 @@ export function SetLengthModal() {
   return mode === "set-length" ? (
     <form onSubmit={onSubmit} className="set-modal-container">
       <div ref={refGroup} className="modal-question-group">
-        <span>Your point length is</span>
+        <span>Your dots length is</span>
         <input
           ref={refInput}
           type="text"

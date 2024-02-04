@@ -6,7 +6,7 @@ const MAX_Y = 200;
 
 const initialValues: IUIContextValues = {
   mode: null,
-  points: null,
+  dots: null,
   interpolation: null,
   predictions: null,
   MAX_X,
@@ -14,8 +14,8 @@ const initialValues: IUIContextValues = {
 };
 const initialActions: IUIContextActions = {
   changeMode: () => {},
-  appendPoint: () => {},
-  randomPoints: () => {},
+  appendDot: () => {},
+  randomDots: () => {},
   calcInterpolation: () => {},
   refresh: () => {},
   clear: () => {},
@@ -31,12 +31,12 @@ export function UIProvider({ children }: React.PropsWithChildren) {
     setMode(m);
   }, []);
 
-  const [points, setPoints] = React.useState<IPoint[] | null>(null);
-  const appendPoint = React.useCallback((p: IPoint) => {
-    setPoints((prev) => (prev === null ? [p] : prev.concat([p])));
+  const [dots, setDots] = React.useState<IDot[] | null>(null);
+  const appendDot = React.useCallback((p: IDot) => {
+    setDots((prev) => (prev === null ? [p] : prev.concat([p])));
   }, []);
-  const randomPoints = React.useCallback((l?: number) => {
-    setPoints(generateRandomDataset({ shape: [l ?? 200, 2], max: 200 }));
+  const randomDots = React.useCallback((l?: number) => {
+    setDots(generateRandomDataset({ shape: [l ?? 200, 2], max: 200 }));
   }, []);
 
   const [predictions, setPredictions] = React.useState<IPrediction[] | null>(
@@ -51,15 +51,17 @@ export function UIProvider({ children }: React.PropsWithChildren) {
       // 1. center interpolation
       if (!result.centers || !result.nextCenters) return;
       const { centers, nextCenters } = result;
-      const centersInterpolation: IPoint[][] = [];
+      const centersInterpolation: IDot[][] = [];
       for (let i = 0; i < centers.length; i++) {
-        const _inters: IPoint[] = [];
+        const _inters: IDot[] = [];
         for (let t = 1 / frameCount; t <= 1; t += 1 / frameCount) {
           const _inter = linearInterpolation(centers[i], nextCenters![i], t);
           _inters.push(_inter);
         }
         centersInterpolation.push(_inters);
       }
+
+      // console.log(centers, nextCenters, centersInterpolation);
 
       // 2. label interpolation
       if (!result.distances || !result.labels) return;
@@ -112,7 +114,7 @@ export function UIProvider({ children }: React.PropsWithChildren) {
 
   const clear = React.useCallback(() => {
     setMode(null);
-    setPoints(null);
+    setDots(null);
     setInterpolation(null);
   }, []);
 
@@ -136,11 +138,11 @@ export function UIProvider({ children }: React.PropsWithChildren) {
     <UIContext.Provider
       value={{
         mode,
-        points,
+        dots,
         interpolation,
         changeMode,
-        appendPoint,
-        randomPoints,
+        appendDot,
+        randomDots,
         calcInterpolation,
         clear,
         refresh,
