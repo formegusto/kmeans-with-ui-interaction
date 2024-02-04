@@ -1,11 +1,16 @@
 import { generateRandomDataset, itemSplit, linearInterpolation } from "@utils";
 import React from "react";
 
+const MAX_X = 200;
+const MAX_Y = 200;
+
 const initialValues: IUIContextValues = {
   mode: null,
   points: null,
   interpolation: null,
   predictions: null,
+  MAX_X,
+  MAX_Y,
 };
 const initialActions: IUIContextActions = {
   changeMode: () => {},
@@ -31,7 +36,7 @@ export function UIProvider({ children }: React.PropsWithChildren) {
     setPoints((prev) => (prev === null ? [p] : prev.concat([p])));
   }, []);
   const randomPoints = React.useCallback((l?: number) => {
-    setPoints(generateRandomDataset({ shape: [l ?? 200, 2] }));
+    setPoints(generateRandomDataset({ shape: [l ?? 200, 2], max: 200 }));
   }, []);
 
   const [predictions, setPredictions] = React.useState<IPrediction[] | null>(
@@ -141,6 +146,8 @@ export function UIProvider({ children }: React.PropsWithChildren) {
         refresh,
         appendPrediction,
         predictions,
+        MAX_X,
+        MAX_Y,
       }}
     >
       {children}

@@ -3,7 +3,7 @@ import React from "react";
 
 export function GenMouse() {
   const refGenPoint = React.useRef<HTMLDivElement>(null);
-  const { appendPoint, mode, appendPrediction } = useUI();
+  const { appendPoint, mode, appendPrediction, MAX_X, MAX_Y } = useUI();
   const { predict } = useKMeans();
 
   React.useEffect(() => {
@@ -24,16 +24,14 @@ export function GenMouse() {
     }
   }, []);
 
-  const onClick = React.useCallback(
+  const stampPoint = React.useCallback(
     (e: React.MouseEvent) => {
-      const x = e.clientX;
-      const y = e.clientY;
+      const { clientX: x, clientY: y } = e;
+      const { innerWidth: windowWidth, innerHeight: windowHeight } = window;
+      const pointX = (x / windowWidth) * MAX_X;
+      const pointY = (y / windowHeight) * MAX_Y;
 
-      const { innerWidth: windowX, innerHeight: windowY } = window;
-
-      const pointX = (x / windowX) * 100;
-      const pointY = (y / windowY) * 100;
-      console.log(x, y, windowX, windowY, pointX, pointY);
+      console.log(x, y, windowWidth, windowHeight, pointX, pointY);
 
       if (mode === "gen") appendPoint([pointX, pointY]);
       else if (mode === "predict") {
@@ -45,13 +43,11 @@ export function GenMouse() {
             label: labels[0],
           });
       }
-      // setDatas((prev) => [...prev, [pointX, pointY]]);
-      // setLabels((prev) => [...prev, Math.floor(Math.random() * 11)]);
     },
-    [appendPoint, mode, predict, appendPrediction]
+    [appendPoint, mode, predict, appendPrediction, MAX_X, MAX_Y]
   );
 
-  return <div ref={refGenPoint} className="gen-point" onClick={onClick} />;
+  return <div ref={refGenPoint} className="gen-point" onClick={stampPoint} />;
 }
 
 export function GenMouseListener() {

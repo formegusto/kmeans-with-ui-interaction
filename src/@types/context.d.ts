@@ -6,6 +6,9 @@ declare interface IUIContextValues {
   points: IPoint[] | null;
   interpolation: UIInterpolation | null;
 
+  MAX_X: number;
+  MAX_Y: number;
+
   predictions: IPrediction[] | null;
 }
 declare interface IUIContextActions extends ICommonContextActions {

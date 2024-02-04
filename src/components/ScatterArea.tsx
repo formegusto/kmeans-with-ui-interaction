@@ -3,8 +3,15 @@ import { IOSDefault, IOSGrayLight } from "@styles/palette";
 import React from "react";
 
 export function ScatterArea() {
-  const { points, interpolation, calcInterpolation, mode, predictions } =
-    useUI();
+  const {
+    points,
+    interpolation,
+    calcInterpolation,
+    mode,
+    predictions,
+    MAX_X,
+    MAX_Y,
+  } = useUI();
   const { result } = useKMeans();
   const [initCenters, setInitCenters] = React.useState<IPoint[] | null>(null);
 
@@ -43,17 +50,17 @@ export function ScatterArea() {
       const el = document.querySelector(`.center-${label}`);
       const roundEl = document.querySelector(`.center-round-${label}`);
       if (el && roundEl) {
-        el.setAttribute("cx", nx + "%");
-        el.setAttribute("cy", ny + "%");
-        roundEl.setAttribute("cx", nx + "%");
-        roundEl.setAttribute("cy", ny + "%");
+        el.setAttribute("cx", (nx / MAX_X) * 100 + "%");
+        el.setAttribute("cy", (ny / MAX_Y) * 100 + "%");
+        roundEl.setAttribute("cx", (nx / MAX_X) * 100 + "%");
+        roundEl.setAttribute("cy", (ny / MAX_Y) * 100 + "%");
 
         requestAnimationFrame(() =>
           moveCenters(interpolation, label, count + 1)
         );
       }
     },
-    []
+    [MAX_X, MAX_Y]
   );
 
   const paintPoints = React.useCallback(
@@ -95,8 +102,8 @@ export function ScatterArea() {
           <circle
             key={`point-${i}`}
             className={`point point-${i}`}
-            cx={`${x}%`}
-            cy={`${y}%`}
+            cx={`${(x / MAX_X) * 100}%`}
+            cy={`${(y / MAX_Y) * 100}%`}
             r={10}
             fill={IOSGrayLight[0]}
           />
@@ -106,8 +113,8 @@ export function ScatterArea() {
           <circle
             key={`prediction-point-${i}`}
             className={`prediction prediction-${i}`}
-            cx={`${x}%`}
-            cy={`${y}%`}
+            cx={`${(x / MAX_X) * 100}%`}
+            cy={`${(y / MAX_Y) * 100}%`}
             r={10}
             fill={IOSDefault[label]}
           />
@@ -117,15 +124,15 @@ export function ScatterArea() {
           <React.Fragment key={`center-${i}`}>
             <circle
               className={`center-${i}`}
-              cx={`${x}%`}
-              cy={`${y}%`}
+              cx={`${(x / MAX_X) * 100}%`}
+              cy={`${(y / MAX_Y) * 100}%`}
               r={10}
               fill={IOSDefault[i]}
             />
             <circle
               className={`center-round-${i}`}
-              cx={`${x}%`}
-              cy={`${y}%`}
+              cx={`${(x / MAX_X) * 100}%`}
+              cy={`${(y / MAX_Y) * 100}%`}
               r={100}
               strokeWidth={4}
               fill="none"
