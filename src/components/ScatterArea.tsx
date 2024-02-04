@@ -49,11 +49,14 @@ export function ScatterArea() {
       const [nx, ny] = interpolation[count];
       const el = document.querySelector(`.center-${label}`);
       const roundEl = document.querySelector(`.center-round-${label}`);
+      // const elFrameCount = document.querySelector(`.frame-count`);
       if (el && roundEl) {
         el.setAttribute("cx", (nx / MAX_X) * 100 + "%");
         el.setAttribute("cy", (ny / MAX_Y) * 100 + "%");
         roundEl.setAttribute("cx", (nx / MAX_X) * 100 + "%");
         roundEl.setAttribute("cy", (ny / MAX_Y) * 100 + "%");
+
+        // elFrameCount!.textContent = `Frame : ${count}/1500`;
 
         requestAnimationFrame(() =>
           moveCenters(interpolation, label, count + 1)
@@ -90,56 +93,59 @@ export function ScatterArea() {
   }, [interpolation, moveCenters, paintPoints, clearColors]);
 
   return (
-    <svg
-      id={`scatter-area`}
-      className={`${
-        mode === "run" ? "run" : mode === "predict" ? "predict" : ""
-      }`}
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      {points &&
-        points.map(([x, y], i) => (
-          <circle
-            key={`point-${i}`}
-            className={`point point-${i}`}
-            cx={`${(x / MAX_X) * 100}%`}
-            cy={`${(y / MAX_Y) * 100}%`}
-            r={10}
-            fill={IOSGrayLight[0]}
-          />
-        ))}
-      {predictions &&
-        predictions.map(({ point: [x, y], label }, i) => (
-          <circle
-            key={`prediction-point-${i}`}
-            className={`prediction prediction-${i}`}
-            cx={`${(x / MAX_X) * 100}%`}
-            cy={`${(y / MAX_Y) * 100}%`}
-            r={10}
-            fill={IOSDefault[label]}
-          />
-        ))}
-      {initCenters &&
-        initCenters.map(([x, y], i) => (
-          <React.Fragment key={`center-${i}`}>
+    <>
+      <svg
+        id={`scatter-area`}
+        className={`${
+          mode === "run" ? "run" : mode === "predict" ? "predict" : ""
+        }`}
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        {points &&
+          points.map(([x, y], i) => (
             <circle
-              className={`center-${i}`}
+              key={`point-${i}`}
+              className={`point point-${i}`}
               cx={`${(x / MAX_X) * 100}%`}
               cy={`${(y / MAX_Y) * 100}%`}
               r={10}
-              fill={IOSDefault[i]}
+              fill={IOSGrayLight[0]}
             />
+          ))}
+        {predictions &&
+          predictions.map(({ point: [x, y], label }, i) => (
             <circle
-              className={`center-round-${i}`}
+              key={`prediction-point-${i}`}
+              className={`prediction prediction-${i}`}
               cx={`${(x / MAX_X) * 100}%`}
               cy={`${(y / MAX_Y) * 100}%`}
-              r={100}
-              strokeWidth={4}
-              fill="none"
-              stroke={IOSDefault[i]}
+              r={10}
+              fill={IOSDefault[label]}
             />
-          </React.Fragment>
-        ))}
-    </svg>
+          ))}
+        {initCenters &&
+          initCenters.map(([x, y], i) => (
+            <React.Fragment key={`center-${i}`}>
+              <circle
+                className={`center-${i}`}
+                cx={`${(x / MAX_X) * 100}%`}
+                cy={`${(y / MAX_Y) * 100}%`}
+                r={10}
+                fill={IOSDefault[i]}
+              />
+              <circle
+                className={`center-round-${i}`}
+                cx={`${(x / MAX_X) * 100}%`}
+                cy={`${(y / MAX_Y) * 100}%`}
+                r={100}
+                strokeWidth={4}
+                fill="none"
+                stroke={IOSDefault[i]}
+              />
+            </React.Fragment>
+          ))}
+      </svg>
+      {/* <div className="frame-count">Frame : {0}/1500</div> */}
+    </>
   );
 }

@@ -2,7 +2,7 @@ import { useUI } from "@hooks";
 import { KMeans } from "@models";
 import React from "react";
 
-const FRAME_COUNT = 20;
+const FRAME_COUNT = 1500;
 const DATASET_COUNT_THRESHOLD = 10;
 
 const initialValues: IKMeansContextValues = {

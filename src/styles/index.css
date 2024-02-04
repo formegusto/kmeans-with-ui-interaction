@@ -498,3 +498,13 @@ body {
   stroke-width: 3;
   stroke-linecap: round;
 }
+
+.frame-count {
+  position: fixed;
+  z-index: 255;
+  bottom: 0;
+
+  font-size: 48px;
+  font-weight: bold;
+  padding: 8px 12px;
+}
