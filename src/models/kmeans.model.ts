@@ -2,7 +2,7 @@ import Errors from "@errors";
 import { euclideanDistance, generateRandomDataset } from "@utils";
 
 export class KMeans implements IKMeans {
-  constructor(public K: number, public dataset?: IDot[]) {}
+  constructor(public K: number, public dataset?: IPoint[]) {}
 
   [Symbol.iterator](): Iterator<IKMeansResult> {
     return new KMeansIterator(
@@ -27,14 +27,14 @@ export class KMeans implements IKMeans {
 }
 
 export class KMeansIterator implements IKMeansIterator {
-  centers?: IDot[] | undefined;
+  centers?: IPoint[] | undefined;
   // predict?: KMeansMethod<number[]>;
 
-  constructor(public K: number, public dataset: IDot[]) {
+  constructor(public K: number, public dataset: IPoint[]) {
     this.centers = this.initCenters({ dataset });
   }
 
-  initCenters({ dataset }: IKMeansMethodParams): IDot[] {
+  initCenters({ dataset }: IKMeansMethodParams): IPoint[] {
     if (!dataset) throw Errors.EmptyRequiredParameters("dataset");
 
     // 1. 첫 번째 중심점을 무작위로 설정
@@ -51,7 +51,7 @@ export class KMeansIterator implements IKMeansIterator {
       centers.push(this.dataset[nextCenterIdx]);
     }
 
-    return centers as IDot[];
+    return centers as IPoint[];
   }
 
   calcDistances({ dataset, centers }: IKMeansMethodParams): number[][] {
@@ -76,7 +76,7 @@ export class KMeansIterator implements IKMeansIterator {
     dataset,
     centers,
     labels,
-  }: IKMeansMethodParams): IDot[] | null {
+  }: IKMeansMethodParams): IPoint[] | null {
     if (!dataset || !centers || !labels)
       throw Errors.EmptyRequiredParameters("dataset", "centers", "labels");
 
@@ -95,7 +95,7 @@ export class KMeansIterator implements IKMeansIterator {
 
     const nextCenters = labelCount.map((count, label) =>
       labelTotal[label].map((total) => total / count)
-    ) as IDot[];
+    ) as IPoint[];
 
     const prev = centers.flat();
     const next = nextCenters.flat();
@@ -162,7 +162,7 @@ export class KMeansIterator implements IKMeansIterator {
       return result;
     }
 
-    this.centers = nextCenters as IDot[];
+    this.centers = nextCenters as IPoint[];
     result.value.nextCenters = nextCenters;
 
     return result;

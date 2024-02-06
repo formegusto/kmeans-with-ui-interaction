@@ -3,7 +3,7 @@ declare interface ICommonContextActions {
 }
 declare interface IUIContextValues {
   mode: UIMode;
-  dots: IDot[] | null;
+  points: IPoint[] | null;
   interpolation: UIInterpolation | null;
 
   MAX_X: number;
@@ -13,8 +13,8 @@ declare interface IUIContextValues {
 }
 declare interface IUIContextActions extends ICommonContextActions {
   changeMode: (m: UIMode) => void;
-  appendDot: (d: IDot) => void;
-  randomDots: (l?: number) => void;
+  appendPoint: (d: IPoint) => void;
+  randomPoints: (l?: number) => void;
   calcInterpolation: (result: IKMeansResult, frameCount: number) => void;
   refresh: () => void;
 
@@ -29,11 +29,11 @@ declare interface IKMeansContextValues {
   isDone: boolean | null;
 }
 declare interface IKMeansContextActions extends ICommonContextActions {
-  start: (k: number, ds: IDot[]) => void;
+  start: (k: number, ds: IPoint[]) => void;
   next: () => void;
   autoNext: () => void;
-  refresh: (ds: IDot[]) => void;
-  predict: (dots: IDot[]) => number[] | null;
+  refresh: (ds: IPoint[]) => void;
+  predict: (points: IPoint[]) => number[] | null;
 }
 declare interface IKMeansContext
   extends IKMeansContextValues,

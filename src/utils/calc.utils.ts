@@ -1,4 +1,4 @@
-export function linearInterpolation(p1: IDot, p2: IDot, t: number): IDot {
+export function linearInterpolation(p1: IPoint, p2: IPoint, t: number): IPoint {
   const [x1, y1] = p1;
   const [x2, y2] = p2;
 

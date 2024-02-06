@@ -38,7 +38,7 @@ body {
   height: 100%;
 }
 
-#scatter-area.predict > circle.dot {
+#scatter-area.predict > circle.point {
   opacity: 0.15;
 }
 
@@ -215,7 +215,7 @@ body {
   transition: 0.35s;
 }
 
-.gen-dot {
+.gen-point {
   position: fixed;
   top: 0;
   left: 0;

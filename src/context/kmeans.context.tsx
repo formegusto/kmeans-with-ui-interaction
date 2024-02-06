@@ -31,7 +31,7 @@ export function KMeansProvider({ children }: React.PropsWithChildren) {
   const [K, setK] = React.useState<number | null>(null);
   const [round, setRound] = React.useState<number | null>(null);
   const start = React.useCallback(
-    (k: number, dataset: IDot[]) => {
+    (k: number, dataset: IPoint[]) => {
       if (dataset.length > DATASET_COUNT_THRESHOLD) {
         if (k <= 1) {
           alert("K 설정값이 너무 작습니다. 2 이상의 값을 입력해주세요.");
@@ -79,7 +79,7 @@ export function KMeansProvider({ children }: React.PropsWithChildren) {
     setIsDone(null);
   }, []);
   const refresh = React.useCallback(
-    (dataset: IDot[]) => {
+    (dataset: IPoint[]) => {
       clear();
       uiRefresh();
       setTimeout(() => {
@@ -109,9 +109,9 @@ export function KMeansProvider({ children }: React.PropsWithChildren) {
   }, [round, iterator, calcInterpolation, result, changeMode]);
 
   const predict = React.useCallback(
-    (dots: IDot[]) => {
+    (points: IPoint[]) => {
       if (result && result.predict) {
-        const labels = result.predict({ dataset: dots });
+        const labels = result.predict({ dataset: points });
         console.log(labels);
 
         return labels;

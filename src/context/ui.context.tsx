@@ -6,7 +6,7 @@ const MAX_Y = 200;
 
 const initialValues: IUIContextValues = {
   mode: null,
-  dots: null,
+  points: null,
   interpolation: null,
   predictions: null,
   MAX_X,
@@ -14,8 +14,8 @@ const initialValues: IUIContextValues = {
 };
 const initialActions: IUIContextActions = {
   changeMode: () => {},
-  appendDot: () => {},
-  randomDots: () => {},
+  appendPoint: () => {},
+  randomPoints: () => {},
   calcInterpolation: () => {},
   refresh: () => {},
   clear: () => {},
@@ -31,12 +31,12 @@ export function UIProvider({ children }: React.PropsWithChildren) {
     setMode(m);
   }, []);
 
-  const [dots, setDots] = React.useState<IDot[] | null>(null);
-  const appendDot = React.useCallback((p: IDot) => {
-    setDots((prev) => (prev === null ? [p] : prev.concat([p])));
+  const [points, setPoints] = React.useState<IPoint[] | null>(null);
+  const appendPoint = React.useCallback((p: IPoint) => {
+    setPoints((prev) => (prev === null ? [p] : prev.concat([p])));
   }, []);
-  const randomDots = React.useCallback((l?: number) => {
-    setDots(generateRandomDataset({ shape: [l ?? 200, 2], max: 200 }));
+  const randomPoints = React.useCallback((l?: number) => {
+    setPoints(generateRandomDataset({ shape: [l ?? 200, 2], max: 200 }));
   }, []);
 
   const [predictions, setPredictions] = React.useState<IPrediction[] | null>(
@@ -51,9 +51,9 @@ export function UIProvider({ children }: React.PropsWithChildren) {
       // 1. center interpolation
       if (!result.centers || !result.nextCenters) return;
       const { centers, nextCenters } = result;
-      const centersInterpolation: IDot[][] = [];
+      const centersInterpolation: IPoint[][] = [];
       for (let i = 0; i < centers.length; i++) {
-        const _inters: IDot[] = [];
+        const _inters: IPoint[] = [];
         for (let t = 1 / frameCount; t <= 1; t += 1 / frameCount) {
           const _inter = linearInterpolation(centers[i], nextCenters![i], t);
           _inters.push(_inter);
@@ -79,7 +79,7 @@ export function UIProvider({ children }: React.PropsWithChildren) {
         { length: labels.length },
         (_, i) => i
       );
-      const dotsGroup: number[][] = Array.from(
+      const pointsGroup: number[][] = Array.from(
         { length: centers.length },
         () => []
       );
@@ -88,24 +88,24 @@ export function UIProvider({ children }: React.PropsWithChildren) {
         () => []
       );
       for (let i = 0; i < labels.length; i++) {
-        dotsGroup[labels[i]].push(idxes[i]);
+        pointsGroup[labels[i]].push(idxes[i]);
         distancesGroup[labels[i]].push(distances[i][labels[i]]);
       }
 
       // 2.3 group sorting
-      for (let g = 0; g < dotsGroup.length; g++) {
-        const _dotsGroup = dotsGroup[g];
+      for (let g = 0; g < pointsGroup.length; g++) {
+        const _pointsGroup = pointsGroup[g];
         const _distancesGroup = distancesGroup[g];
-        _dotsGroup.sort((a, b) => {
-          const a_i = _dotsGroup.indexOf(a);
-          const b_i = _dotsGroup.indexOf(b);
+        _pointsGroup.sort((a, b) => {
+          const a_i = _pointsGroup.indexOf(a);
+          const b_i = _pointsGroup.indexOf(b);
 
           return _distancesGroup[a_i] - _distancesGroup[b_i];
         });
       }
 
       // 2.4 labeling frames 생성
-      const labelingFrames = dotsGroup.map((g) => itemSplit(g, frameCount));
+      const labelingFrames = pointsGroup.map((g) => itemSplit(g, frameCount));
       // console.log(centersInterpolation);
       setInterpolation({
         centers: centersInterpolation,
@@ -117,7 +117,7 @@ export function UIProvider({ children }: React.PropsWithChildren) {
 
   const clear = React.useCallback(() => {
     setMode(null);
-    setDots(null);
+    setPoints(null);
     setInterpolation(null);
   }, []);
 
@@ -141,11 +141,11 @@ export function UIProvider({ children }: React.PropsWithChildren) {
     <UIContext.Provider
       value={{
         mode,
-        dots,
+        points,
         interpolation,
         changeMode,
-        appendDot,
-        randomDots,
+        appendPoint,
+        randomPoints,
         calcInterpolation,
         clear,
         refresh,

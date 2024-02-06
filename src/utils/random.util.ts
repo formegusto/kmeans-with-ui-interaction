@@ -1,7 +1,7 @@
 export function generateRandomDataset({
   shape,
   max,
-}: GenerateRandomDatasetParams): IDot[] {
+}: GenerateRandomDatasetParams): IPoint[] {
   const [r, c] = shape;
   max = max ?? 100;
   const dataset = Array.from(
@@ -15,6 +15,6 @@ export function generateRandomDataset({
         },
         () => Math.round(Math.random() * max!)
       )
-  ) as IDot[];
+  ) as IPoint[];
   return dataset;
 }
