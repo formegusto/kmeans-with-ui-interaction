@@ -112,8 +112,6 @@ export function KMeansProvider({ children }: React.PropsWithChildren) {
     (points: IPoint[]) => {
       if (result && result.predict) {
         const labels = result.predict({ dataset: points });
-        console.log(labels);
-
         return labels;
       }
       return null;

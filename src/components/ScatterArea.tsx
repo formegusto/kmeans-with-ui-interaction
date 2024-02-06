@@ -80,7 +80,6 @@ export function ScatterArea() {
   React.useEffect(() => {
     if (interpolation) {
       const { centers, labels } = interpolation;
-      console.log(labels);
       for (let label = 0; label < centers.length; label++) {
         moveCenters(centers[label], label, 0);
         paintPoints(labels[label], label, 0);

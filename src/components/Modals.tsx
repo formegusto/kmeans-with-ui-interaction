@@ -13,12 +13,6 @@ export function SetButton({ highlightSize, ...htmlProps }: SetButtonProps) {
   const refBtn = React.useRef<SVGSVGElement>(null);
   React.useEffect(() => {
     setTimeout(() => {
-      const elHighlightLine = document.querySelector(".highlight-line");
-      if (elHighlightLine) {
-        const rects = elHighlightLine.getBoundingClientRect();
-        console.log(rects);
-      }
-
       if (refBtn.current) {
         refBtn.current.style.strokeDashoffset = "0";
       }

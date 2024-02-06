@@ -146,8 +146,6 @@ export class KMeansIterator implements IKMeansIterator {
       const _centers = this.centers;
       const predict = ({ dataset }: IKMeansMethodParams): number[] => {
         if (!dataset) throw Errors.EmptyRequiredParameters("dataset");
-        console.log(this);
-        console.log(dataset, _centers);
         const distances = this.calcDistances({
           dataset,
           centers: _centers,
