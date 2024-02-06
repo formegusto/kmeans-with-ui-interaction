@@ -28,7 +28,7 @@ export class KMeans implements IKMeans {
 
 export class KMeansIterator implements IKMeansIterator {
   centers?: IDot[] | undefined;
-  predict?: KMeansMethod<number[]>;
+  // predict?: KMeansMethod<number[]>;
 
   constructor(public K: number, public dataset: IDot[]) {
     this.centers = this.initCenters({ dataset });
@@ -144,8 +144,9 @@ export class KMeansIterator implements IKMeansIterator {
     // 5. 2~4의 과정을 중심점에 변화가 없을 때까지 반복
     if (!nextCenters) {
       const _centers = this.centers;
-      this.predict = ({ dataset }: IKMeansMethodParams): number[] => {
+      const predict = ({ dataset }: IKMeansMethodParams): number[] => {
         if (!dataset) throw Errors.EmptyRequiredParameters("dataset");
+        console.log(this);
         console.log(dataset, _centers);
         const distances = this.calcDistances({
           dataset,
@@ -156,7 +157,7 @@ export class KMeansIterator implements IKMeansIterator {
         return labels;
       };
       this.centers = undefined;
-
+      result.value.predict = predict;
       result.value.dataset = this.dataset;
       return result;
     }

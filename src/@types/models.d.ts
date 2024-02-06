@@ -19,6 +19,7 @@ declare interface IKMeansMethodParams {
 declare interface IKMeansResult extends IKMeansMethodParams {
   inertia?: number;
   nextCenters?: IDot[];
+  predict?: KMeansMethod<number[]>;
 }
 
 declare type KMeansMethod<R = number[][]> = (params: IKMeansMethodParams) => R;
@@ -40,6 +41,4 @@ declare interface IKMeansIterator
   setLabels: KMeansMethod<number[]>;
   moveCenters: KMeansMethod<IDot[] | null>;
   calcInertia: KMeansMethod<number>;
-
-  predict?: KMeansMethod<number[]>;
 }

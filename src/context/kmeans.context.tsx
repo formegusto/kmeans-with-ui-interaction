@@ -110,15 +110,15 @@ export function KMeansProvider({ children }: React.PropsWithChildren) {
 
   const predict = React.useCallback(
     (dots: IDot[]) => {
-      if (iterator && iterator.predict) {
-        const labels = iterator.predict({ dataset: dots });
+      if (result && result.predict) {
+        const labels = result.predict({ dataset: dots });
         console.log(labels);
 
         return labels;
       }
       return null;
     },
-    [iterator]
+    [result]
   );
 
   return (
