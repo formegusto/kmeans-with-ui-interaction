@@ -51,14 +51,14 @@ export function UIProvider({ children }: React.PropsWithChildren) {
       // 1. center interpolation
       if (!result.centers || !result.nextCenters) return;
       const { centers, nextCenters } = result;
-      const centersInterpolation: IPoint[][] = [];
+      const centerInterpolations: IPoint[][] = [];
       for (let i = 0; i < centers.length; i++) {
-        const _inters: IPoint[] = [];
+        const interpolation: IPoint[] = [];
         for (let t = 1 / frameCount; t <= 1; t += 1 / frameCount) {
-          const _inter = linearInterpolation(centers[i], nextCenters![i], t);
-          _inters.push(_inter);
+          const estimated = linearInterpolation(centers[i], nextCenters![i], t);
+          interpolation.push(estimated);
         }
-        centersInterpolation.push(_inters);
+        centerInterpolations.push(interpolation);
       }
 
       // console.log(centers, nextCenters, centersInterpolation);
@@ -94,22 +94,27 @@ export function UIProvider({ children }: React.PropsWithChildren) {
 
       // 2.3 group sorting
       for (let g = 0; g < pointsGroup.length; g++) {
-        const _pointsGroup = pointsGroup[g];
-        const _distancesGroup = distancesGroup[g];
-        _pointsGroup.sort((a, b) => {
-          const a_i = _pointsGroup.indexOf(a);
-          const b_i = _pointsGroup.indexOf(b);
+        // const _pointsGroup = pointsGroup[g];
+        // const _distancesGroup = distancesGroup[g];
+        // _pointsGroup.sort((a, b) => {
+        //   const a_i = _pointsGroup.indexOf(a);
+        //   const b_i = _pointsGroup.indexOf(b);
 
-          return _distancesGroup[a_i] - _distancesGroup[b_i];
+        //   return _distancesGroup[a_i] - _distancesGroup[b_i];
+        // });
+        pointsGroup[g].sort((a, b) => {
+          const a_i = pointsGroup[g].indexOf(a);
+          const b_i = pointsGroup[g].indexOf(b);
+          return distancesGroup[g][a_i] - distancesGroup[g][b_i];
         });
       }
 
       // 2.4 labeling frames 생성
-      const labelingFrames = pointsGroup.map((g) => itemSplit(g, frameCount));
+      const labelFrames = pointsGroup.map((g) => itemSplit(g, frameCount));
       // console.log(centersInterpolation);
       setInterpolation({
-        centers: centersInterpolation,
-        labels: labelingFrames,
+        centers: centerInterpolations,
+        labels: labelFrames,
       });
     },
     []
@@ -153,8 +158,7 @@ export function UIProvider({ children }: React.PropsWithChildren) {
         predictions,
         MAX_X,
         MAX_Y,
-      }}
-    >
+      }}>
       {children}
     </UIContext.Provider>
   );

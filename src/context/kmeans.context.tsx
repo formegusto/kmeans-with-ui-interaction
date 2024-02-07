@@ -92,19 +92,21 @@ export function KMeansProvider({ children }: React.PropsWithChildren) {
     if (iterator && result) {
       let centers = result.centers;
       let _round = round!;
-      let _result = {} as IKMeansResult;
+      let _result: IKMeansResult | null = null;
       for (_result of iterator) _round++;
-      _result.nextCenters = _result.centers;
-      _result.centers = centers;
-      _result.distances = iterator.calcDistances({
-        dataset: iterator.dataset,
-        centers,
-      });
-      setResult(_result);
-      calcInterpolation(_result, FRAME_COUNT);
-      setRound(_round);
-      setIsDone(true);
-      changeMode("predict");
+      if (_result) {
+        _result.nextCenters = _result.centers;
+        _result.centers = centers;
+        _result.distances = iterator.calcDistances({
+          dataset: iterator.dataset,
+          centers,
+        });
+        setResult(_result);
+        calcInterpolation(_result, FRAME_COUNT);
+        setRound(_round);
+        setIsDone(true);
+        changeMode("predict");
+      }
     }
   }, [round, iterator, calcInterpolation, result, changeMode]);
 
@@ -132,8 +134,7 @@ export function KMeansProvider({ children }: React.PropsWithChildren) {
         refresh,
         autoNext,
         predict,
-      }}
-    >
+      }}>
       {children}
     </KMeansContext.Provider>
   );

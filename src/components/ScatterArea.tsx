@@ -44,9 +44,9 @@ export function ScatterArea() {
   }, []);
 
   const moveCenters = React.useCallback(
-    (frames: IPoint[], label: number, count: number) => {
-      if (count === frames.length) return;
-      const [nx, ny] = frames[count];
+    (interpolation: IPoint[], label: number, count: number) => {
+      if (count === interpolation.length) return;
+      const [nx, ny] = interpolation[count];
       const el = document.querySelector(`.center-${label}`);
       const roundEl = document.querySelector(`.center-round-${label}`);
       // const elFrameCount = document.querySelector(`.frame-count`);
@@ -58,21 +58,23 @@ export function ScatterArea() {
 
         // elFrameCount!.textContent = `Frame : ${count}/1500`;
 
-        requestAnimationFrame(() => moveCenters(frames, label, count + 1));
+        requestAnimationFrame(() =>
+          moveCenters(interpolation, label, count + 1)
+        );
       }
     },
     [MAX_X, MAX_Y]
   );
 
   const paintPoints = React.useCallback(
-    (frames: number[][], label: number, count: number) => {
-      if (count === frames.length) return;
-      const targetPoints = frames[count];
+    (frame: number[][], label: number, count: number) => {
+      if (count === frame.length) return;
+      const targetPoints = frame[count];
       for (let targetPoint of targetPoints) {
         const el = document.querySelector(`.point-${targetPoint}`);
         if (el) el.setAttribute("fill", IOSDefault[label]);
       }
-      requestAnimationFrame(() => paintPoints(frames, label, count + 1));
+      requestAnimationFrame(() => paintPoints(frame, label, count + 1));
     },
     []
   );
@@ -96,8 +98,7 @@ export function ScatterArea() {
         className={`${
           mode === "run" ? "run" : mode === "predict" ? "predict" : ""
         }`}
-        xmlns="http://www.w3.org/2000/svg"
-      >
+        xmlns="http://www.w3.org/2000/svg">
         {points &&
           points.map(([x, y], i) => (
             <circle
