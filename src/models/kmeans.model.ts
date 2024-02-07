@@ -143,12 +143,12 @@ export class KMeansIterator implements IKMeansIterator {
     };
     // 5. 2~4의 과정을 중심점에 변화가 없을 때까지 반복
     if (!nextCenters) {
-      const _centers = this.centers;
+      const centers = this.centers;
       const predict = ({ dataset }: IKMeansMethodParams): number[] => {
         if (!dataset) throw Errors.EmptyRequiredParameters("dataset");
         const distances = this.calcDistances({
           dataset,
-          centers: _centers,
+          centers,
         });
         const labels = this.setLabels({ distances });
 

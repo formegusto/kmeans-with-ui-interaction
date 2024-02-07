@@ -3,7 +3,13 @@ declare interface IPrediction {
   point: IPoint;
   label: number;
 }
-declare type UIMode = null | "gen" | "set-K" | "set-length" | "run" | "predict";
+declare type UIMode =
+  | null
+  | "gen"
+  | "set-K"
+  | "set-length"
+  | "run"
+  | "prediction";
 declare type UIInterpolation = {
   centers: IPoint[][];
   labels: number[][][];

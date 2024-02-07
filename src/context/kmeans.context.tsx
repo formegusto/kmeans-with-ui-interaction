@@ -66,7 +66,7 @@ export function KMeansProvider({ children }: React.PropsWithChildren) {
         setIsDone(false);
       } else {
         setIsDone(true);
-        changeMode("predict");
+        changeMode("prediction");
       }
     }
   }, [iterator, calcInterpolation, changeMode]);
@@ -105,15 +105,15 @@ export function KMeansProvider({ children }: React.PropsWithChildren) {
         calcInterpolation(_result, FRAME_COUNT);
         setRound(_round);
         setIsDone(true);
-        changeMode("predict");
+        changeMode("prediction");
       }
     }
   }, [round, iterator, calcInterpolation, result, changeMode]);
 
   const predict = React.useCallback(
-    (points: IPoint[]) => {
+    (dataset: IPoint[]) => {
       if (result && result.predict) {
-        const labels = result.predict({ dataset: points });
+        const labels = result.predict({ dataset });
         return labels;
       }
       return null;

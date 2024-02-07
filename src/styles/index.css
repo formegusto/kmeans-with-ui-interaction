@@ -38,7 +38,7 @@ body {
   height: 100%;
 }
 
-#scatter-area.predict > circle.point {
+#scatter-area.prediction > circle.point {
   opacity: 0.15;
 }
 

@@ -96,7 +96,7 @@ export function ScatterArea() {
       <svg
         id={`scatter-area`}
         className={`${
-          mode === "run" ? "run" : mode === "predict" ? "predict" : ""
+          mode === "run" ? "run" : mode === "prediction" ? "prediction" : ""
         }`}
         xmlns="http://www.w3.org/2000/svg">
         {points &&

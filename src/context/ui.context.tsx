@@ -138,7 +138,7 @@ export function UIProvider({ children }: React.PropsWithChildren) {
   );
 
   React.useEffect(() => {
-    if (mode === "predict") setPredictions([]);
+    if (mode === "prediction") setPredictions([]);
     else setPredictions(null);
   }, [mode]);
 

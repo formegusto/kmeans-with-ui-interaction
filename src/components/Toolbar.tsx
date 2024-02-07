@@ -4,10 +4,10 @@ export function RunToolbar() {
   const { mode, points } = useUI();
   const { K, next, round, refresh, autoNext, isDone } = useKMeans();
 
-  return mode === "run" || mode === "predict" ? (
+  return mode === "run" || mode === "prediction" ? (
     <div className="kmeans-run-toolbar">
       <span>K={K}</span>
-      {mode === "predict" ? (
+      {mode === "prediction" ? (
         <span>Prediction Mode</span>
       ) : (
         <>

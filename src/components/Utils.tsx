@@ -9,50 +9,46 @@ export function UtilsItems() {
     <div className="kmeans-utils-items">
       <button
         className={`kmeans-utils-btn ${
-          mode === "run" || mode === "predict"
+          mode === "run" || mode === "prediction"
             ? "inactive"
             : mode === "gen"
             ? mode
             : ""
         }`}
         onClick={
-          mode === "run" || mode === "predict"
+          mode === "run" || mode === "prediction"
             ? undefined
             : mode === "gen"
             ? () => changeMode(null)
             : () => changeMode("gen")
-        }
-      >
+        }>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 48 48"
-          className="utils-gen"
-        >
+          className="utils-gen">
           <path d="M 23 3 L 23 45" />
           <path d="M 3 24 L 45 24" />
         </svg>
       </button>
       <button
         className={`kmeans-utils-btn ${
-          mode === "run" || mode === "predict"
+          mode === "run" || mode === "prediction"
             ? "inactive"
             : mode === "set-length"
             ? mode
             : ""
         }`}
         onClick={
-          mode === "run" || mode === "predict"
+          mode === "run" || mode === "prediction"
             ? undefined
             : mode === "set-length"
             ? () => changeMode(null)
             : () => changeMode("set-length")
-        }
-      >
+        }>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 48 48"
-          className="utils-set-length"
-        >
+          className="utils-set-length">
           {/* <path d="M 8 10 L 38 38" />
           <path d="M 38 10 L 8 38" /> */}
           <path d="M 8 10 L 23 24" />
@@ -63,25 +59,23 @@ export function UtilsItems() {
       </button>
       <button
         className={`kmeans-utils-btn ${
-          mode === "run" || mode === "predict"
+          mode === "run" || mode === "prediction"
             ? "inactive"
             : mode === "set-K"
             ? mode
             : ""
         }`}
         onClick={
-          mode === "run" || mode === "predict"
+          mode === "run" || mode === "prediction"
             ? undefined
             : mode === "set-K"
             ? () => changeMode(null)
             : () => changeMode("set-K")
-        }
-      >
+        }>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 48 48"
-          className="utils-set-K"
-        >
+          className="utils-set-K">
           <path d="M 23 3 L 23 45" />
           <path d="M 23 3 L 23 45" />
           <path d="M 10 11 C -10 50 56 50 36 11" className="power-round" />
@@ -92,8 +86,7 @@ export function UtilsItems() {
         onClick={() => {
           clearUI();
           clearKMeans();
-        }}
-      >
+        }}>
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
           <path d="M 3 9 L 43 9 L 23 9 L 23 1" className="garbage-hat" />
           <path d="M 6 18 C -10 55 56 55 40 18" />
@@ -107,13 +100,11 @@ export function UtilsButton({ isOpen, onClick }: any) {
   return (
     <button
       className={`kmeans-utils-btn menus ${isOpen ? "open" : ""}`}
-      onClick={onClick}
-    >
+      onClick={onClick}>
       <svg
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 48 48"
-        className="utils-burger"
-      >
+        className="utils-burger">
         <path d="M 3 6 L 45 6" />
         <path d="M 3 22 L 45 22" />
         <path d="M 3 22 L 45 22" />

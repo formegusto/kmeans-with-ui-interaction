@@ -32,7 +32,7 @@ export function GenMouse() {
       const pointY = (y / windowHeight) * MAX_Y;
 
       if (mode === "gen") appendPoint([pointX, pointY]);
-      else if (mode === "predict") {
+      else if (mode === "prediction") {
         const point: IPoint = [pointX, pointY];
         const labels = predict([point]);
         if (labels)
@@ -51,5 +51,5 @@ export function GenMouse() {
 export function GenMouseListener() {
   const { mode } = useUI();
 
-  return mode === "gen" || mode === "predict" ? <GenMouse /> : <></>;
+  return mode === "gen" || mode === "prediction" ? <GenMouse /> : <></>;
 }
